@@ -6,8 +6,9 @@ This file is the memory of where the course stands. Update it in the same PR tha
 
 ## Where I am
 
-- **Current day:** 0 (note written on branch `day-00`; readiness checklist still to do)
-- **Next up:** finish the Day 0 checklist in `notes/week-01/day-00-course-intro.md`, then merge `day-00` and start Day 1
+- **Current day:** 0. The note is written on branch `day-00` (pushed, no PR yet).
+- **Next up:** the three deferred Day 0 items (below), then open the Day 0 PR. Owner chose to do these later on 2026-11-05. Day 1 is the next lesson after that. If you want to start Day 1 first, cut `day-01` from `main` and leave `day-00` open.
+- **Deferred Day 0 items (owner's, not started):** (1) explain VPC, subnet, internet gateway, route table and what makes a subnet public; (2) CIDR math for `10.0.0.0/16` into `/24`, and blue-green, canary and rolling deployments with one risk each; (3) list weak prerequisites and when to fix them.
 - **Left running in AWS:** nothing
 - **Open questions / blockers:** none
 
@@ -21,7 +22,7 @@ Tick these as you verify them. Anything unchecked is deliberately left open.
 - [x] AWS Budget alert with an email notification at a low limit
 - [x] `aws sts get-caller-identity` on the default profile shows the right account (you confirmed the account; the non-root part is the line above)
 - [x] `terraform version` prints 1.17.1 inside this repo (confirmed by you in your own terminal)
-- [ ] Explain VPC, subnet, internet gateway, route table, and what makes a subnet public
+- [ ] Explain VPC, subnet, internet gateway, route table, and what makes a subnet public (deferred)
 - [ ] CIDR: subnets in a `10.0.0.0/16` split into `/24`, and usable addresses in one AWS `/24`
 - [ ] Describe blue-green, canary and rolling deployments with one risk each
 - [ ] Write down the prerequisites you are weak on and when you will fix them
@@ -86,3 +87,4 @@ One line per session: date, days touched, what to remember tomorrow.
 - 2026-11-05: Day 0 transcript organized into `notes/week-01/day-00-course-intro.md` on branch `day-00`. Checklist not done yet, so no PR. SYNC.md records that the announced curriculum differs from the released one.
 - 2026-11-05: Pinned Terraform 1.17.1, TFLint 0.65.0 and Trivy 0.76.1 installed with mise; fmt, tflint and trivy pass locally. The earlier `aws --version` error was my tool shell, not the CLI (aws-cli 2.37.9 works).
 - 2026-11-05: Tested branch protection with a direct push to `main` (rejected). Added the open items checklist above.
+- 2026-11-05 (end of session): Repo, CI, branch protection and tooling are done. Day 0 note is on `day-00`; its last three items are deferred by the owner. Resume by reading this file, then finish those items and open the Day 0 PR.
