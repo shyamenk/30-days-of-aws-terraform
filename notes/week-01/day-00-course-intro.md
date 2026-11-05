@@ -54,7 +54,7 @@ You are ready for Day 1 when all of these are true:
 - [x] Root user has MFA and is not used for daily work (confirmed by you).
 - [ ] A non-root identity does the work through the default profile. Confirm the ARN is not `:root`.
 - [x] An AWS Budget alert exists with an email notification at a low limit (confirmed by you).
-- [ ] `mise install` completes in this repo, and `terraform version`, run from inside the repo folder, prints 1.17.1. (Verified through a fresh interactive shell on 2026-11-05; confirm it in your own terminal.)
+- [x] `mise install` completes in this repo, and `terraform version` run inside the repo prints 1.17.1 (confirmed by you).
 - [x] `aws --version` runs cleanly on this machine (aws-cli 2.37.9, checked in your terminal).
 - [ ] `aws sts get-caller-identity` (default profile) shows the right account and a non-root ARN.
 - [ ] You can explain in your own words, without notes: VPC, subnet, internet gateway, route table, and how a subnet becomes "public".
