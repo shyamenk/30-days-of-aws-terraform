@@ -57,3 +57,4 @@ One line per session: date, days touched, what to remember tomorrow.
 - 2026-11-05: Branch protection enabled on `main`; repo is squash-merge only. Docs synced.
 - 2026-11-05: Mapped every instructor lessons folder to our days in SYNC.md.
 - 2026-11-05: Day 0 transcript organized into `notes/week-01/day-00-course-intro.md` on branch `day-00`. Checklist not done yet, so no PR. SYNC.md records that the announced curriculum differs from the released one.
+- 2026-11-05: Pinned Terraform 1.17.1, TFLint 0.65.0 and Trivy 0.76.1 installed with mise; fmt, tflint and trivy pass locally. The earlier `aws --version` error was my tool shell, not the CLI (aws-cli 2.37.9 works).

@@ -53,8 +53,8 @@ You are ready for Day 1 when all of these are true:
 
 - [ ] Root user has MFA and is not used for daily work. A non-root identity does the work, using temporary credentials from a named profile.
 - [ ] An AWS Budget alert exists with an email notification at a low limit.
-- [ ] `mise install` completes in this repo, and `terraform version` prints 1.17.1.
-- [ ] `aws --version` runs cleanly on this machine.
+- [ ] `mise install` completes in this repo, and `terraform version` prints 1.17.1. (Installed and verified through `mise exec` on 2026-11-05. Confirm in your own terminal that plain `terraform version` also prints 1.17.1, because your shell may not have mise activated.)
+- [x] `aws --version` runs cleanly on this machine (aws-cli 2.37.9, checked in your terminal).
 - [ ] `aws sts get-caller-identity --profile <yours>` shows your non-root identity.
 - [ ] You can explain in your own words, without notes: VPC, subnet, internet gateway, route table, and how a subnet becomes "public".
 - [ ] Given `10.0.0.0/16`, you can work out how many `/24` subnets fit, and how many usable addresses one `/24` subnet gives in AWS.
@@ -75,15 +75,15 @@ Open one at a time, in order.
 | Command | Expected |
 |---|---|
 | `mise install && terraform version` | `Terraform v1.17.1` |
-| `aws --version` | A version line, no shell errors |
+| `aws --version` | A version line, no shell errors. Seen: `aws-cli/2.37.9` |
 | `aws sts get-caller-identity --profile <yours>` | An ARN that is not `:root` |
 | `git remote -v` | HTTPS URL of this repo |
 
 ## 7. Gotchas and mistakes
 
-Fill in as you go. One item to check first:
+Fill in as you go.
 
-- During repo setup on this machine, running `aws --version` printed `compdef:153: _comps: assignment to invalid subscript range`. The cause is unknown. It looks like a zsh completion problem, not a problem with the AWS CLI, but that is unverified. Your pre-flight check should confirm the CLI works.
+- **Resolved: `aws --version` error.** While the repo was being set up, a shell session printed `compdef:153: _comps: assignment to invalid subscript range` instead of the version. That came from the automated shell that was running the command, not from your terminal. In your own terminal the command prints `aws-cli/2.37.9 Python/3.14.8 Linux/7.2.15-1-omarchy`, so the CLI is installed and working. Lesson: when a tool misbehaves, run it in a clean shell before suspecting the tool.
 
 ## 8. Cleanup
 
