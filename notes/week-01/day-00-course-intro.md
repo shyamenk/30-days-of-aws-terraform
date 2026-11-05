@@ -52,11 +52,11 @@ After today I can state what the 30 days cover, I have a safe AWS account and wo
 You are ready for Day 1 when all of these are true:
 
 - [x] Root user has MFA and is not used for daily work (confirmed by you).
-- [ ] A non-root identity does the work through the default profile. Confirm the ARN is not `:root`.
+- [x] A non-root identity does the work through the default profile (confirmed by you: an IAM user, not root).
 - [x] An AWS Budget alert exists with an email notification at a low limit (confirmed by you).
 - [x] `mise install` completes in this repo, and `terraform version` run inside the repo prints 1.17.1 (confirmed by you).
 - [x] `aws --version` runs cleanly on this machine (aws-cli 2.37.9, checked in your terminal).
-- [ ] `aws sts get-caller-identity` (default profile) shows the right account and a non-root ARN.
+- [x] `aws sts get-caller-identity` (default profile) shows the right account and a non-root ARN (confirmed by you; the account ID is deliberately not written in this repo).
 - [ ] You can explain in your own words, without notes: VPC, subnet, internet gateway, route table, and how a subnet becomes "public".
 - [ ] Given `10.0.0.0/16`, you can work out how many `/24` subnets fit, and how many usable addresses one `/24` subnet gives in AWS.
 - [ ] You can describe blue-green, canary and rolling deployments, with one risk of each.
@@ -85,6 +85,9 @@ Open one at a time, in order.
 Fill in as you go.
 
 - **Resolved: `aws --version` error.** While the repo was being set up, a shell session printed `compdef:153: _comps: assignment to invalid subscript range` instead of the version. That came from the automated shell that was running the command, not from your terminal. In your own terminal the command prints `aws-cli/2.37.9 Python/3.14.8 Linux/7.2.15-1-omarchy`, so the CLI is installed and working. Lesson: when a tool misbehaves, run it in a clean shell before suspecting the tool.
+
+- **This account is shared with real resources.** `aws s3 ls` shows two existing buckets that look like other projects. Terraform only changes what is in its own state, so `destroy` will not touch them. The danger is name collisions, `import` on Day 25, and broad permissions. Rules for this repo: prefix every learning resource with `tf30-`, tag it `Project = 30-days-of-aws-terraform`, and never import or destroy anything that this repo did not create.
+- **Long-lived admin keys.** The default profile is an IAM user that works like an admin. That is fine for now, but keep the keys out of files and the repo. A scoped-down user or IAM Identity Center is the later improvement.
 
 ## 8. Cleanup
 

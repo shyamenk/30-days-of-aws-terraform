@@ -30,6 +30,7 @@ Nothing may be left stale. Before the session closes, check and update each of t
 ## Repo rules
 
 - Treat it like a shared production codebase: modules in `infra/modules`, environments in `infra/envs`, no hardcoded account IDs or regions in modules, pinned versions, committed `.terraform.lock.hcl`.
+- The AWS account is shared with real projects. Every learning resource name starts with `tf30-` and is tagged `Project = 30-days-of-aws-terraform`. Never import, modify or destroy a resource this repo did not create. Never write the account ID, ARNs of real resources or existing bucket names in the repo.
 - Never commit state, `*.tfvars`, keys, or raw transcripts (`notes/_raw/` is git-ignored).
 - Playlist decides day order. The instructor repo is reference only, never copied.
 - `main` is protected on GitHub (PR required, checks `terraform-checks` and `security-scan` must pass, up-to-date branch, linear history, admins included, squash merge only, auto-delete of merged branches is off). Never push to `main` directly. If a check is renamed in `ci.yml`, update the protection rule in the same change.

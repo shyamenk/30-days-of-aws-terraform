@@ -17,7 +17,7 @@ Tick these as you verify them. Anything unchecked is deliberately left open.
 
 **Day 0 readiness (your hands-on, see the note for hints)**
 - [x] Root user has MFA and is not used for daily work
-- [ ] Non-root identity does the work through the default profile (confirm the ARN is not `:root`)
+- [x] Non-root identity does the work through the default profile (an IAM user, confirmed)
 - [x] AWS Budget alert with an email notification at a low limit
 - [x] `aws sts get-caller-identity` on the default profile shows the right account (you confirmed the account; the non-root part is the line above)
 - [x] `terraform version` prints 1.17.1 inside this repo (confirmed by you in your own terminal)
@@ -29,6 +29,8 @@ Tick these as you verify them. Anything unchecked is deliberately left open.
 **Deliberately open, to fix later**
 - [ ] Day 21 doc links: the row says "confirm services from the video". Fill in the real services after you watch it.
 - [ ] Cost estimates in `SYLLABUS.md` are my estimates from the services involved. Replace each with the actual cost after you run that day.
+
+- [ ] Account is shared with real resources (two existing S3 buckets). Safeguards in CLAUDE.md: `tf30-` prefix, `Project` tag, never import or destroy what this repo did not create. Consider a separate learning account or AWS Organizations member account before the EKS block.
 
 **Verified**
 - [x] Terraform per directory: a fresh interactive zsh printed 1.17.1 inside this repo and 1.15.9 (system) in `~`, as intended
