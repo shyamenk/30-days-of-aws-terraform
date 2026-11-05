@@ -1,4 +1,4 @@
-## Day / topic
+## Day / topic (branch `day-NN`)
 
 Day NN: <topic>. Closes #<issue>
 

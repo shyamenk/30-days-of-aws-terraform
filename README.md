@@ -69,7 +69,7 @@ docs/         syllabus, versions, sync log, reading guide
 
 ## How the repo is run
 
-- One branch and one squash-merged PR per course day, with Conventional Commit messages.
+- One branch per course day (`day-00` to `day-30`), squash-merged into `main` through a PR with Conventional Commit messages. Day branches are kept after merge, so you can browse any day's work by switching to its branch; `main` always has everything finished so far.
 - CI checks formatting, validation, linting and security only. It has no AWS credentials.
 - No state files, `*.tfvars`, keys or account IDs are ever committed.
 - `terraform apply` and `destroy` run only from my machine, after reading the plan.

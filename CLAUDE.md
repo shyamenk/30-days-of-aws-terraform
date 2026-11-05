@@ -32,6 +32,8 @@ Nothing may be left stale. Before the session closes, check and update each of t
 - Treat it like a shared production codebase: modules in `infra/modules`, environments in `infra/envs`, no hardcoded account IDs or regions in modules, pinned versions, committed `.terraform.lock.hcl`.
 - Never commit state, `*.tfvars`, keys, or raw transcripts (`notes/_raw/` is git-ignored).
 - Playlist decides day order. The instructor repo is reference only, never copied.
-- Stage specific files. Conventional Commits. No AI attribution. Squash merge via `gh`.
+- Branches: one per course day, named `day-00` to `day-30` (two digits), cut from `main`. `main` is the only long-lived integration branch.
+- Day branches are kept after merge (exception to the global delete-after-merge rule, chosen by the owner so each day is easy to browse). Squash merge into `main` via `gh pr merge --squash` without `--delete-branch`.
+- Stage specific files. Conventional Commits. No AI attribution.
 - Quality gate before commit: `terraform fmt -check -recursive`, `terraform validate`, `tflint`, `trivy config .`.
 - No LinkedIn posting until the course is finished. Notes are the raw material.
