@@ -11,6 +11,31 @@ This file is the memory of where the course stands. Update it in the same PR tha
 - **Left running in AWS:** nothing
 - **Open questions / blockers:** none
 
+## Open items checklist
+
+Tick these as you verify them. Anything unchecked is deliberately left open.
+
+**Day 0 readiness (your hands-on, see the note for hints)**
+- [ ] Root user has MFA and is not used for daily work
+- [ ] Non-root identity with temporary credentials in a named profile
+- [ ] AWS Budget alert with an email notification at a low limit
+- [ ] `aws sts get-caller-identity --profile <yours>` shows a non-root ARN
+- [ ] Plain `terraform version` prints 1.17.1 inside this repo (see Terraform in your shell, below)
+- [ ] Explain VPC, subnet, internet gateway, route table, and what makes a subnet public
+- [ ] CIDR: subnets in a `10.0.0.0/16` split into `/24`, and usable addresses in one AWS `/24`
+- [ ] Describe blue-green, canary and rolling deployments with one risk each
+- [ ] Write down the prerequisites you are weak on and when you will fix them
+
+**Deliberately open, to fix later**
+- [ ] Terraform in your shell: in your terminal, `terraform version` printed 1.15.9. `which -a terraform` finds the mise shim first, but your normal shell resolved the system `/usr/bin/terraform`, and `~/.zshrc` has no mise activation line. Fix by adding `eval "$(mise activate zsh)"` to your zsh config, or use `mise exec -- terraform`. Not changed yet.
+- [ ] Day 21 doc links: the row says "confirm services from the video". Fill in the real services after you watch it.
+- [ ] Cost estimates in `SYLLABUS.md` are my estimates from the services involved. Replace each with the actual cost after you run that day.
+
+**Verified**
+- [x] Branch protection on `main`: a direct push was rejected with "Changes must be made through a pull request" and "2 of 2 required status checks are expected" (2026-11-05)
+- [x] `aws --version` works (aws-cli 2.37.9)
+- [x] CI green on `main`
+
 ## Status by day
 
 Status values: `todo`, `watched`, `built`, `done` (built, note written, destroyed, PR merged). Details for each day are in [SYLLABUS.md](../SYLLABUS.md).
@@ -58,3 +83,4 @@ One line per session: date, days touched, what to remember tomorrow.
 - 2026-11-05: Mapped every instructor lessons folder to our days in SYNC.md.
 - 2026-11-05: Day 0 transcript organized into `notes/week-01/day-00-course-intro.md` on branch `day-00`. Checklist not done yet, so no PR. SYNC.md records that the announced curriculum differs from the released one.
 - 2026-11-05: Pinned Terraform 1.17.1, TFLint 0.65.0 and Trivy 0.76.1 installed with mise; fmt, tflint and trivy pass locally. The earlier `aws --version` error was my tool shell, not the CLI (aws-cli 2.37.9 works).
+- 2026-11-05: Tested branch protection with a direct push to `main` (rejected). Added the open items checklist above.
