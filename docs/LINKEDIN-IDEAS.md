@@ -10,6 +10,7 @@ Nothing is posted until the course is finished. This file collects what is worth
 
 | Day | Type | The idea in one line | Evidence (note section, error text, commit) | Strength (1-3) |
 |---|---|---|---|---|
-| | | | | |
+| 0 | Lesson | The announced syllabus differed from the released videos, and the instructor's README still follows the announcement. Check a course's real content against its outline. | `docs/SYNC.md` known differences | 1 |
+| 0 | Concept | What actually makes a subnet public: a route to the internet gateway plus a public IP. The gateway attaches to the VPC, not a subnet, and private subnets still reach out through NAT. | Day 0 note, section 2 and 7 | 2 |
 
 Strength 3 means a stranger would learn something real from it. Strength 1 is a note to myself.

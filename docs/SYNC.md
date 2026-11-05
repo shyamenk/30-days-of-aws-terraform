@@ -50,13 +50,16 @@ Folders with no matching video: `day31` (README only, "Drift Detection using Ter
 |---|---|---|---|
 | Day 5 and 6 order | 6/30 listed before 5/30 | `day05` variables, `day06` structure, matching the day numbers | Follow day numbers |
 | Day 11 and 12 | Two videos | One folder, `day11-12` | Two notes, one reference folder |
-| Day 22 | 2-tier architecture | README title says RDS, body describes a modular web stack | Trust the video; confirm the folder when you reach it |
+| Day 22 | 2-tier architecture | README title says RDS, body describes a modular web stack. The Day 0 video also announced RDS | The announcement changed before release. Trust the video; confirm the folder when you reach it |
 | Day 28 and 29 | 3-tier, then ArgoCD on EKS | Folders match the videos. The top-level README table has the two swapped or mislabelled | Use the folders, ignore the README table |
 | Day 21 | Policy and governance | Folder matches, but includes a committed `tfplan` | Never commit plan files (`.gitignore` already blocks them) |
-| Day 30 | Drift detection | README pins Terraform 1.10.3 | Use our pinned version and note differences in Gotchas |
+| Day 27 | GitHub Actions with Terraform | Day 0 video announced a CI/CD pipeline provisioned with Terraform | Trust the released video |
+| Day 30 and 31 | Day 30 is drift detection with GitHub Actions | Day 0 video announced Day 30 as drift detection with Terraform Cloud, which is now the unreleased `day31` folder. `day30` README pins Terraform 1.10.3 | Use our pinned version and note differences in Gotchas |
 | Missing code | Days 1, 2, 6, 25, 26 | README and task only | Expected for concept days |
 | Day 31, `tobeday02` | Not in playlist | Extra folders | Ignore unless a video is added |
 | "50 Early Winners" announcement | Playlist position 14 | n/a | Not a lesson, skipped |
+
+Source for the "announced" column: the Day 0 video (recorded November 2025), which listed the curriculum before the later videos were made.
 
 ## How to re-sync (do this at the start of each week)
 

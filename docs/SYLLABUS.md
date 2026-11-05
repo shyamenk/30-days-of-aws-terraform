@@ -10,7 +10,7 @@ Tick the box in the PR that finishes the day.
 
 | Done | Day | Topic | Video | Min | Cost | Primary docs |
 |---|---|---|---|---|---|---|
-| [ ] | 0 | Course intro | [xUtGqC-NXJE](https://www.youtube.com/watch?v=xUtGqC-NXJE) | 34 | None | [Terraform intro](https://developer.hashicorp.com/terraform/intro) |
+| [x] | 0 | Course intro | [xUtGqC-NXJE](https://www.youtube.com/watch?v=xUtGqC-NXJE) | 34 | None | [Terraform intro](https://developer.hashicorp.com/terraform/intro) |
 | [ ] | 1 | How Terraform works, IaC | [s5fwSG_00P8](https://www.youtube.com/watch?v=s5fwSG_00P8) | 21 | None | [Install](https://developer.hashicorp.com/terraform/install), [Core workflow](https://developer.hashicorp.com/terraform/intro/core-workflow) |
 | [ ] | 2 | AWS provider | [JFiMmaktnuM](https://www.youtube.com/watch?v=JFiMmaktnuM) | 31 | None | [Provider requirements](https://developer.hashicorp.com/terraform/language/providers/requirements), [AWS provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs) |
 | [ ] | 3 | S3 bucket | [09HQ_R1P7Lw](https://www.youtube.com/watch?v=09HQ_R1P7Lw) | 12 | Low | [aws_s3_bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket) |

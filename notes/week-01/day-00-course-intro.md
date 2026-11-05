@@ -1,0 +1,122 @@
+# Day 0: Course intro and readiness check
+
+Video: [Learn AWS With Terraform in 30 Days](https://www.youtube.com/watch?v=xUtGqC-NXJE) (34 min, recorded November 2025) · Instructor code: none for Day 0 · Verified against: Terraform 1.17.1, AWS provider 6.72.0 on 2026-11-05
+
+This video has no Terraform code. It sets expectations and lists what you must know first. Everything about prizes, the submission workflow, the release schedule and Discord was left out on purpose because it does not serve our goal.
+
+## 1. Goal
+
+After today I can state what the 30 days cover, I have a safe AWS account and working tools, and I can honestly say whether I meet the prerequisites.
+
+## 2. Concepts
+
+**What the course is.** Terraform is infrastructure as code: you describe AWS resources in files and Terraform creates, changes and deletes them to match. The course teaches this through 30 videos in three modules.
+
+| Module | Days | Content | Why it matters |
+|---|---|---|---|
+| 1. Core concepts | 1 to 13 | Providers, S3 and VPC, state and remote backend, variables, file structure, type constraints, meta-arguments, lifecycle rules, conditionals and dynamic blocks, functions, data sources | The instructor says this module covers the Terraform Associate certification exam, plus maybe one or two ideas from the later modules (his claim; check the exam guide yourself) |
+| 2. AWS projects | 14 to 24 | S3 with CloudFront, VPC peering, IAM, Elastic Beanstalk blue-green, Lambda, provisioners, EKS modules, policy and governance, 2-tier, observability, highly available app | Real services wired together; modules appear here |
+| 3. Advanced | 25 to 30 | Import, HCP Terraform, GitHub Actions, 3-tier, GitOps with ArgoCD, drift detection | How teams run Terraform in production |
+
+**What the instructor says about learning.** Write your own Terraform. Watching without building means you lose the context in days and can't explain it in an interview. What you remember is the places you got stuck and how you fixed them. This is exactly what section 7 of every note is for.
+
+**Prerequisites he lists, and what each is for.**
+
+| Prerequisite | Why Terraform needs it |
+|---|---|
+| AWS account and basic AWS knowledge | Terraform only automates what you could click in the console. If you can't build it by hand, you can't describe it |
+| Networking basics (OSI model, SSH, HTTP/HTTPS, TCP/UDP) | Security groups, subnets and load balancers are all network rules |
+| VPC, subnets, gateways, route tables, CIDR math | Days 3, 15, 22, 24 and 28 build networks |
+| Deployment strategies (blue-green, canary, rolling) | Day 17 is a blue-green deployment |
+| Git and GitHub | All Terraform lives in version control |
+| Linux, macOS or WSL, and shell basics | The commands in the course are shell commands |
+| YAML and JSON | Terraform's language (HCL) is JSON-like, and Day 7 types map onto it |
+| An editor such as VS Code | Day-to-day writing |
+
+**What changed since the video.** It is a year old. The instructor's repo states no versions, and the Day 30 folder pins Terraform 1.10.3. We run 1.17.1. Expect renamed arguments and deprecated resource settings. When the video and the docs disagree, the docs for our pinned version win, and the difference goes in Gotchas.
+
+**The announced curriculum differs from what was released.** Compare the Day 0 description with the playlist (details in [SYNC.md](../../docs/SYNC.md)): Day 22 was announced as an RDS database but released as a 2-tier architecture, Day 27 as a CI/CD pipeline but released as GitHub Actions, and the Terraform Cloud drift detection moved from Day 30 to an unreleased Day 31. Follow the released videos.
+
+### What I can now explain (checked in a Q&A, 2026-11-05)
+
+- **VPC:** my own isolated virtual network in a region, with its own CIDR range. An internet gateway attaches to the VPC (one per VPC), not to a subnet.
+- **Route table vs security group:** the route table decides *where* traffic goes (subnet level, matches destination address). The security group decides *whether* traffic is allowed (network-interface level, matches port, protocol and address, stateful). A network ACL is the stateless subnet-level filter.
+- **Public subnet:** its route table sends internet traffic to the internet gateway, and the resource has a public IP. Security groups and ACLs must also allow the traffic.
+- **Private subnet:** outbound-only internet through a NAT gateway that sits in a public subnet. It costs money every hour.
+- **Regions and zones:** a subnet lives in exactly one availability zone. For resilience, spread subnets and servers over at least two zones.
+- **CIDR:** `/24` has 8 host bits, so 256 addresses, 251 usable in AWS (first four and last reserved). A `/16` holds 256 `/24` subnets (third number 0 to 255).
+- **Deployments:** blue-green runs two full environments, switches traffic, rolls back instantly by switching back, and costs about double during the release. Canary exposes a small share of users first; the hard part is monitoring good enough to decide. Rolling replaces servers in batches, so old and new versions run together and a rollback is slower.
+- **Networking:** SSH 22, HTTP 80, HTTPS 443. Loading a page goes DNS, TCP connection, TLS handshake, then HTTP.
+- **Shell:** `ls -la` long list with hidden files, `cd ..` up one folder, `cat file | grep error` prints lines containing "error" (the pipe sends stdout of the left command to stdin of the right), `chmod +x` adds execute permission.
+- **JSON:** `{"web-1": {"ports": [80, 443]}}`. YAML uses indentation (spaces, never tabs) and a dash for each list item, one per line.
+
+## 3. Docs to read
+
+- [ ] [What is Amazon VPC](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html): can you name every component it lists?
+- [ ] [VPC subnet sizing](https://docs.aws.amazon.com/vpc/latest/userguide/subnet-sizing.html): which addresses AWS reserves in every subnet
+- [ ] [IAM security best practices](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html): root user, MFA, temporary credentials
+- [ ] [Create a budget](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-create.html)
+- [ ] [Install the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) and [configure SSO](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html)
+- [ ] [Deployment strategies](https://docs.aws.amazon.com/whitepapers/latest/overview-deployment-options/deployment-strategies.html): blue-green, canary, rolling
+- [ ] [Terraform intro](https://developer.hashicorp.com/terraform/intro) and the [Terraform Associate exam page](https://developer.hashicorp.com/certifications/infrastructure-automation) (to see what the exam actually lists)
+
+## 4. Challenge
+
+You are ready for Day 1 when all of these are true:
+
+- [x] Root user has MFA and is not used for daily work (confirmed by you).
+- [x] A non-root identity does the work through the default profile (confirmed by you: an IAM user, not root).
+- [x] An AWS Budget alert exists with an email notification at a low limit (confirmed by you).
+- [x] `mise install` completes in this repo, and `terraform version` run inside the repo prints 1.17.1 (confirmed by you).
+- [x] `aws --version` runs cleanly on this machine (aws-cli 2.37.9, checked in your terminal).
+- [x] `aws sts get-caller-identity` (default profile) shows the right account and a non-root ARN (confirmed by you; the account ID is deliberately not written in this repo).
+- [x] You can explain in your own words, without notes: VPC, subnet, internet gateway, route table, and how a subnet becomes "public".
+- [x] Given `10.0.0.0/16`, you can work out how many `/24` subnets fit, and how many usable addresses one `/24` subnet gives in AWS.
+- [x] You can describe blue-green, canary and rolling deployments, with one risk of each.
+- [x] You wrote down which prerequisites you are weak on and where you will fix that this week (CIDR math and YAML, see section 7).
+
+## 5. Hints
+
+Open one at a time, in order.
+
+1. Account safety: the IAM best practices page has a section on the root user and one on temporary credentials. Read both before touching the console.
+2. Budget: the creation page walks through a "cost budget". The setting you care about is the alert threshold and the email.
+3. CIDR: the number after the slash is how many bits are fixed. The subnet sizing page tells you what AWS subtracts from the total.
+4. Deployment strategies: for each one, ask what is running during the release, how you roll back, and what it costs.
+
+## 6. Verify
+
+| Command | Expected |
+|---|---|
+| `mise install && terraform version` | `Terraform v1.17.1` |
+| `aws --version` | A version line, no shell errors. Seen: `aws-cli/2.37.9` |
+| `aws sts get-caller-identity` | The right account and an ARN that is not `:root` |
+| `git remote -v` | HTTPS URL of this repo |
+
+## 7. Gotchas and mistakes
+
+Fill in as you go.
+
+- **Resolved: `aws --version` error.** While the repo was being set up, a shell session printed `compdef:153: _comps: assignment to invalid subscript range` instead of the version. That came from the automated shell that was running the command, not from your terminal. In your own terminal the command prints `aws-cli/2.37.9 Python/3.14.8 Linux/7.2.15-1-omarchy`, so the CLI is installed and working. Lesson: when a tool misbehaves, run it in a clean shell before suspecting the tool.
+
+- **This account is shared with real resources.** `aws s3 ls` shows two existing buckets that look like other projects. Terraform only changes what is in its own state, so `destroy` will not touch them. The danger is name collisions, `import` on Day 25, and broad permissions. Owner decision: the existing resources are backed up and losing them is acceptable, so the account stays as it is. Naming convention for this repo: prefix every learning resource with `tf30-`, tag it `Project = 30-days-of-aws-terraform`, and never import or destroy anything that this repo did not create.
+- **Mistakes in my own Q&A (so I remember them).**
+  - I thought the internet gateway lives in a public subnet. It attaches to the VPC.
+  - I thought a private subnet cannot reach the internet at all. It can, outbound, through a NAT gateway.
+  - I defined "public subnet" by the public IP alone. The route to the internet gateway is the other half.
+  - I described blue-green as running only the new version. Both run, which is why rollback is instant and cost doubles.
+  - I treated rolling updates as a cost problem. The real risk is two versions running together.
+  - I wrote a YAML list on one line. Each item needs its own line with a dash, and the indent carries the meaning.
+- **Weak prerequisites and the fix.**
+  - CIDR math: five hand problems (addresses in a `/20` and a `/26`, the last address of `10.0.4.0/22`, and a subnet plan for `10.0.0.0/16` across two zones and three tiers). Done before Day 3 and again before Day 15.
+  - YAML: five small files written by hand and checked with a parser (a list, a nested map, a list of maps, a multi-line string, a comment). Done before Day 27, after reading `.github/workflows/ci.yml` in this repo and saying what each indent level means.
+- **Long-lived admin keys.** The default profile is an IAM user that works like an admin. That is fine for now, but keep the keys out of files and the repo. A scoped-down user or IAM Identity Center is the later improvement.
+
+## 8. Cleanup
+
+- [x] Nothing to destroy today.
+- [x] No resources were created by this repo: there is no Terraform code yet, and `aws s3 ls` showed only the two older buckets. The Budget is free and stays.
+
+## 9. LinkedIn worth
+
+What really makes a subnet public (a route to the internet gateway plus a public IP, with the gateway attached to the VPC, and private subnets still reaching out through NAT) is a strong post. Also: the announced syllabus and the released videos differ, and the instructor's own README still reflects the announcement. Idea: how to check what a course teaches against what it shipped. Logged as a low-strength item in [LINKEDIN-IDEAS.md](../../docs/LINKEDIN-IDEAS.md).
