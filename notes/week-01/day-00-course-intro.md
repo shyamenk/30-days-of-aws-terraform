@@ -51,11 +51,12 @@ After today I can state what the 30 days cover, I have a safe AWS account and wo
 
 You are ready for Day 1 when all of these are true:
 
-- [ ] Root user has MFA and is not used for daily work. A non-root identity does the work, using temporary credentials from a named profile.
-- [ ] An AWS Budget alert exists with an email notification at a low limit.
+- [x] Root user has MFA and is not used for daily work (confirmed by you).
+- [ ] A non-root identity does the work through the default profile. Confirm the ARN is not `:root`.
+- [x] An AWS Budget alert exists with an email notification at a low limit (confirmed by you).
 - [ ] `mise install` completes in this repo, and `terraform version` prints 1.17.1. (Installed and verified through `mise exec` on 2026-11-05. Confirm in your own terminal that plain `terraform version` also prints 1.17.1, because your shell may not have mise activated.)
 - [x] `aws --version` runs cleanly on this machine (aws-cli 2.37.9, checked in your terminal).
-- [ ] `aws sts get-caller-identity --profile <yours>` shows your non-root identity.
+- [ ] `aws sts get-caller-identity` (default profile) shows the right account and a non-root ARN.
 - [ ] You can explain in your own words, without notes: VPC, subnet, internet gateway, route table, and how a subnet becomes "public".
 - [ ] Given `10.0.0.0/16`, you can work out how many `/24` subnets fit, and how many usable addresses one `/24` subnet gives in AWS.
 - [ ] You can describe blue-green, canary and rolling deployments, with one risk of each.
@@ -76,7 +77,7 @@ Open one at a time, in order.
 |---|---|
 | `mise install && terraform version` | `Terraform v1.17.1` |
 | `aws --version` | A version line, no shell errors. Seen: `aws-cli/2.37.9` |
-| `aws sts get-caller-identity --profile <yours>` | An ARN that is not `:root` |
+| `aws sts get-caller-identity` | The right account and an ARN that is not `:root` |
 | `git remote -v` | HTTPS URL of this repo |
 
 ## 7. Gotchas and mistakes
