@@ -20,7 +20,7 @@ Tick these as you verify them. Anything unchecked is deliberately left open.
 - [ ] Non-root identity does the work through the default profile (confirm the ARN is not `:root`)
 - [x] AWS Budget alert with an email notification at a low limit
 - [x] `aws sts get-caller-identity` on the default profile shows the right account (you confirmed the account; the non-root part is the line above)
-- [x] Plain `terraform version` prints 1.17.1 inside this repo (mise activation added to `~/.zshrc` on 2026-11-05; open a new terminal to pick it up)
+- [ ] Plain `terraform version` prints 1.17.1 when run inside this repo (your last check ran in `~`, where 1.15.9 is expected; `cd` into the repo first)
 - [ ] Explain VPC, subnet, internet gateway, route table, and what makes a subnet public
 - [ ] CIDR: subnets in a `10.0.0.0/16` split into `/24`, and usable addresses in one AWS `/24`
 - [ ] Describe blue-green, canary and rolling deployments with one risk each
