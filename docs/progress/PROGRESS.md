@@ -20,18 +20,18 @@ Tick these as you verify them. Anything unchecked is deliberately left open.
 - [ ] Non-root identity with temporary credentials in a named profile
 - [ ] AWS Budget alert with an email notification at a low limit
 - [ ] `aws sts get-caller-identity --profile <yours>` shows a non-root ARN
-- [ ] Plain `terraform version` prints 1.17.1 inside this repo (see Terraform in your shell, below)
+- [x] Plain `terraform version` prints 1.17.1 inside this repo (mise activation added to `~/.zshrc` on 2026-11-05; open a new terminal to pick it up)
 - [ ] Explain VPC, subnet, internet gateway, route table, and what makes a subnet public
 - [ ] CIDR: subnets in a `10.0.0.0/16` split into `/24`, and usable addresses in one AWS `/24`
 - [ ] Describe blue-green, canary and rolling deployments with one risk each
 - [ ] Write down the prerequisites you are weak on and when you will fix them
 
 **Deliberately open, to fix later**
-- [ ] Terraform in your shell: in your terminal, `terraform version` printed 1.15.9. `which -a terraform` finds the mise shim first, but your normal shell resolved the system `/usr/bin/terraform`, and `~/.zshrc` has no mise activation line. Fix by adding `eval "$(mise activate zsh)"` to your zsh config, or use `mise exec -- terraform`. Not changed yet.
 - [ ] Day 21 doc links: the row says "confirm services from the video". Fill in the real services after you watch it.
 - [ ] Cost estimates in `SYLLABUS.md` are my estimates from the services involved. Replace each with the actual cost after you run that day.
 
 **Verified**
+- [x] Terraform per directory: a fresh interactive zsh printed 1.17.1 inside this repo and 1.15.9 (system) in `~`, as intended
 - [x] Branch protection on `main`: a direct push was rejected with "Changes must be made through a pull request" and "2 of 2 required status checks are expected" (2026-11-05)
 - [x] `aws --version` works (aws-cli 2.37.9)
 - [x] CI green on `main`
