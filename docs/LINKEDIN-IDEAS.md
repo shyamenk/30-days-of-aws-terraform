@@ -13,3 +13,4 @@ Nothing is posted until the course is finished. This file collects what is worth
 | | | | | |
 
 Strength 3 means a stranger would learn something real from it. Strength 1 is a note to myself.
+| 0 | Lesson | The announced syllabus differed from the released videos, and the instructor's README still follows the announcement. Check a course's real content against its outline. | `docs/SYNC.md` known differences | 1 |

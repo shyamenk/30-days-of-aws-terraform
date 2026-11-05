@@ -8,3 +8,4 @@
 - Day-to-instructor-folder mapping in `docs/SYNC.md`.
 - Branch convention: `day-NN` per course day, kept after squash merge.
 - Branch protection on `main` (required checks, PRs, linear history, squash only).
+- Day 0 note: course overview, prerequisites and a readiness checklist.

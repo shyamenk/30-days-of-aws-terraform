@@ -6,8 +6,8 @@ This file is the memory of where the course stands. Update it in the same PR tha
 
 ## Where I am
 
-- **Current day:** 0 (not started)
-- **Next up:** Day 0, course intro
+- **Current day:** 0 (note written on branch `day-00`; readiness checklist still to do)
+- **Next up:** finish the Day 0 checklist in `notes/week-01/day-00-course-intro.md`, then merge `day-00` and start Day 1
 - **Left running in AWS:** nothing
 - **Open questions / blockers:** none
 
@@ -17,7 +17,7 @@ Status values: `todo`, `watched`, `built`, `done` (built, note written, destroye
 
 | Day | Status | Date done | PR | Note |
 |---|---|---|---|---|
-| 0 | todo | | | |
+| 0 | todo (note drafted, checklist open) | | | [day-00](../../notes/week-01/day-00-course-intro.md) |
 | 1 | todo | | | |
 | 2 | todo | | | |
 | 3 | todo | | | |
@@ -56,3 +56,4 @@ One line per session: date, days touched, what to remember tomorrow.
 - 2026-11-05: Repo scaffolded, pushed to GitHub (public) and first CI run green. Nothing studied yet. Next: cut `day-00` and start Day 0.
 - 2026-11-05: Branch protection enabled on `main`; repo is squash-merge only. Docs synced.
 - 2026-11-05: Mapped every instructor lessons folder to our days in SYNC.md.
+- 2026-11-05: Day 0 transcript organized into `notes/week-01/day-00-course-intro.md` on branch `day-00`. Checklist not done yet, so no PR. SYNC.md records that the announced curriculum differs from the released one.
