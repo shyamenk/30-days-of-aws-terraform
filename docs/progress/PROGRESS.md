@@ -53,4 +53,4 @@ Status values: `todo`, `watched`, `built`, `done` (built, note written, destroye
 
 One line per session: date, days touched, what to remember tomorrow.
 
-- 2026-11-05: Repo scaffolded and committed locally (not pushed). Nothing studied yet.
+- 2026-11-05: Repo scaffolded, pushed to GitHub (public) and first CI run green. Nothing studied yet. Next: cut `day-00` and start Day 0.
