@@ -32,6 +32,7 @@ Nothing may be left stale. Before the session closes, check and update each of t
 - Treat it like a shared production codebase: modules in `infra/modules`, environments in `infra/envs`, no hardcoded account IDs or regions in modules, pinned versions, committed `.terraform.lock.hcl`.
 - Never commit state, `*.tfvars`, keys, or raw transcripts (`notes/_raw/` is git-ignored).
 - Playlist decides day order. The instructor repo is reference only, never copied.
+- `main` is protected on GitHub (PR required, checks `terraform-checks` and `security-scan` must pass, up-to-date branch, linear history, admins included, squash merge only, auto-delete of merged branches is off). Never push to `main` directly. If a check is renamed in `ci.yml`, update the protection rule in the same change.
 - Branches: one per course day, named `day-00` to `day-30` (two digits), cut from `main`. `main` is the only long-lived integration branch.
 - Day branches are kept after merge (exception to the global delete-after-merge rule, chosen by the owner so each day is easy to browse). Squash merge into `main` via `gh pr merge --squash` without `--delete-branch`.
 - Stage specific files. Conventional Commits. No AI attribution.

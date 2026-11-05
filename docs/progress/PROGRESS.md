@@ -54,3 +54,4 @@ Status values: `todo`, `watched`, `built`, `done` (built, note written, destroye
 One line per session: date, days touched, what to remember tomorrow.
 
 - 2026-11-05: Repo scaffolded, pushed to GitHub (public) and first CI run green. Nothing studied yet. Next: cut `day-00` and start Day 0.
+- 2026-11-05: Branch protection enabled on `main`; repo is squash-merge only. Docs synced.
