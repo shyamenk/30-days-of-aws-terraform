@@ -30,7 +30,7 @@ Tick these as you verify them. Anything unchecked is deliberately left open.
 - [ ] Day 21 doc links: the row says "confirm services from the video". Fill in the real services after you watch it.
 - [ ] Cost estimates in `SYLLABUS.md` are my estimates from the services involved. Replace each with the actual cost after you run that day.
 
-- [ ] Account is shared with real resources (two existing S3 buckets). Safeguards in CLAUDE.md: `tf30-` prefix, `Project` tag, never import or destroy what this repo did not create. Consider a separate learning account or AWS Organizations member account before the EKS block.
+- [x] Account is shared with older resources. Decision (owner, 2026-11-05): they are backed up and loss is acceptable, so no separate account is needed. The `tf30-` prefix and `Project` tag stay as a naming convention.
 
 **Verified**
 - [x] Terraform per directory: a fresh interactive zsh printed 1.17.1 inside this repo and 1.15.9 (system) in `~`, as intended
