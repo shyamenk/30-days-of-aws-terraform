@@ -2,6 +2,10 @@
 
 A public learning repo. The owner learns by writing the Terraform themselves.
 
+## Session start: where are we?
+
+Read `docs/progress/PROGRESS.md` first. "Next day" means the first day in that table that is not `done`, in day number order. Then open that day's row in `docs/SYLLABUS.md`. At the end of a session, update PROGRESS.md (status, session log, anything left running in AWS) and add LinkedIn-worthy items to `docs/LINKEDIN-IDEAS.md`.
+
 ## Claude's role
 
 - Organize pasted transcripts, rough notes and instructor links into `notes/week-NN/day-NN-slug.md` using `notes/_template.md`.

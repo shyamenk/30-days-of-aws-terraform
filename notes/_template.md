@@ -43,3 +43,7 @@ What went wrong, what the error said, why it happened, how you found the fix.
 
 - [ ] `terraform destroy` (you run it)
 - [ ] Console check that nothing is left, then Billing check
+
+## 9. LinkedIn worth
+
+Is anything from today worth posting later? One line, or "none". If yes, also add a row to `docs/LINKEDIN-IDEAS.md`.
