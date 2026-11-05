@@ -9,3 +9,4 @@
 - Branch convention: `day-NN` per course day, kept after squash merge.
 - Branch protection on `main` (required checks, PRs, linear history, squash only).
 - Day 0 note: course overview, prerequisites and a readiness checklist.
+- Day 0 completed: Q&A-checked explanations, mistakes log and a weak-prerequisite plan (CIDR math, YAML).

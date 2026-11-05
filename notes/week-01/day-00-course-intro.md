@@ -37,6 +37,19 @@ After today I can state what the 30 days cover, I have a safe AWS account and wo
 
 **The announced curriculum differs from what was released.** Compare the Day 0 description with the playlist (details in [SYNC.md](../../docs/SYNC.md)): Day 22 was announced as an RDS database but released as a 2-tier architecture, Day 27 as a CI/CD pipeline but released as GitHub Actions, and the Terraform Cloud drift detection moved from Day 30 to an unreleased Day 31. Follow the released videos.
 
+### What I can now explain (checked in a Q&A, 2026-11-05)
+
+- **VPC:** my own isolated virtual network in a region, with its own CIDR range. An internet gateway attaches to the VPC (one per VPC), not to a subnet.
+- **Route table vs security group:** the route table decides *where* traffic goes (subnet level, matches destination address). The security group decides *whether* traffic is allowed (network-interface level, matches port, protocol and address, stateful). A network ACL is the stateless subnet-level filter.
+- **Public subnet:** its route table sends internet traffic to the internet gateway, and the resource has a public IP. Security groups and ACLs must also allow the traffic.
+- **Private subnet:** outbound-only internet through a NAT gateway that sits in a public subnet. It costs money every hour.
+- **Regions and zones:** a subnet lives in exactly one availability zone. For resilience, spread subnets and servers over at least two zones.
+- **CIDR:** `/24` has 8 host bits, so 256 addresses, 251 usable in AWS (first four and last reserved). A `/16` holds 256 `/24` subnets (third number 0 to 255).
+- **Deployments:** blue-green runs two full environments, switches traffic, rolls back instantly by switching back, and costs about double during the release. Canary exposes a small share of users first; the hard part is monitoring good enough to decide. Rolling replaces servers in batches, so old and new versions run together and a rollback is slower.
+- **Networking:** SSH 22, HTTP 80, HTTPS 443. Loading a page goes DNS, TCP connection, TLS handshake, then HTTP.
+- **Shell:** `ls -la` long list with hidden files, `cd ..` up one folder, `cat file | grep error` prints lines containing "error" (the pipe sends stdout of the left command to stdin of the right), `chmod +x` adds execute permission.
+- **JSON:** `{"web-1": {"ports": [80, 443]}}`. YAML uses indentation (spaces, never tabs) and a dash for each list item, one per line.
+
 ## 3. Docs to read
 
 - [ ] [What is Amazon VPC](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html): can you name every component it lists?
@@ -57,10 +70,10 @@ You are ready for Day 1 when all of these are true:
 - [x] `mise install` completes in this repo, and `terraform version` run inside the repo prints 1.17.1 (confirmed by you).
 - [x] `aws --version` runs cleanly on this machine (aws-cli 2.37.9, checked in your terminal).
 - [x] `aws sts get-caller-identity` (default profile) shows the right account and a non-root ARN (confirmed by you; the account ID is deliberately not written in this repo).
-- [ ] You can explain in your own words, without notes: VPC, subnet, internet gateway, route table, and how a subnet becomes "public".
-- [ ] Given `10.0.0.0/16`, you can work out how many `/24` subnets fit, and how many usable addresses one `/24` subnet gives in AWS.
-- [ ] You can describe blue-green, canary and rolling deployments, with one risk of each.
-- [ ] You wrote down which prerequisites you are weak on and where you will fix that this week.
+- [x] You can explain in your own words, without notes: VPC, subnet, internet gateway, route table, and how a subnet becomes "public".
+- [x] Given `10.0.0.0/16`, you can work out how many `/24` subnets fit, and how many usable addresses one `/24` subnet gives in AWS.
+- [x] You can describe blue-green, canary and rolling deployments, with one risk of each.
+- [x] You wrote down which prerequisites you are weak on and where you will fix that this week (CIDR math and YAML, see section 7).
 
 ## 5. Hints
 
@@ -87,13 +100,23 @@ Fill in as you go.
 - **Resolved: `aws --version` error.** While the repo was being set up, a shell session printed `compdef:153: _comps: assignment to invalid subscript range` instead of the version. That came from the automated shell that was running the command, not from your terminal. In your own terminal the command prints `aws-cli/2.37.9 Python/3.14.8 Linux/7.2.15-1-omarchy`, so the CLI is installed and working. Lesson: when a tool misbehaves, run it in a clean shell before suspecting the tool.
 
 - **This account is shared with real resources.** `aws s3 ls` shows two existing buckets that look like other projects. Terraform only changes what is in its own state, so `destroy` will not touch them. The danger is name collisions, `import` on Day 25, and broad permissions. Owner decision: the existing resources are backed up and losing them is acceptable, so the account stays as it is. Naming convention for this repo: prefix every learning resource with `tf30-`, tag it `Project = 30-days-of-aws-terraform`, and never import or destroy anything that this repo did not create.
+- **Mistakes in my own Q&A (so I remember them).**
+  - I thought the internet gateway lives in a public subnet. It attaches to the VPC.
+  - I thought a private subnet cannot reach the internet at all. It can, outbound, through a NAT gateway.
+  - I defined "public subnet" by the public IP alone. The route to the internet gateway is the other half.
+  - I described blue-green as running only the new version. Both run, which is why rollback is instant and cost doubles.
+  - I treated rolling updates as a cost problem. The real risk is two versions running together.
+  - I wrote a YAML list on one line. Each item needs its own line with a dash, and the indent carries the meaning.
+- **Weak prerequisites and the fix.**
+  - CIDR math: five hand problems (addresses in a `/20` and a `/26`, the last address of `10.0.4.0/22`, and a subnet plan for `10.0.0.0/16` across two zones and three tiers). Done before Day 3 and again before Day 15.
+  - YAML: five small files written by hand and checked with a parser (a list, a nested map, a list of maps, a multi-line string, a comment). Done before Day 27, after reading `.github/workflows/ci.yml` in this repo and saying what each indent level means.
 - **Long-lived admin keys.** The default profile is an IAM user that works like an admin. That is fine for now, but keep the keys out of files and the repo. A scoped-down user or IAM Identity Center is the later improvement.
 
 ## 8. Cleanup
 
-- [ ] Nothing to destroy today.
-- [ ] Confirm no resources were created. The Budget is free and stays.
+- [x] Nothing to destroy today.
+- [x] No resources were created by this repo: there is no Terraform code yet, and `aws s3 ls` showed only the two older buckets. The Budget is free and stays.
 
 ## 9. LinkedIn worth
 
-The announced syllabus and the released videos differ, and the instructor's own README still reflects the announcement. Idea: how to check what a course teaches against what it shipped. Logged as a low-strength item in [LINKEDIN-IDEAS.md](../../docs/LINKEDIN-IDEAS.md).
+What really makes a subnet public (a route to the internet gateway plus a public IP, with the gateway attached to the VPC, and private subnets still reaching out through NAT) is a strong post. Also: the announced syllabus and the released videos differ, and the instructor's own README still reflects the announcement. Idea: how to check what a course teaches against what it shipped. Logged as a low-strength item in [LINKEDIN-IDEAS.md](../../docs/LINKEDIN-IDEAS.md).
