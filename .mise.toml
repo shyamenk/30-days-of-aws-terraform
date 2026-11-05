@@ -1,0 +1,6 @@
+# Pinned tool versions so every contributor (and CI) uses the same binaries.
+# Last verified: 2026-11-05. See docs/VERSIONS.md.
+[tools]
+terraform = "1.17.1"
+tflint = "0.65.0"
+trivy = "0.76.1"

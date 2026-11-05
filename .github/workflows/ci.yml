@@ -1,0 +1,60 @@
+name: ci
+
+# Checks only. This workflow has no AWS credentials and never runs plan/apply.
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  terraform-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: hashicorp/setup-terraform@v4
+        with:
+          terraform_version: 1.17.1
+
+      - name: fmt
+        run: terraform fmt -check -recursive
+
+      - name: validate every root module
+        run: |
+          set -euo pipefail
+          # A root module = any directory under infra/envs or sandbox that holds .tf files.
+          mapfile -t dirs < <(find infra/envs sandbox -name '*.tf' -printf '%h\n' 2>/dev/null | sort -u)
+          if [ "${#dirs[@]}" -eq 0 ]; then echo "no Terraform yet, skipping"; exit 0; fi
+          for d in "${dirs[@]}"; do
+            echo "== $d"
+            terraform -chdir="$d" init -backend=false -input=false
+            terraform -chdir="$d" validate
+          done
+
+      - uses: terraform-linters/setup-tflint@v6
+        with:
+          tflint_version: v0.65.0
+
+      - name: tflint
+        run: |
+          tflint --init
+          tflint --recursive --format compact
+
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: trivy config scan
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          scan-type: config
+          scan-ref: .
+          severity: HIGH,CRITICAL
+          exit-code: "1"

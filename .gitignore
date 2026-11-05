@@ -1,0 +1,36 @@
+# Terraform local state and plans (state can contain secrets; never commit)
+**/.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+*.tfplan
+tfplan
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+
+# Variable files hold real values; commit only *.tfvars.example
+*.tfvars
+*.tfvars.json
+!*.tfvars.example
+
+# Secrets and credentials
+.env
+.env.*
+*.pem
+*.key
+.aws/
+
+# Raw transcripts may be large or copyrighted; keep local only
+notes/_raw/*
+!notes/_raw/.gitkeep
+!notes/_raw/README.md
+
+# Editor / OS
+.idea/
+.vscode/
+.DS_Store
