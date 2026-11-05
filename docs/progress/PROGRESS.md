@@ -47,7 +47,7 @@ Status values: `todo`, `watched`, `built`, `done` (built, note written, destroye
 
 | Day | Status | Date done | PR | Note |
 |---|---|---|---|---|
-| 0 | done | 2026-11-05 | #PR | [day-00](../../notes/week-01/day-00-course-intro.md) |
+| 0 | done | 2026-11-05 | #4 | [day-00](../../notes/week-01/day-00-course-intro.md) |
 | 1 | todo | | | |
 | 2 | todo | | | |
 | 3 | todo | | | |
