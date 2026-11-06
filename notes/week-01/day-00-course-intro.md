@@ -50,15 +50,17 @@ After today I can state what the 30 days cover, I have a safe AWS account and wo
 - **Shell:** `ls -la` long list with hidden files, `cd ..` up one folder, `cat file | grep error` prints lines containing "error" (the pipe sends stdout of the left command to stdin of the right), `chmod +x` adds execute permission.
 - **JSON:** `{"web-1": {"ports": [80, 443]}}`. YAML uses indentation (spaces, never tabs) and a dash for each list item, one per line.
 
-## 3. Docs to read
+## 3. Optional reference reading
 
-- [ ] [What is Amazon VPC](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html): can you name every component it lists?
-- [ ] [VPC subnet sizing](https://docs.aws.amazon.com/vpc/latest/userguide/subnet-sizing.html): which addresses AWS reserves in every subnet
-- [ ] [IAM security best practices](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html): root user, MFA, temporary credentials
-- [ ] [Create a budget](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-create.html)
-- [ ] [Install the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) and [configure SSO](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html)
-- [ ] [Deployment strategies](https://docs.aws.amazon.com/whitepapers/latest/overview-deployment-options/deployment-strategies.html): blue-green, canary, rolling
-- [ ] [Terraform intro](https://developer.hashicorp.com/terraform/intro) and the [Terraform Associate exam page](https://developer.hashicorp.com/certifications/infrastructure-automation) (to see what the exam actually lists)
+Not required for Day 0. The Q&A in section 2 covered these topics from memory. Read a page when you want to confirm an answer or fill a gap.
+
+- [What is Amazon VPC](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html): can you name every component it lists?
+- [VPC subnet sizing](https://docs.aws.amazon.com/vpc/latest/userguide/subnet-sizing.html): which addresses AWS reserves in every subnet
+- [IAM security best practices](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html): root user, MFA, temporary credentials
+- [Create a budget](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-create.html)
+- [Install the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) and [configure SSO](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html)
+- [Deployment strategies](https://docs.aws.amazon.com/whitepapers/latest/overview-deployment-options/deployment-strategies.html): blue-green, canary, rolling
+- [Terraform intro](https://developer.hashicorp.com/terraform/intro) and the [Terraform Associate exam page](https://developer.hashicorp.com/certifications/infrastructure-automation) (to see what the exam actually lists)
 
 ## 4. Challenge
 
