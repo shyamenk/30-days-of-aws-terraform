@@ -56,6 +56,7 @@ Folders with no matching video: `day31` (README only, "Drift Detection using Ter
 | Day 27 | GitHub Actions with Terraform | Day 0 video announced a CI/CD pipeline provisioned with Terraform | Trust the released video |
 | Day 30 and 31 | Day 30 is drift detection with GitHub Actions | Day 0 video announced Day 30 as drift detection with Terraform Cloud, which is now the unreleased `day31` folder. `day30` README pins Terraform 1.10.3 | Use our pinned version and note differences in Gotchas |
 | Missing code | Days 1, 2, 6, 25, 26 | README and task only | Expected for concept days |
+| Day 1 task and tools | Video installs Terraform 1.13.3 with Homebrew on a Mac | `task.md` asks for a 500 to 800 word blog, a LinkedIn and X post with the course hashtag, and a submission. It links to `submission.md`, which returns 404 on `main` | We use mise on Linux with 1.17.1. We skip the blog and public posting (no posting until the course ends); the note is the raw material |
 | Day 31, `tobeday02` | Not in playlist | Extra folders | Ignore unless a video is added |
 | "50 Early Winners" announcement | Playlist position 14 | n/a | Not a lesson, skipped |
 
