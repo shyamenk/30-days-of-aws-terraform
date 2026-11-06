@@ -28,7 +28,7 @@ Tick these as you verify them. Anything unchecked is deliberately left open.
 - [x] Write down the prerequisites you are weak on and when you will fix them
 
 **Deliberately open, to fix later**
-- [ ] CIDR practice: five hand problems, before Day 3 and again before Day 15 (see the Day 0 note, section 7)
+- [x] CIDR practice: five hand problems done 2026-11-06 (first pass for Day 3). Repeat before Day 15 (see the Day 0 note, section 7)
 - [ ] YAML practice: five hand-written files checked with a parser, before Day 27
 - [ ] Day 21 doc links: the row says "confirm services from the video". Fill in the real services after you watch it.
 - [ ] Cost estimates in `SYLLABUS.md` are my estimates from the services involved. Replace each with the actual cost after you run that day.
