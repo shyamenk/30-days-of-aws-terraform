@@ -6,7 +6,7 @@ This file is the memory of where the course stands. Update it in the same PR tha
 
 ## Where I am
 
-- **Current day:** 2 is done once its PR is merged. The note is complete, the code is in `sandbox/day-02-provider/`, and the six questions were checked.
+- **Current day:** Days 0, 1 and 2 are done and merged. Day 2's five reading items are still unticked (optional).
 - **Next up:** Day 3, "S3 bucket". Paste the transcript and notes; Claude cuts `day-03` from `main`.
 - **Before Day 15:** repeat the CIDR problems. **Before Day 27:** do the five YAML files.
 - **Left running in AWS:** nothing
