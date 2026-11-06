@@ -96,8 +96,8 @@ My first version worked but broke this repo's rules and its CI. I asked Claude t
 - [x] `tflint` exits 0 (it exited 2 with `terraform_required_version` before)
 - [x] The `terraform` block limits which Terraform versions may run it: `~> 1.17`, the same major version as the pinned 1.17.1
 - [x] The VPC name starts with `tf30-` and the resource carries the tag `Project = 30-days-of-aws-terraform`. My `terraform plan` shows `Name = "tf30-day02-vpc"` in `tags` and both `Name` and `Project` in `tags_all`
-- [ ] `.terraform.lock.hcl` is committed. No state file or `.terraform` folder is (the ignore rules cover both)
-- [ ] Console check: no VPC with `10.0.0.0/16` is left over
+- [x] `.terraform.lock.hcl` is committed (PR #9). No state file or `.terraform` folder is (the ignore rules cover both)
+- [x] Console check: no VPC with `10.0.0.0/16` is left over (`describe-vpcs` printed `[]`)
 - [x] Explain in my own words the answers to the Q&A questions below (done 2026-11-06)
 
 **Q&A questions** (answered in my own words, checked with Claude):
