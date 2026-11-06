@@ -13,4 +13,7 @@ Nothing is posted until the course is finished. This file collects what is worth
 | 0 | Lesson | The announced syllabus differed from the released videos, and the instructor's README still follows the announcement. Check a course's real content against its outline. | `docs/SYNC.md` known differences | 1 |
 | 0 | Concept | What actually makes a subnet public: a route to the internet gateway plus a public IP. The gateway attaches to the VPC, not a subnet, and private subnets still reach out through NAT. | Day 0 note, section 2 and 7 | 2 |
 
+| 1 | Concept | Why teams stop clicking: about 2 hours for one app by hand, times 6 environments, times hundreds of apps. The hours are the instructor's estimate, so say that. | Day 1 note, section 2 | 1 |
+| 1 | Lesson | The video's loose wording on `destroy` and `init`: `destroy` removes what state says Terraform built, not "everything in the files", and `init` prepares the folder without creating cloud resources. | Day 1 note, section 7 | 2 |
+
 Strength 3 means a stranger would learn something real from it. Strength 1 is a note to myself.

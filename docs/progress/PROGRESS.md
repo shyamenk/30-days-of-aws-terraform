@@ -2,13 +2,13 @@
 
 This file is the memory of where the course stands. Update it in the same PR that finishes a day. When you say "next day", the next day is the first row below that is not `done`, in day order.
 
-**Last updated:** 2026-11-05 · **Started:** 2026-11-05 · **Target finish:** about 5 weeks after the start · **Credits expire:** 2026-12-31
+**Last updated:** 2026-11-06 · **Started:** 2026-11-05 · **Target finish:** about 5 weeks after the start · **Credits expire:** 2026-12-31
 
 ## Where I am
 
-- **Current day:** 0 is done. Next lesson is Day 1.
-- **Next up:** Day 1, "How Does Terraform Work | Intro to IAC". Paste the transcript and notes; Claude cuts `day-01` from `main`.
-- **Before Day 3:** do the five CIDR practice problems. **Before Day 27:** do the five YAML files.
+- **Current day:** 1 is done once its PR is merged. The note is complete and the six questions were checked.
+- **Next up:** Day 2, "AWS provider". Paste the transcript and notes; Claude cuts `day-02` from `main`.
+- **Before Day 15:** repeat the CIDR problems. **Before Day 27:** do the five YAML files.
 - **Left running in AWS:** nothing
 - **Open questions / blockers:** none
 
@@ -48,7 +48,7 @@ Status values: `todo`, `watched`, `built`, `done` (built, note written, destroye
 | Day | Status | Date done | PR | Note |
 |---|---|---|---|---|
 | 0 | done | 2026-11-05 | #4 | [day-00](../../notes/week-01/day-00-course-intro.md) |
-| 1 | todo | | | |
+| 1 | done | 2026-11-06 | | [day-01](../../notes/week-01/day-01-how-terraform-works.md) |
 | 2 | todo | | | |
 | 3 | todo | | | |
 | 4 | todo | | | |
@@ -92,3 +92,4 @@ One line per session: date, days touched, what to remember tomorrow.
 - 2026-11-05 (end of session): Repo, CI, branch protection and tooling are done. Day 0 note is on `day-00`; its last three items are deferred by the owner. Resume by reading this file, then finish those items and open the Day 0 PR.
 - 2026-11-05: Day 0 finished. Concept Q&A covered VPC, subnets, gateways, CIDR, deployment strategies, networking, Git, shell and JSON/YAML. Weak spots: CIDR math, YAML. Day 0 PR opened.
 - 2026-11-05: Day 0 "Docs to read" list changed to optional reference reading (owner decision), so no Day 0 boxes remain open.
+- 2026-11-06: CIDR practice (five problems) checked and recorded on `day-00` (PR #6). Day 1 transcript organized into `notes/week-01/day-01-how-terraform-works.md` on `day-01`. Installs confirmed (Terraform 1.17.1, aws-cli 2.37.9, `tf` alias). Tab completion and the editor extension confirmed. Six concept questions answered and checked; mistake logged: I mixed up the dependency lock file with a state lock. Day 1 done. Nothing left running in AWS.
