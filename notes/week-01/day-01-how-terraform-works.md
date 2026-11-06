@@ -80,9 +80,11 @@ Terraform does not touch AWS itself. A **provider** (a plugin, covered on Day 2)
 
 ## 3. Docs to read
 
-- [ ] [Install Terraform](https://developer.hashicorp.com/terraform/install) (how the package manager route differs from a version manager such as mise)
-- [ ] [Core Terraform workflow](https://developer.hashicorp.com/terraform/intro/core-workflow) (write, plan, apply: which step makes changes?)
-- [ ] [Terraform CLI commands](https://developer.hashicorp.com/terraform/cli/commands) (find `init`, `fmt`, `validate`, `plan`, `apply`, `destroy` in the list)
+- [x] [Install Terraform](https://developer.hashicorp.com/terraform/install) (how the package manager route differs from a version manager such as mise)
+- [x] [Core Terraform workflow](https://developer.hashicorp.com/terraform/intro/core-workflow) (write, plan, apply: which step makes changes?)
+- [x] [Terraform CLI commands](https://developer.hashicorp.com/terraform/cli/commands) (find `init`, `fmt`, `validate`, `plan`, `apply`, `destroy` in the list)
+
+All three read on 2026-11-06 (confirmed by me).
 
 ## 4. Challenge
 
