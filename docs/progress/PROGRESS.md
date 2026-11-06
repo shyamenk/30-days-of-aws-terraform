@@ -6,8 +6,8 @@ This file is the memory of where the course stands. Update it in the same PR tha
 
 ## Where I am
 
-- **Current day:** 1 is done once its PR is merged. The note is complete and the six questions were checked.
-- **Next up:** Day 2, "AWS provider". Paste the transcript and notes; Claude cuts `day-02` from `main`.
+- **Current day:** 2 is done once its PR is merged. The note is complete, the code is in `sandbox/day-02-provider/`, and the six questions were checked.
+- **Next up:** Day 3, "S3 bucket". Paste the transcript and notes; Claude cuts `day-03` from `main`.
 - **Before Day 15:** repeat the CIDR problems. **Before Day 27:** do the five YAML files.
 - **Left running in AWS:** nothing
 - **Open questions / blockers:** none
@@ -49,7 +49,7 @@ Status values: `todo`, `watched`, `built`, `done` (built, note written, destroye
 |---|---|---|---|---|
 | 0 | done | 2026-11-05 | #4 | [day-00](../../notes/week-01/day-00-course-intro.md) |
 | 1 | done | 2026-11-06 | #7 | [day-01](../../notes/week-01/day-01-how-terraform-works.md) |
-| 2 | todo | | | |
+| 2 | done | 2026-11-06 | | [day-02](../../notes/week-01/day-02-aws-provider.md) |
 | 3 | todo | | | |
 | 4 | todo | | | |
 | 5 | todo | | | |
@@ -93,3 +93,5 @@ One line per session: date, days touched, what to remember tomorrow.
 - 2026-11-05: Day 0 finished. Concept Q&A covered VPC, subnets, gateways, CIDR, deployment strategies, networking, Git, shell and JSON/YAML. Weak spots: CIDR math, YAML. Day 0 PR opened.
 - 2026-11-05: Day 0 "Docs to read" list changed to optional reference reading (owner decision), so no Day 0 boxes remain open.
 - 2026-11-06: CIDR practice (five problems) checked and recorded on `day-00` (PR #6). Day 1 transcript organized into `notes/week-01/day-01-how-terraform-works.md` on `day-01`. Installs confirmed (Terraform 1.17.1, aws-cli 2.37.9, `tf` alias). Tab completion and the editor extension confirmed. Six concept questions answered and checked; mistake logged: I mixed up the dependency lock file with a state lock. Day 1 done. Nothing left running in AWS.
+- 2026-11-06: Day 2 note written from timestamps, notes and terminal output (no spoken transcript pasted). One VPC applied and destroyed by the owner. First code was in the repo root, had no `required_version` (`tflint` exits 2) and no `tf30-` name or `Project` tag. Code then moved to `sandbox/day-02-provider/` and fixed at the owner's request (`required_version`, `tf30-` name, `Project` tag via `default_tags`); `tflint` exits 0. Plan showed the name and both tags. Console check printed `[]`, so nothing is left running in AWS.
+- 2026-11-06 (later): Day 2 Q&A finished; mistakes logged (lock file versus state lock again, mixed up `required_providers` and the provider block). Day 2 done once the PR is merged.
