@@ -110,7 +110,7 @@ Fill in as you go.
   - I treated rolling updates as a cost problem. The real risk is two versions running together.
   - I wrote a YAML list on one line. Each item needs its own line with a dash, and the indent carries the meaning.
 - **Weak prerequisites and the fix.**
-  - CIDR math: five hand problems (addresses in a `/20` and a `/26`, the last address of `10.0.4.0/22`, and a subnet plan for `10.0.0.0/16` across two zones and three tiers). Done before Day 3 and again before Day 15.
+  - CIDR math: five hand problems (addresses in a `/20` and a `/26`, the last address of `10.0.4.0/22`, and a subnet plan for `10.0.0.0/16` across two zones and three tiers). Done 2026-11-06 (all five correct, after fixing the `/22` range and the containment check). Repeat before Day 15.
   - YAML: five small files written by hand and checked with a parser (a list, a nested map, a list of maps, a multi-line string, a comment). Done before Day 27, after reading `.github/workflows/ci.yml` in this repo and saying what each indent level means.
 - **Long-lived admin keys.** The default profile is an IAM user that works like an admin. That is fine for now, but keep the keys out of files and the repo. A scoped-down user or IAM Identity Center is the later improvement.
 
