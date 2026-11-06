@@ -48,7 +48,7 @@ Status values: `todo`, `watched`, `built`, `done` (built, note written, destroye
 | Day | Status | Date done | PR | Note |
 |---|---|---|---|---|
 | 0 | done | 2026-11-05 | #4 | [day-00](../../notes/week-01/day-00-course-intro.md) |
-| 1 | done | 2026-11-06 | | [day-01](../../notes/week-01/day-01-how-terraform-works.md) |
+| 1 | done | 2026-11-06 | #7 | [day-01](../../notes/week-01/day-01-how-terraform-works.md) |
 | 2 | todo | | | |
 | 3 | todo | | | |
 | 4 | todo | | | |
