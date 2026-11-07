@@ -6,10 +6,10 @@ This file is the memory of where the course stands. Update it in the same PR tha
 
 ## Where I am
 
-- **Current day:** Days 0 to 3 are done and merged. Day 2's five reading items are still unticked (optional).
-- **Next up:** Day 4, "State, S3 remote backend". Paste the transcript and notes; Claude cuts `day-04` from `main`.
+- **Current day:** Days 0 to 4 are done and merged. Day 2's five reading items are still unticked (optional).
+- **Next up:** Day 5, "Variables: input, output, local". Paste the transcript and notes; Claude cuts `day-05` from `main`.
 - **Before Day 15:** repeat the CIDR problems. **Before Day 27:** do the five YAML files.
-- **Left running in AWS:** nothing. The Day 3 stack was destroyed 2026-11-07; its KMS key shows `PendingDeletion` for 7 days, which is expected and not billed.
+- **Left running in AWS:** nothing. The state bucket and the Day 4 demo bucket are deleted (404 confirmed 2026-11-07); the Day 4 KMS key is `PendingDeletion` for 7 days, which is expected.
 - **Open questions / blockers:** none
 
 ## Open items checklist
@@ -51,7 +51,7 @@ Status values: `todo`, `watched`, `built`, `done` (built, note written, destroye
 | 1 | done | 2026-11-06 | #7 | [day-01](../../notes/week-01/day-01-how-terraform-works.md) |
 | 2 | done | 2026-11-06 | #9 | [day-02](../../notes/week-01/day-02-aws-provider.md) |
 | 3 | done | 2026-11-07 | #14 | [day-03](../../notes/week-01/day-03-s3-bucket.md) |
-| 4 | todo | | | |
+| 4 | done | 2026-11-07 | #16 | [day-04](../../notes/week-01/day-04-state-remote-backend.md) |
 | 5 | todo | | | |
 | 6 | todo | | | |
 | 7 | todo | | | |
@@ -99,3 +99,5 @@ One line per session: date, days touched, what to remember tomorrow.
 - 2026-11-06 (Day 3): Note written from the transcript, the instructor's README, `task.md` and `main.tf`. The assignment is a VPC and a bucket with an implicit dependency. My first version used `depends_on` (explicit), then a `vpc_id` argument the bucket does not have; the final code, which Claude fixed at my request, puts `aws_vpc.main.id` in the bucket's `tags`. `fmt`, `validate`, `tflint` and `terraform graph` checked on a scratch copy. I have only seen a plan of the earlier version. Nothing applied yet, so nothing is running in AWS. The bare bucket failed `trivy` with five HIGH findings; Claude added a public access block, KMS key and encryption config at my request, and the HIGH/CRITICAL gate now exits 0. Day 3 stays `watched` until apply, tag change, destroy and the Q&A are done.
 - 2026-11-06 (end of session): Day 3 docs synced and paused by the owner. Resume tomorrow on `day-03`: `plan` (expect 5 to add), `apply`, console check, tag change, `destroy`, Q&A. Then tick Day 3 in `SYLLABUS.md` and `PROGRESS.md`, record the real cost, and open the PR. Nothing was committed or applied.
 - 2026-11-07 (Day 3 done): Plan showed 5 to add, apply created all five, a `Name` tag change applied in place (`1 changed`), and destroy removed all five. Leftover checks were empty (`[]`, bucket 404, KMS key `PendingDeletion`). Trivy first failed with five HIGH findings on the bare bucket; Claude added a public access block, KMS key and encryption config at my request. Q&A: first attempt had five mistakes; four answers are Claude's wording that I accepted, so restate them before any post. Actual cost not measured yet (Billing lags). Nothing left running in AWS.
+- 2026-11-07 (Day 4): Note written from the transcript, key notes, instructor README and task, and my terminal output. I created the state bucket with the CLI, ran `init`, `plan`, `apply` and `destroy` against the S3 backend (lock released each time). Review found five issues: bucket not versioned, not `tf30-` named and untagged; no `provider` block so no `Project` tag; `fmt` fails; bare bucket would fail `trivy`; demo bucket reuses the Day 3 name. Backend bucket removed afterwards (404 confirmed) and the local `.terraform/` deleted. Then Claude fixed the code at my request (`sandbox/day-04-remote-backend/`), I created the `tf30-` state bucket with versioning, and `init`, `plan` (4 to add), `apply` and `destroy` all ran against it. Then I deleted the state bucket with all versions (404 confirmed). Only the Q&A is left. Nothing committed.
+- 2026-11-07 (Day 4 done): Q&A first attempt had four mistakes; four answers are Claude's wording that I accepted, so restate them before any post. Fixed code is in `sandbox/day-04-remote-backend/` (the `main.tf` still names the deleted state bucket; recreate a `tf30-` versioned bucket before using a remote backend again). Actual cost not measured yet. Nothing left running in AWS (one KMS key `PendingDeletion` for 7 days).
