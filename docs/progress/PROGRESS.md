@@ -52,7 +52,7 @@ Status values: `todo`, `watched`, `built`, `done` (built, note written, destroye
 | 2 | done | 2026-11-06 | #9 | [day-02](../../notes/week-01/day-02-aws-provider.md) |
 | 3 | done | 2026-11-07 | #14 | [day-03](../../notes/week-01/day-03-s3-bucket.md) |
 | 4 | done | 2026-11-07 | #16 | [day-04](../../notes/week-01/day-04-state-remote-backend.md) |
-| 5 | done | 2026-11-07 | | [day-05](../../notes/week-01/day-05-variables.md) |
+| 5 | done | 2026-11-07 | #17 | [day-05](../../notes/week-01/day-05-variables.md) |
 | 6 | todo | | | |
 | 7 | todo | | | |
 | 8 | todo | | | |
