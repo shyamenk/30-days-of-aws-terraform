@@ -1,6 +1,6 @@
 # Sync log: playlist, instructor repo, this repo
 
-Last sync: **2026-11-05** (mapping added). Playlist: 32 videos. Instructor repo: `main` at commit `3897acf` (pushed 2026-04-27), MIT licensed.
+Last sync: **2026-11-06** (Day 3 row added). Playlist: 32 videos. Instructor repo: `main` at commit `3897acf` (pushed 2026-04-27), MIT licensed.
 
 Rule: the playlist decides day order and titles. The instructor repo is reference code to compare with after you attempt a day. Do not copy it into `infra/`.
 
@@ -57,6 +57,7 @@ Folders with no matching video: `day31` (README only, "Drift Detection using Ter
 | Day 30 and 31 | Day 30 is drift detection with GitHub Actions | Day 0 video announced Day 30 as drift detection with Terraform Cloud, which is now the unreleased `day31` folder. `day30` README pins Terraform 1.10.3 | Use our pinned version and note differences in Gotchas |
 | Missing code | Days 1, 2, 6, 25, 26 | README and task only | Expected for concept days |
 | Day 2 provider versions | Video locks the AWS provider at `~> 6.0` | README examples pin `>= 5.0` and `~> 5.0`. Same folder: README and task only. `task.md` says "Watch the Day 01 video" (copy-paste) and links to a `submission.md` that does not exist | Follow the video and our pin: `~> 6.0` (6.72.0). A README `~> 5.0` would block our provider |
+| Day 3 README, name and task | Video builds one S3 bucket with `init`, `plan`, `apply` and `destroy`, and edits a tag to show an in-place change | README covers AWS authentication and CLI installation, not the bucket. `main.tf` uses the fixed bucket name `my-tf-test-baiv-bucket-101`, which another account could own. `task.md` asks for a VPC and a bucket with an implicit dependency, plus a blog and public posts | Follow the video and `task.md`. Bucket names use `tf30-` plus a random suffix. We skip the blog and posting until the course ends |
 | Day 1 task and tools | Video installs Terraform 1.13.3 with Homebrew on a Mac | `task.md` asks for a 500 to 800 word blog, a LinkedIn and X post with the course hashtag, and a submission. It links to `submission.md`, which returns 404 on `main` | We use mise on Linux with 1.17.1. We skip the blog and public posting (no posting until the course ends); the note is the raw material |
 | Day 31, `tobeday02` | Not in playlist | Extra folders | Ignore unless a video is added |
 | "50 Early Winners" announcement | Playlist position 14 | n/a | Not a lesson, skipped |

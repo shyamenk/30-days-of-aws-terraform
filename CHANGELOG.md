@@ -12,3 +12,4 @@
 - Day 0 completed: Q&A-checked explanations, mistakes log and a weak-prerequisite plan (CIDR math, YAML).
 - Day 1 note: why infrastructure as code, how the Terraform workflow runs, install check, and six checked self-check answers.
 - Day 2 note: providers, versions and constraints, first VPC apply and destroy, and the first Terraform code in `sandbox/day-02-provider/`.
+- Day 3 note and `sandbox/day-03-s3/`: first S3 bucket, the four core commands, and a VPC plus a hardened bucket (public access block, KMS encryption) linked by an implicit dependency. Applied, changed in place and destroyed.
