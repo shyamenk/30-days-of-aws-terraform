@@ -6,7 +6,7 @@ This file is the memory of where the course stands. Update it in the same PR tha
 
 ## Where I am
 
-- **Current day:** Days 0 to 3 are done (Day 3 once its PR is merged). Day 2's five reading items are still unticked (optional).
+- **Current day:** Days 0 to 3 are done and merged. Day 2's five reading items are still unticked (optional).
 - **Next up:** Day 4, "State, S3 remote backend". Paste the transcript and notes; Claude cuts `day-04` from `main`.
 - **Before Day 15:** repeat the CIDR problems. **Before Day 27:** do the five YAML files.
 - **Left running in AWS:** nothing. The Day 3 stack was destroyed 2026-11-07; its KMS key shows `PendingDeletion` for 7 days, which is expected and not billed.
