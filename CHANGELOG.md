@@ -14,3 +14,4 @@
 - Day 2 note: providers, versions and constraints, first VPC apply and destroy, and the first Terraform code in `sandbox/day-02-provider/`.
 - Day 3 note and `sandbox/day-03-s3/`: first S3 bucket, the four core commands, and a VPC plus a hardened bucket (public access block, KMS encryption) linked by an implicit dependency. Applied, changed in place and destroyed.
 - Day 4 note: state versus actual state, lock file versus state file, S3 remote backend with native locking, a `terraform state` command reference, and a review of my first backend setup. Fixed code in `sandbox/day-04-remote-backend/`: provider tags, a hardened demo bucket, and a `tf30-` state bucket with versioning.
+- Day 5 note: input variables, locals and outputs, the variable precedence ladder, the type list from my key notes, and a plan-only hands-on in `sandbox/day-05-variables/` (variables, locals, outputs, a hardened bucket and VPC, `terraform.tfvars.example`, and a four-run precedence test).
