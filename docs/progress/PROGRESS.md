@@ -51,7 +51,7 @@ Status values: `todo`, `watched`, `built`, `done` (built, note written, destroye
 | 1 | done | 2026-11-06 | #7 | [day-01](../../notes/week-01/day-01-how-terraform-works.md) |
 | 2 | done | 2026-11-06 | #9 | [day-02](../../notes/week-01/day-02-aws-provider.md) |
 | 3 | done | 2026-11-07 | #14 | [day-03](../../notes/week-01/day-03-s3-bucket.md) |
-| 4 | done | 2026-11-07 | | [day-04](../../notes/week-01/day-04-state-remote-backend.md) |
+| 4 | done | 2026-11-07 | #16 | [day-04](../../notes/week-01/day-04-state-remote-backend.md) |
 | 5 | todo | | | |
 | 6 | todo | | | |
 | 7 | todo | | | |
