@@ -20,4 +20,8 @@ Nothing is posted until the course is finished. This file collects what is worth
 | 3 | Concept | Implicit versus explicit dependencies: a reference such as `aws_vpc.main.id` shows up as `(known after apply)` in the plan and orders the resources, while `depends_on` orders them with no value passing. | Day 3 note, section 2 | 2 |
 | 3 | Mistake | An S3 bucket cannot be "in a VPC". My first attempt used `depends_on`, then a `vpc_id` argument the bucket does not have; a tag was the place where the reference fit. | Day 3 note, section 7 | 2 |
 
+| 4 | Concept | Lock file versus state file in one table: `.terraform.lock.hcl` says which provider versions to use, `terraform.tfstate` says which resources exist. One is committed, the other never. | Day 4 note, section 2 | 2 |
+| 4 | Lesson | S3 native locking (`use_lockfile`, Terraform 1.10 and newer) replaced the DynamoDB lock table, and the video itself first typed the old setting. | Day 4 note, section 7 | 2 |
+| 4 | Mistake | A state bucket made in five seconds with the CLI still missed versioning, tags and my own naming rule. Check the boring bucket as hard as the code. | Day 4 note, section 4 | 2 |
+
 Strength 3 means a stranger would learn something real from it. Strength 1 is a note to myself.
