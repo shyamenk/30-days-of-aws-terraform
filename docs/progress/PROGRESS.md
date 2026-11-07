@@ -6,10 +6,10 @@ This file is the memory of where the course stands. Update it in the same PR tha
 
 ## Where I am
 
-- **Current day:** Days 0, 1 and 2 are done and merged. Day 2's five reading items are still unticked (optional).
-- **Next up:** Day 3, "S3 bucket". Paste the transcript and notes; Claude cuts `day-03` from `main`.
+- **Current day:** Days 0 to 3 are done (Day 3 once its PR is merged). Day 2's five reading items are still unticked (optional).
+- **Next up:** Day 4, "State, S3 remote backend". Paste the transcript and notes; Claude cuts `day-04` from `main`.
 - **Before Day 15:** repeat the CIDR problems. **Before Day 27:** do the five YAML files.
-- **Left running in AWS:** nothing
+- **Left running in AWS:** nothing. The Day 3 stack was destroyed 2026-11-07; its KMS key shows `PendingDeletion` for 7 days, which is expected and not billed.
 - **Open questions / blockers:** none
 
 ## Open items checklist
@@ -50,7 +50,7 @@ Status values: `todo`, `watched`, `built`, `done` (built, note written, destroye
 | 0 | done | 2026-11-05 | #4 | [day-00](../../notes/week-01/day-00-course-intro.md) |
 | 1 | done | 2026-11-06 | #7 | [day-01](../../notes/week-01/day-01-how-terraform-works.md) |
 | 2 | done | 2026-11-06 | #9 | [day-02](../../notes/week-01/day-02-aws-provider.md) |
-| 3 | todo | | | |
+| 3 | done | 2026-11-07 | | [day-03](../../notes/week-01/day-03-s3-bucket.md) |
 | 4 | todo | | | |
 | 5 | todo | | | |
 | 6 | todo | | | |
@@ -96,3 +96,6 @@ One line per session: date, days touched, what to remember tomorrow.
 - 2026-11-06: Day 2 note written from timestamps, notes and terminal output (no spoken transcript pasted). One VPC applied and destroyed by the owner. First code was in the repo root, had no `required_version` (`tflint` exits 2) and no `tf30-` name or `Project` tag. Code then moved to `sandbox/day-02-provider/` and fixed at the owner's request (`required_version`, `tf30-` name, `Project` tag via `default_tags`); `tflint` exits 0. Plan showed the name and both tags. Console check printed `[]`, so nothing is left running in AWS.
 - 2026-11-06 (later): Day 2 Q&A finished; mistakes logged (lock file versus state lock again, mixed up `required_providers` and the provider block). Day 2 done once the PR is merged.
 - 2026-11-06 (end of session): Docs synced. Fixed a stale CHANGELOG line and two unticked Day 2 boxes, and re-checked versions (Trivy 0.76.2 and OpenTofu 1.13.9 are newer; pins unchanged). Days 0 to 2 are done. Next: Day 3.
+- 2026-11-06 (Day 3): Note written from the transcript, the instructor's README, `task.md` and `main.tf`. The assignment is a VPC and a bucket with an implicit dependency. My first version used `depends_on` (explicit), then a `vpc_id` argument the bucket does not have; the final code, which Claude fixed at my request, puts `aws_vpc.main.id` in the bucket's `tags`. `fmt`, `validate`, `tflint` and `terraform graph` checked on a scratch copy. I have only seen a plan of the earlier version. Nothing applied yet, so nothing is running in AWS. The bare bucket failed `trivy` with five HIGH findings; Claude added a public access block, KMS key and encryption config at my request, and the HIGH/CRITICAL gate now exits 0. Day 3 stays `watched` until apply, tag change, destroy and the Q&A are done.
+- 2026-11-06 (end of session): Day 3 docs synced and paused by the owner. Resume tomorrow on `day-03`: `plan` (expect 5 to add), `apply`, console check, tag change, `destroy`, Q&A. Then tick Day 3 in `SYLLABUS.md` and `PROGRESS.md`, record the real cost, and open the PR. Nothing was committed or applied.
+- 2026-11-07 (Day 3 done): Plan showed 5 to add, apply created all five, a `Name` tag change applied in place (`1 changed`), and destroy removed all five. Leftover checks were empty (`[]`, bucket 404, KMS key `PendingDeletion`). Trivy first failed with five HIGH findings on the bare bucket; Claude added a public access block, KMS key and encryption config at my request. Q&A: first attempt had five mistakes; four answers are Claude's wording that I accepted, so restate them before any post. Actual cost not measured yet (Billing lags). Nothing left running in AWS.
