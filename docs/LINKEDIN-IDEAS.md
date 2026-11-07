@@ -24,4 +24,7 @@ Nothing is posted until the course is finished. This file collects what is worth
 | 4 | Lesson | S3 native locking (`use_lockfile`, Terraform 1.10 and newer) replaced the DynamoDB lock table, and the video itself first typed the old setting. | Day 4 note, section 7 | 2 |
 | 4 | Mistake | A state bucket made in five seconds with the CLI still missed versioning, tags and my own naming rule. Check the boring bucket as hard as the code. | Day 4 note, section 4 | 2 |
 
+| 5 | Concept | Which value wins when a Terraform variable is set in six places: default, `TF_VAR_`, `terraform.tfvars`, `.auto.tfvars`, then `-var` last. A short ladder with a plan that proves each step. | Day 5 note, section 2 | 2 |
+| 5 | Lesson | An assistant suggested a resource type that does not exist (`aws_ec2_instance`); the video's fix is the provider docs, and `plan` caught it before anything was created. | Day 5 note, section 7 | 2 |
+
 Strength 3 means a stranger would learn something real from it. Strength 1 is a note to myself.
