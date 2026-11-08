@@ -26,5 +26,7 @@ Nothing is posted until the course is finished. This file collects what is worth
 
 | 5 | Concept | Which value wins when a Terraform variable is set in six places: default, `TF_VAR_`, `terraform.tfvars`, `.auto.tfvars`, then `-var` last. A short ladder with a plan that proves each step. | Day 5 note, section 2 | 2 |
 | 5 | Lesson | An assistant suggested a resource type that does not exist (`aws_ec2_instance`); the video's fix is the provider docs, and `plan` caught it before anything was created. | Day 5 note, section 7 | 2 |
+| 6 | Concept | Terraform does not care what your files are called: it merges every `.tf` file in the directory, so the names are only for humans. | Day 6 note, section 2 | 2 |
+| 6 | Lesson | `timestamp()` in a tags local (as in the instructor README) makes every plan show a tag change, because the value differs on each run. | Day 6 note, section 7 | 2 |
 
 Strength 3 means a stranger would learn something real from it. Strength 1 is a note to myself.
