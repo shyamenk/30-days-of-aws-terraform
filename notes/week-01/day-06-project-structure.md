@@ -59,8 +59,8 @@ The instructor says this is a lot for a beginner and promises a full end-to-end 
 
 ## 3. Docs to read
 
-- [ ] [Terraform style guide](https://developer.hashicorp.com/terraform/language/style) (file naming, ordering inside a block)
-- [ ] [Module structure](https://developer.hashicorp.com/terraform/language/modules/develop/structure) (the standard files of a module, and where a root module differs)
+- [x] [Terraform style guide](https://developer.hashicorp.com/terraform/language/style) (file naming, ordering inside a block)
+- [x] [Module structure](https://developer.hashicorp.com/terraform/language/modules/develop/structure) (the standard files of a module, and where a root module differs)
 
 ## 4. Challenge
 
