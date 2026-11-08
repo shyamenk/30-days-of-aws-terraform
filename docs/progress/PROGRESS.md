@@ -2,12 +2,12 @@
 
 This file is the memory of where the course stands. Update it in the same PR that finishes a day. When you say "next day", the next day is the first row below that is not `done`, in day order.
 
-**Last updated:** 2026-11-06 · **Started:** 2026-11-05 · **Target finish:** about 5 weeks after the start · **Credits expire:** 2026-12-31
+**Last updated:** 2026-11-08 · **Started:** 2026-11-05 · **Target finish:** about 5 weeks after the start · **Credits expire:** 2026-12-31
 
 ## Where I am
 
-- **Current day:** Days 0 to 5 are done and merged. Day 2's five reading items are still unticked (optional).
-- **Next up:** Day 6, "Project structure best practices". Paste the transcript and notes; Claude cuts `day-06` from `main`.
+- **Current day:** Days 0 to 5 are done and merged. Day 6 is built and checked on `day-06` and waits for its PR. Day 2's five reading items are still unticked (optional).
+- **Next up:** Day 7, "Type constraints", once the Day 6 PR is merged. Paste the transcript and notes; Claude cuts `day-07` from `main`.
 - **Before Day 15:** repeat the CIDR problems. **Before Day 27:** do the five YAML files.
 - **Left running in AWS:** nothing. The state bucket and the Day 4 demo bucket are deleted (404 confirmed 2026-11-07); the Day 4 KMS key is `PendingDeletion` for 7 days, which is expected.
 - **Open questions / blockers:** none
@@ -53,7 +53,7 @@ Status values: `todo`, `watched`, `built`, `done` (built, note written, destroye
 | 3 | done | 2026-11-07 | #14 | [day-03](../../notes/week-01/day-03-s3-bucket.md) |
 | 4 | done | 2026-11-07 | #16 | [day-04](../../notes/week-01/day-04-state-remote-backend.md) |
 | 5 | done | 2026-11-07 | #17 | [day-05](../../notes/week-01/day-05-variables.md) |
-| 6 | todo | | | |
+| 6 | done | 2026-11-08 | pending | [day-06](../../notes/week-01/day-06-project-structure.md) |
 | 7 | todo | | | |
 | 8 | todo | | | |
 | 9 | todo | | | |
@@ -104,3 +104,6 @@ One line per session: date, days touched, what to remember tomorrow.
 - 2026-11-07 (Day 5): Note written from the transcript, my key notes, the instructor's README and `task.md`, and the Terraform docs for variable precedence. Hands-on not started; the planned challenge uses only a bucket and a VPC (no EC2, so nothing that bills). Nothing applied, nothing committed, nothing running in AWS.
 - 2026-11-07 (Day 5 hands-on): `sandbox/day-05-variables/` written (provider, variables, locals, main, outputs, tfvars example) with Claude's fixes at my request. Precedence proved with four plans: default `dev`, `TF_VAR_` `stage`, tfvars `pre-prod`, `-var` `prod`. Apply and destroy skipped by my choice, so nothing is running in AWS. Q&A pending. Nothing committed.
 - 2026-11-07 (Day 5 done): Q&A first attempt had two gaps; two answers are Claude's wording that I accepted, so restate them before any post. The hands-on was plan-only by my choice (nothing applied, nothing in AWS). Code is in `sandbox/day-05-variables/`.
+- 2026-11-08 (Day 6 started): Branch `day-06` cut from `main`. Note written from the transcript and the instructor's README and `task.md` (no `code/` folder exists for Day 6). My Day 5 sandbox is already split into files, so the challenge is a small step: move the `terraform` block into `versions.tf`. Hands-on and Q&A not started; the note's sections 4 to 8 are ready, section 7 holds differences found in the instructor material. SYNC.md and LINKEDIN-IDEAS.md updated. Cost check (Cost Explorer) showed 0 USD for Nov 3 to 7; credits are AWS Activate Founders, $999.12 unused, expiry 1/1/2027, extension request not yet filed. Nothing applied, nothing committed, nothing running in AWS.
+- 2026-11-08 (Day 6 hands-on and Q&A): `sandbox/day-06-structure/` copied from Day 5 with the `terraform` block moved to `versions.tf`; `fmt`, `validate`, `tflint` and `trivy` pass, and `plan` matches Day 5 (5 to add, same names and tags; plan only, nothing applied). Q&A: three correct, three partial (file-merge reason, the `.gitignore` catch, state tracks addresses not files); four wordings are Claude's, so restate them before any post. Still open: the directory README, the backend decision (staying on local state is the recommendation), Day 6 tick in SYLLABUS.md, commit and PR. Nothing committed, nothing running in AWS.
+- 2026-11-08 (Day 6 closed out): Cleanups done at my request: stray comment removed from `provider.tf`, names renamed to `tf30-day06-`, output renamed to `bucket_name`, README written (local state, no `backend.tf`). Plan still 5 to add; `fmt`, `validate`, `tflint` pass. Note, SYLLABUS, CHANGELOG and LINKEDIN-IDEAS synced. Not committed or pushed yet; PR number pending.

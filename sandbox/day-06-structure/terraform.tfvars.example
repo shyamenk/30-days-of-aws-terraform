@@ -1,0 +1,4 @@
+environment   = "dev"
+region        = "us-east-1"
+project       = "30-days-of-aws-terraform"
+bucket_suffix = "p4w9n7"
