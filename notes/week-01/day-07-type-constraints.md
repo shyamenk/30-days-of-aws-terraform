@@ -72,10 +72,12 @@ Acceptance criteria:
 - [ ] The instance count comes from a `number` variable (done), and the tags come from one `map(string)` variable (not yet)
 - [ ] One list element is read by index (done: `cidr_blocks[0]` to `[2]`) and one object attribute is read by key (not yet)
 - [x] A `set(string)` is read through `tolist()`, and I can explain why the direct index failed (checked in `terraform console`: `Invalid index`, then `tolist(...)[0]` works)
-- [ ] `terraform fmt -check -recursive`, `terraform validate`, `tflint` and `trivy config .` pass in the directory
-- [ ] `terraform plan` shows the values I expect (count, monitoring, tags, the tuple's port and protocol)
-- [ ] No `.terraform/`, state file or real `terraform.tfvars` is staged, and `.terraform.lock.hcl` is committed
-- [ ] The README in the directory says what the directory does and whether anything was applied
+- [x] `terraform fmt -check -recursive`, `terraform validate`, `tflint` and `trivy config .` pass in the directory (HIGH/CRITICAL gate; one MEDIUM, VPC flow logs, left on purpose)
+- [ ] `terraform plan` shows the values I expect (count and monitoring: done; tags and the tuple's port and protocol: not yet)
+- [x] No `.terraform/`, state file or real `terraform.tfvars` is staged, and `.terraform.lock.hcl` is committed
+- [x] The README in the directory says what the directory does and whether anything was applied (to be updated as tasks 7 to 10 land)
+
+**Where I stopped (2026-11-09):** Tasks 1 to 6 of 10 are done (string, number, bool, list x2, set). Next is Task 7, `map(string)` tags on the VPC with `tags["Name"]` as an output; then Task 8 (tuple for the ingress rule), Task 9 (object `config`) and Task 10 (`deployment_summary` output). Task 8 needs a security group in the sandbox.
 
 ## 5. Hints
 

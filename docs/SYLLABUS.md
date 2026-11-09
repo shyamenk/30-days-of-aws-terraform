@@ -24,7 +24,7 @@ Note: the playlist lists Day 6 before Day 5. Notes follow the day number.
 
 | Done | Day | Topic | Video | Min | Cost | Primary docs |
 |---|---|---|---|---|---|---|
-| [ ] | 7 | Type constraints | [gu2oCJ9DQiQ](https://www.youtube.com/watch?v=gu2oCJ9DQiQ) | 52 | None | [Type constraints](https://developer.hashicorp.com/terraform/language/expressions/type-constraints) |
+| [ ] | 7 | Type constraints | [gu2oCJ9DQiQ](https://www.youtube.com/watch?v=gu2oCJ9DQiQ) | 52 | None if plan-only (an applied EC2 instance bills) | [Type constraints](https://developer.hashicorp.com/terraform/language/expressions/type-constraints) |
 | [ ] | 8 | Meta-arguments | [XMMsnkovNX4](https://www.youtube.com/watch?v=XMMsnkovNX4) | 29 | Low | [count](https://developer.hashicorp.com/terraform/language/meta-arguments/count), [for_each](https://developer.hashicorp.com/terraform/language/meta-arguments/for_each), [depends_on](https://developer.hashicorp.com/terraform/language/meta-arguments/depends_on) |
 | [ ] | 9 | Lifecycle rules | [60tOSwpvldY](https://www.youtube.com/watch?v=60tOSwpvldY) | 35 | Low | [lifecycle](https://developer.hashicorp.com/terraform/language/meta-arguments/lifecycle) |
 | [ ] | 10 | Conditionals, splat, dynamic blocks | [R4ShnFDJwI8](https://www.youtube.com/watch?v=R4ShnFDJwI8) | 39 | Low | [Conditionals](https://developer.hashicorp.com/terraform/language/expressions/conditionals), [Splat](https://developer.hashicorp.com/terraform/language/expressions/splat), [Dynamic blocks](https://developer.hashicorp.com/terraform/language/expressions/dynamic-blocks) |
