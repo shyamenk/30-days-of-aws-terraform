@@ -2,12 +2,12 @@
 
 This file is the memory of where the course stands. Update it in the same PR that finishes a day. When you say "next day", the next day is the first row below that is not `done`, in day order.
 
-**Last updated:** 2026-11-08 · **Started:** 2026-11-05 · **Target finish:** about 5 weeks after the start · **Credits expire:** 2026-12-31
+**Last updated:** 2026-11-09 · **Started:** 2026-11-05 · **Target finish:** about 5 weeks after the start · **Credits expire:** 2026-12-31
 
 ## Where I am
 
 - **Current day:** Days 0 to 6 are done and merged. Day 2's five reading items are still unticked (optional).
-- **Next up:** Day 7, "Type constraints". Paste the transcript and notes; Claude cuts `day-07` from `main`.
+- **Next up:** Day 7, "Type constraints", in progress on branch `day-07` (note written; hands-on and Q&A pending).
 - **Before Day 15:** repeat the CIDR problems. **Before Day 27:** do the five YAML files.
 - **Left running in AWS:** nothing. The state bucket and the Day 4 demo bucket are deleted (404 confirmed 2026-11-07); the Day 4 KMS key is `PendingDeletion` for 7 days, which is expected.
 - **Open questions / blockers:** none
@@ -54,7 +54,7 @@ Status values: `todo`, `watched`, `built`, `done` (built, note written, destroye
 | 4 | done | 2026-11-07 | #16 | [day-04](../../notes/week-01/day-04-state-remote-backend.md) |
 | 5 | done | 2026-11-07 | #17 | [day-05](../../notes/week-01/day-05-variables.md) |
 | 6 | done | 2026-11-08 | #18 | [day-06](../../notes/week-01/day-06-project-structure.md) |
-| 7 | todo | | | |
+| 7 | watched | | | [day-07](../../notes/week-01/day-07-type-constraints.md) |
 | 8 | todo | | | |
 | 9 | todo | | | |
 | 10 | todo | | | |
@@ -107,3 +107,6 @@ One line per session: date, days touched, what to remember tomorrow.
 - 2026-11-08 (Day 6 started): Branch `day-06` cut from `main`. Note written from the transcript and the instructor's README and `task.md` (no `code/` folder exists for Day 6). My Day 5 sandbox is already split into files, so the challenge is a small step: move the `terraform` block into `versions.tf`. Hands-on and Q&A not started; the note's sections 4 to 8 are ready, section 7 holds differences found in the instructor material. SYNC.md and LINKEDIN-IDEAS.md updated. Cost check (Cost Explorer) showed 0 USD for Nov 3 to 7; credits are AWS Activate Founders, $999.12 unused, expiry 1/1/2027, extension request not yet filed. Nothing applied, nothing committed, nothing running in AWS.
 - 2026-11-08 (Day 6 hands-on and Q&A): `sandbox/day-06-structure/` copied from Day 5 with the `terraform` block moved to `versions.tf`; `fmt`, `validate`, `tflint` and `trivy` pass, and `plan` matches Day 5 (5 to add, same names and tags; plan only, nothing applied). Q&A: three correct, three partial (file-merge reason, the `.gitignore` catch, state tracks addresses not files); four wordings are Claude's, so restate them before any post. Still open: the directory README, the backend decision (staying on local state is the recommendation), Day 6 tick in SYLLABUS.md, commit and PR. Nothing committed, nothing running in AWS.
 - 2026-11-08 (Day 6 closed out): Cleanups done at my request: stray comment removed from `provider.tf`, names renamed to `tf30-day06-`, output renamed to `bucket_name`, README written (local state, no `backend.tf`). Plan still 5 to add; `fmt`, `validate`, `tflint` pass. Note, SYLLABUS, CHANGELOG and LINKEDIN-IDEAS synced. PR #18 squash-merged.
+- 2026-11-09 (Day 7 started): Branch `day-07` cut from `main`. Note written from the transcript, my key notes, the instructor's README and `task.md`. Section 7 lists traps found in the instructor material (the `/8` VPC task, a hard-coded AMI). `sandbox/day-07-types/` is untracked work in progress; it includes an EC2 instance, which bills if applied. Hands-on and Q&A not done. Nothing committed, nothing applied, nothing running in AWS.
+- 2026-11-09 (Day 7 hands-on, tasks 1 to 4): `sandbox/day-07-types/` has string, number, bool and list(string) variables, an instance, a VPC and two subnets. Plan only, `4 to add`; `fmt`, `validate`, `tflint` pass. `trivy` fails (AWS-0028, AWS-0131, AWS-0178), left open by my choice, so the PR will be blocked by `security-scan` until I fix or ignore them. Claude fixed the `associate_public_ip` type (string to bool) at my request. First Task 4 draft would have failed on apply (subnet outside the VPC, overlapping ranges). Tasks 5 to 10 and the Q&A are pending. Nothing applied, nothing committed, nothing running in AWS.
+- 2026-11-09 (Day 7 hands-on, tasks 5 and 6): Task 5 `precondition` on the instance type and Task 6 `validation` on `region` reading a `set(string)`; both fail correctly on a bad value and pass on a good one (plan only, `4 to add`). `fmt`, `validate`, `tflint` pass; `trivy` still fails with the three findings I left. Claude fixed both tasks at my request after my first versions did not enforce the rule. Docs committed locally; `sandbox/day-07-types/` is held back from the commit until `trivy` passes or I choose an ignore. Tasks 7 to 10 and the Q&A are pending. Nothing applied, nothing running in AWS.
