@@ -2,7 +2,7 @@
 
 Video: [Terraform type constraints](https://www.youtube.com/watch?v=gu2oCJ9DQiQ) (52 min) · Instructor code: [lessons/day07](https://github.com/piyushsachdeva/Terraform-Full-Course-Aws/tree/main/lessons/day07) (README, `task.md`, and a `main.tf`, `variables.tf`, `locals.tf`, `outputs.tf`, `provider.tf`) · Verified against: Terraform 1.17.1, AWS provider 6.72.0 (from `sandbox/day-07-types/.terraform.lock.hcl`) on 2026-11-09
 
-Source material for this note: the video transcript, my key notes, the instructor's README and `task.md`. Hands-on is in progress (Tasks 1 to 10 of 10 done, plan-only; Q&A pending); the Q&A is not done yet.
+Source material for this note: the video transcript, my key notes, the instructor's README and `task.md`. The hands-on (all ten assignments, plan-only) and the Q&A are done.
 
 ## 1. Goal
 
@@ -77,7 +77,7 @@ Acceptance criteria:
 - [x] No `.terraform/`, state file or real `terraform.tfvars` is staged, and `.terraform.lock.hcl` is committed
 - [x] The README in the directory says what the directory does and whether anything was applied (to be updated as tasks 7 to 10 land)
 
-**Where I stopped (2026-11-10):** all ten assignments are built and plan-checked (string, number, bool, list x2, set, map, tuple, object, `deployment_summary`). Left: five recall questions I still owe (why a `default` cannot use `var.environment`; the error for a wrong-order tuple; why an object error is more precise than a map's; whether `deployment_summary` is known at plan time; why `terraform output` shows nothing before an apply), then the Q&A, the `SYLLABUS.md` tick and the PR.
+**Where I stopped (2026-11-10):** all ten assignments are built and plan-checked, and the five-question Q&A is done (see section 7). Left: the `SYLLABUS.md` tick, push and the PR.
 
 ## 5. Hints
 
@@ -143,6 +143,12 @@ My own mistakes from the Q&A:
 - **Task 6, set index:** correct. A set has no order and no duplicates, so there is no element 0; `tolist()` makes it indexable.
 - **Task 2, `count` and `.id`:** I said `aws_instance.ec2_instance.id` "provides the instance ID after creation". True for one instance, but with `count` set the plain address fails with `Missing resource instance key` ("its attributes must be accessed on specific instances"). Use `[0].id` or `[*].id`. (Claude's wording; restate before any post.)
 - **Task 4, `cidr_blocks[3]`:** correct, `Invalid index` (index is greater than or equal to the length of the collection; the list has indexes 0 to 2).
+- **Task 7, why a `default` cannot use `var.environment`:** right ("defaults are read before any variable has a value"). Exact rule: a default must be a constant; build values from other values in `locals`.
+- **Task 8, wrong-order tuple:** right (each position has its own type, and order matters). Added: the length is part of the type too, which is why my four-value default failed.
+- **Task 9, object versus map:** half right. I said an object has a type declared per key (right) and that a map is "a random list of strings" (wrong: a map is key/value pairs with any keys and one value type, not a list). Choice rule: an object for a fixed, known set of keys with mixed types (one resource's settings); a map for an open-ended set of keys with one value type (tags). The object's error names the attribute because the declaration has a rule for each key. (Claude's wording; restate before any post.)
+- **Task 10, known at plan time:** right (all three values come from variables). Added: a value AWS assigns on creation, such as `aws_vpc.vpc.id` or an instance ID, would print `(known after apply)`.
+- **Task 10, `terraform output` empty:** right (nothing applied). Added: `terraform output` reads the state file, and `plan` never writes state.
+- **Q&A score:** four right, one half right (map). Four answers needed one detail added; those wordings are Claude's, so restate them before any post.
 
 ## 8. Cleanup
 
