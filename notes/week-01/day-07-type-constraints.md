@@ -152,9 +152,9 @@ My own mistakes from the Q&A:
 
 ## 8. Cleanup
 
-- [x] Nothing applied so far, so nothing to destroy. If anything is applied: `terraform destroy` (you run it), then a console check that no instance is left
-- [ ] Billing check: **an EC2 instance bills while it exists**, and with `monitoring = true` the detailed monitoring is an extra charge per instance. A public IPv4 address on the instance is also billed per hour. Plan-only costs nothing.
+- [x] Nothing was applied, so there is nothing to destroy (the instance, VPC, subnets and security group only ever existed in plans). A check at the start of Day 7 found no EC2 instance.
+- [x] Billing check not needed for plan-only work. If this is ever applied: an EC2 instance bills while it exists, detailed monitoring is an extra charge per instance, and a public IPv4 address is billed per hour. Run `terraform destroy` yourself and check the console.
 
 ## 9. LinkedIn worth
 
-Possibly: "A Terraform `set` cannot be indexed. The error tells you why: with no order and no duplicates, there is no 'element 2'." Also the `task.md` Task 4 trap: a `/8` VPC CIDR is rejected by AWS. Both are added to `docs/LINKEDIN-IDEAS.md`.
+Yes, several, all in `docs/LINKEDIN-IDEAS.md` (Day 7 rows). The strongest (strength 3): I folded three variables into one object and the region guard stayed on the old, unused variable, so a bad region planned fine. A plan with a good value cannot show a guard is gone. Others: a `set` cannot be indexed (and `tolist()` sorts it); a `default` must be a constant; a tuple's length and order are part of its type; a resource's own `tags` beat provider `default_tags`; and the instructor's `/8` VPC task is invalid on AWS.
