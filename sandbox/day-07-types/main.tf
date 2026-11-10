@@ -46,4 +46,19 @@ resource "aws_subnet" "private" {
 }
 
 
+resource "aws_security_group" "sg" {
+  name        = "${local.name_prefix}-sg"
+  description = "Allow HTTPS traffic"
+  vpc_id      = aws_vpc.vpc.id
+  tags = {
+    Name = "${local.name_prefix}-sg"
+  }
+}
 
+resource "aws_vpc_security_group_ingress_rule" "vpc_sg_ingress" {
+  security_group_id = aws_security_group.sg.id
+  cidr_ipv4         = var.cidr_blocks[2]
+  from_port         = var.ingress_values[0]
+  ip_protocol       = var.ingress_values[1]
+  to_port           = var.ingress_values[2]
+}

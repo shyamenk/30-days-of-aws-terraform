@@ -87,3 +87,10 @@ variable "tags" {
     created_by  = "terraform"
   }
 }
+
+
+variable "ingress_values" {
+  type        = tuple([number, string, number])
+  description = "Ingress rule as [start port, protocol, end port]. The order and the types are fixed."
+  default     = [443, "tcp", 443]
+}

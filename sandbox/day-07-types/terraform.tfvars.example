@@ -14,3 +14,4 @@ tags = {
   Name        = "tf30-day07-dev-vpc"
   created_by  = "terraform"
 }
+ingress_values     = [443, "tcp", 443]
