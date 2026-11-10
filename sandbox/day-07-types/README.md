@@ -7,20 +7,18 @@ Practice for Terraform's variable type constraints, built on the Day 6 layout. I
 | Variable | Type | Used for |
 |---|---|---|
 | `environment` | `string` | name prefix and the `Environment` tag |
-| `region` | `string` | provider region |
 | `project` | `string` | the `Project` tag |
 | `ec2_instance_type` | `string` | instance type |
 | `ami` | `string` | AMI ID (region-specific, so it is an input, not hard-coded) |
-| `ec2_instance_count` | `number` | `count` on the instance (default `1`) |
-| `monitoring_enabled` | `bool` | detailed monitoring flag (default `true`) |
+| `config` | `object({ region = string, monitoring = bool, instance_count = number })` | provider region, instance `count` and `monitoring`, each read with a dot (`var.config.region`). A `validation` checks the region against `allowed_region`. Replaced the separate `region`, `ec2_instance_count` and `monitoring_enabled` variables from Tasks 1 to 3 |
 | `associate_public_ip` | `bool` | whether each instance gets a public IPv4 address (default `false`) |
 | `cidr_blocks` | `list(string)` | entry 0 is the VPC range, entries 1 and 2 are the two subnets (default `10.0.0.0/16`, `10.0.1.0/24`, `10.0.2.0/24`) |
 | `allowed_vm_types` | `list(string)` | allow-list of instance types; a `precondition` on the instance checks `ec2_instance_type` is in it |
 | `tags` | `map(string)` | the whole map is the VPC's `tags`; defaults are literals (a default cannot read other variables) |
 | `ingress_values` | `tuple([number, string, number])` | start port, protocol and end port of the one ingress rule, read by index (default `[443, "tcp", 443]`) |
-| `allowed_region` | `set(string)` | allow-list of regions; a `validation` on `region` checks the value is in it |
+| `allowed_region` | `set(string)` | allow-list of regions; a `validation` on `config` checks `config.region` is in it |
 
-Tasks 1 to 8 (string, number, bool, two lists, a set, a map, a tuple) are in place. Still to add from the Day 7 assignments: an `object` variable and the `deployment_summary` output. See `notes/week-01/day-07-type-constraints.md`, section 4.
+All ten Day 7 assignments are in place (string, number, bool, two lists, a set, a map, a tuple, an object, and the `deployment_summary` output). The Q&A is still to do. See `notes/week-01/day-07-type-constraints.md`, section 4.
 
 ## Files
 
@@ -31,7 +29,7 @@ Tasks 1 to 8 (string, number, bool, two lists, a set, a map, a tuple) are in pla
 | `variables.tf` | typed input variables |
 | `locals.tf` | the name prefix (`tf30-day07-<environment>`) and the common tags |
 | `main.tf` | the `aws_instance`, the `aws_vpc`, a security group with one ingress rule, and two `aws_subnet` resources (labelled public and private, but with no internet gateway or route table they are only labels) |
-| `outputs.tf` | `vpc_name`, the `Name` key read from the `tags` map |
+| `outputs.tf` | `vpc_name` (the `Name` key read from the `tags` map) and `deployment_summary` (environment, instance count and name in one map) |
 | `terraform.tfvars.example` | variable names with sample values; copy to `terraform.tfvars` (git-ignored) and edit |
 
 ## State

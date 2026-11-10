@@ -4,38 +4,15 @@ variable "environment" {
   default     = "dev"
 }
 
-variable "region" {
-  type        = string
-  description = "The target cloud region for deployment."
-  default     = "us-east-1"
-
-  validation {
-    condition     = contains(var.allowed_region, var.region)
-    error_message = "The selected region ${var.region} is not allowed. Choose from: ${join(", ", var.allowed_region)}."
-  }
-}
-
 variable "project" {
   type        = string
   description = "Project name"
   default     = "30-days-of-aws-terraform"
 }
 
-variable "monitoring_enabled" {
-  type        = bool
-  description = "Boolean Values to pass for Monitoring"
-  default     = true
-}
-
 variable "ec2_instance_type" {
   type        = string
   description = "EC2 Instance Type"
-}
-
-variable "ec2_instance_count" {
-  type        = number
-  description = "Number of EC2 instances to provision."
-  default     = 1
 }
 
 variable "ami" {
@@ -93,4 +70,24 @@ variable "ingress_values" {
   type        = tuple([number, string, number])
   description = "Ingress rule as [start port, protocol, end port]. The order and the types are fixed."
   default     = [443, "tcp", 443]
+}
+
+
+variable "config" {
+  type = object({
+    region         = string
+    monitoring     = bool
+    instance_count = number
+  })
+  description = "Region, monitoring flag and instance count for the EC2 instances"
+  default = {
+    region         = "us-east-1"
+    monitoring     = true
+    instance_count = 1
+  }
+
+  validation {
+    condition     = contains(var.allowed_region, var.config.region)
+    error_message = "The selected region ${var.config.region} is not allowed. Choose from: ${join(", ", var.allowed_region)}."
+  }
 }

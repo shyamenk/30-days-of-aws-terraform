@@ -1,6 +1,6 @@
 resource "aws_instance" "ec2_instance" {
-  count                       = var.ec2_instance_count
-  monitoring                  = var.monitoring_enabled
+  count                       = var.config.instance_count
+  monitoring                  = var.config.monitoring
   associate_public_ip_address = var.associate_public_ip
   ami                         = var.ami
   instance_type               = var.ec2_instance_type
