@@ -2,12 +2,12 @@
 
 This file is the memory of where the course stands. Update it in the same PR that finishes a day. When you say "next day", the next day is the first row below that is not `done`, in day order.
 
-**Last updated:** 2026-11-09 · **Started:** 2026-11-05 · **Target finish:** about 5 weeks after the start · **Credits expire:** 2026-12-31
+**Last updated:** 2026-11-10 · **Started:** 2026-11-05 · **Target finish:** about 5 weeks after the start · **Credits expire:** 2026-12-31
 
 ## Where I am
 
-- **Current day:** Days 0 to 6 are done and merged. Day 7 is in progress on branch `day-07` (local commits, not pushed). Day 2's five reading items are still unticked (optional).
-- **Next up:** Day 7 is built and the Q&A is done. Left: tick Day 7 in `SYLLABUS.md`, push `day-07`, open the PR and squash-merge it (keep the branch), then set Day 7 to `done`. Then Day 8.
+- **Current day:** Days 0 to 7 are done and merged. Day 2's five reading items are still unticked (optional).
+- **Next up:** Day 8. Paste the transcript and notes; Claude cuts `day-08` from `main`.
 - **Before Day 15:** repeat the CIDR problems. **Before Day 27:** do the five YAML files.
 - **Left running in AWS:** nothing. The state bucket and the Day 4 demo bucket are deleted (404 confirmed 2026-11-07); the Day 4 KMS key is `PendingDeletion` for 7 days, which is expected.
 - **Open questions / blockers:** none. `trivy` HIGH/CRITICAL gate passes on the Day 7 sandbox; one MEDIUM (VPC flow logs) is left on purpose.
@@ -54,7 +54,7 @@ Status values: `todo`, `watched`, `built`, `done` (built, note written, destroye
 | 4 | done | 2026-11-07 | #16 | [day-04](../../notes/week-01/day-04-state-remote-backend.md) |
 | 5 | done | 2026-11-07 | #17 | [day-05](../../notes/week-01/day-05-variables.md) |
 | 6 | done | 2026-11-08 | #18 | [day-06](../../notes/week-01/day-06-project-structure.md) |
-| 7 | watched | | | [day-07](../../notes/week-01/day-07-type-constraints.md) |
+| 7 | done | 2026-11-10 | #21 | [day-07](../../notes/week-01/day-07-type-constraints.md) |
 | 8 | todo | | | |
 | 9 | todo | | | |
 | 10 | todo | | | |
@@ -115,3 +115,4 @@ One line per session: date, days touched, what to remember tomorrow.
 - 2026-11-10 (Day 7 hands-on, task 8): tuple `ingress_values` feeding a security group ingress rule in the VPC. My draft had four values for a three-slot tuple, so `validate` failed; Claude fixed it at my request. Plan `6 to add`; `fmt`, `validate`, `tflint` and the `trivy` HIGH/CRITICAL gate pass. Tasks 1 to 8 of 10 done; Task 9, Task 10 and the Q&A pending, so Day 7 stays `watched`. Branch `day-07` pushed. Nothing applied, nothing running in AWS.
 - 2026-11-10 (Day 7 hands-on, tasks 9 and 10): `object` `config` now drives the provider region, instance `count` and `monitoring`, and `deployment_summary` outputs environment, instance count and name. My first Task 9 lost the `allowed_region` guard (an `ap-south-1` plan passed) and left three unused variables; my first Task 10 showed the region instead of the environment. Claude fixed both at my request. `fmt`, `validate`, `tflint` and the `trivy` HIGH/CRITICAL gate pass; plan `6 to add`. All ten assignments done; Q&A, the `SYLLABUS.md` tick and the PR pending, so Day 7 stays `watched`. Nothing applied, nothing running in AWS.
 - 2026-11-10 (Day 7 Q&A): five questions asked one at a time. Four right (default must be a constant; tuple position, type and length; known at plan time; `terraform output` reads state), one half right: I called a map "a random list of strings" and missed that an object is for fixed keys with mixed types and a map for open-ended keys with one value type. Four answers are Claude's wording that I accepted, so restate them before any post. Hands-on and Q&A done; the PR is pending, so Day 7 stays `watched` until it is merged. Nothing applied, nothing running in AWS.
+- 2026-11-10 (Day 7 done): PR #21 squash-merged (`50097ed`) after `terraform-checks` and `security-scan` went green; branch `day-07` kept. All ten assignments and the Q&A are done; nothing was ever applied, so nothing is running in AWS. Next: Day 8.
