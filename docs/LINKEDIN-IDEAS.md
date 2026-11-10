@@ -33,5 +33,7 @@ Nothing is posted until the course is finished. This file collects what is worth
 | 7 | Mistake | `terraform plan` said 6 to add and looked fine, but the subnets sat outside the VPC range and overlapped. Plan cannot see AWS range rules; the apply would have failed. The wrong count (6, not 4) was the clue. | Day 7 note, section 7 | 3 |
 | 7 | Concept | `tolist()` on a string set returns it sorted, not in the order you wrote it: I typed `us-east-1` first and `[0]` gave `eu-west-1`. A set has no "first". | Day 7 note, section 7 | 2 |
 | 7 | Mistake | A "check" that did nothing: `-var ec2_instance_type=m5.24xlarge` planned fine because the resource read a different variable. Test a guard with a value that must fail. | Day 7 note, section 7 | 2 |
+| 7 | Mistake | A variable `default` cannot reference another variable or a local: `validate` says "Variables may not be used here". Defaults are literals; build dynamic values in `locals`. | Day 7 note, section 7 | 2 |
+| 7 | Gotcha | A resource's own `tags` win over provider `default_tags`, so a `Project` key in your tags map silently replaces the default `Project`. | Day 7 note, section 7 | 2 |
 
 Strength 3 means a stranger would learn something real from it. Strength 1 is a note to myself.
