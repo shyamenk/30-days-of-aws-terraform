@@ -16,9 +16,10 @@ Practice for Terraform's variable type constraints, built on the Day 6 layout. I
 | `associate_public_ip` | `bool` | whether each instance gets a public IPv4 address (default `false`) |
 | `cidr_blocks` | `list(string)` | entry 0 is the VPC range, entries 1 and 2 are the two subnets (default `10.0.0.0/16`, `10.0.1.0/24`, `10.0.2.0/24`) |
 | `allowed_vm_types` | `list(string)` | allow-list of instance types; a `precondition` on the instance checks `ec2_instance_type` is in it |
+| `tags` | `map(string)` | the whole map is the VPC's `tags`; defaults are literals (a default cannot read other variables) |
 | `allowed_region` | `set(string)` | allow-list of regions; a `validation` on `region` checks the value is in it |
 
-Tasks 1 to 6 (string, number, bool, two lists, a set) are in place. Still to add from the Day 7 assignments: `map`, `tuple` and `object` variables, and the `deployment_summary` output. See `notes/week-01/day-07-type-constraints.md`, section 4.
+Tasks 1 to 7 (string, number, bool, two lists, a set, a map) are in place. Still to add from the Day 7 assignments: `tuple` and `object` variables, and the `deployment_summary` output. See `notes/week-01/day-07-type-constraints.md`, section 4.
 
 ## Files
 
@@ -29,7 +30,7 @@ Tasks 1 to 6 (string, number, bool, two lists, a set) are in place. Still to add
 | `variables.tf` | typed input variables |
 | `locals.tf` | the name prefix (`tf30-day07-<environment>`) and the common tags |
 | `main.tf` | the `aws_instance`, the `aws_vpc` and two `aws_subnet` resources (labelled public and private, but with no internet gateway or route table they are only labels) |
-| `outputs.tf` | output values (empty for now) |
+| `outputs.tf` | `vpc_name`, the `Name` key read from the `tags` map |
 | `terraform.tfvars.example` | variable names with sample values; copy to `terraform.tfvars` (git-ignored) and edit |
 
 ## State

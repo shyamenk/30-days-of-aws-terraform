@@ -76,3 +76,14 @@ variable "allowed_region" {
     error_message = "You must provide at least one allowed region."
   }
 }
+
+
+variable "tags" {
+  type        = map(string)
+  description = "Tags applied to the VPC. Defaults must be literals, so the Name is written out in full."
+  default = {
+    Environment = "dev"
+    Name        = "tf30-day07-dev-vpc"
+    created_by  = "terraform"
+  }
+}

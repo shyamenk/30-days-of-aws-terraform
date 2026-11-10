@@ -26,9 +26,7 @@ resource "aws_instance" "ec2_instance" {
 
 resource "aws_vpc" "vpc" {
   cidr_block = var.cidr_blocks[0]
-  tags = {
-    Name = "${local.name_prefix}-vpc"
-  }
+  tags       = var.tags
 }
 
 resource "aws_subnet" "public" {
