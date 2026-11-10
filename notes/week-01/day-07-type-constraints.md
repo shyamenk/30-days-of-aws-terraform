@@ -2,7 +2,7 @@
 
 Video: [Terraform type constraints](https://www.youtube.com/watch?v=gu2oCJ9DQiQ) (52 min) · Instructor code: [lessons/day07](https://github.com/piyushsachdeva/Terraform-Full-Course-Aws/tree/main/lessons/day07) (README, `task.md`, and a `main.tf`, `variables.tf`, `locals.tf`, `outputs.tf`, `provider.tf`) · Verified against: Terraform 1.17.1, AWS provider 6.72.0 (from `sandbox/day-07-types/.terraform.lock.hcl`) on 2026-11-09
 
-Source material for this note: the video transcript, my key notes, the instructor's README and `task.md`. Hands-on is in progress (Tasks 1 to 7 of 10 done, plan-only); the Q&A is not done yet.
+Source material for this note: the video transcript, my key notes, the instructor's README and `task.md`. Hands-on is in progress (Tasks 1 to 8 of 10 done, plan-only); the Q&A is not done yet.
 
 ## 1. Goal
 
@@ -67,7 +67,7 @@ The instructor's `task.md` has ten small tasks, one per type, plus a `deployment
 
 Acceptance criteria:
 
-- [ ] One variable of each of these types exists and is used by a resource: `string`, `number`, `bool`, `list(string)` (done), `set(string)` (done), `map(string)` (done), `tuple`, `object`
+- [ ] One variable of each of these types exists and is used by a resource: `string`, `number`, `bool`, `list(string)` (done), `set(string)` (done), `map(string)` (done), `tuple` (done), `object`
 - [x] Every `variable` block has `type` and `description`
 - [ ] The instance count comes from a `number` variable (done), and the tags come from one `map(string)` variable (done: the VPC's `tags = var.tags`)
 - [ ] One list element is read by index (done: `cidr_blocks[0]` to `[2]`) and one object attribute is read by key (not yet)
@@ -77,7 +77,7 @@ Acceptance criteria:
 - [x] No `.terraform/`, state file or real `terraform.tfvars` is staged, and `.terraform.lock.hcl` is committed
 - [x] The README in the directory says what the directory does and whether anything was applied (to be updated as tasks 7 to 10 land)
 
-**Where I stopped (2026-11-10):** Tasks 1 to 7 of 10 are done (string, number, bool, list x2, set, map). Next is Task 8 (tuple for the ingress rule), Task 9 (object `config`) and Task 10 (`deployment_summary` output). Task 8 needs a security group in the sandbox.
+**Where I stopped (2026-11-10):** Tasks 1 to 8 of 10 are done (string, number, bool, list x2, set, map, tuple). Next is Task 9 (object `config`) and Task 10 (`deployment_summary` output).
 
 ## 5. Hints
 
@@ -131,6 +131,8 @@ My own mistakes from the hands-on:
 - **`tolist()` sorts a string set.** I wrote `us-east-1` first, but `tolist(var.allowed_region)[0]` is `eu-west-1`. The order is alphabetical, not the order I typed.
 
 - **Task 7, variables inside a default.** My first `tags` default used `"${var.environment}"` and `"${local.name_prefix}"`; `validate` failed with `Variables not allowed` / `Variables may not be used here`, the same error the video shows. A `default` has to be a literal. Dynamic values go in `locals` (and later `merge()`). Other slips in that draft: the map had no `Name` key, so `var.tags["Name"]` would have failed with `Invalid index`; a `Project` key in the map would have overwritten the provider's `default_tags` `Project`, because a resource tag wins over a default tag; the VPC built its own inline tags instead of using the map, so `ManagedBy` never reached it; the output's description was copy-pasted from another resource. Claude fixed it at my request (2026-11-10): literal defaults (`Environment`, `Name = tf30-day07-dev-vpc`, `created_by`), `tags = var.tags` on the VPC, output renamed `vpc_name`.
+
+- **Task 8, tuple length is part of the type.** My `ingress_value` default was `[443, "tcp", 0, 443]` (four values) for `tuple([number, string, number])` (three slots); `validate` failed with "This default value is not compatible with the variable's type constraint: tuple required". Also: the variable was named `ingress_value` while the task and my example file said `ingress_values`, it had no `description`, and the group's description said HTTP for port 443. Claude fixed it at my request (2026-11-10). Checked: a plan gives `Plan: 6 to add` with `from_port = 443`, `ip_protocol = "tcp"`, `to_port = 443`; `-var 'ingress_values=["tcp",443,443]'` fails with `Invalid value for input variable ... a number is required`, because the check is on position and type. The rule's source is the private subnet range (`cidr_blocks[2]`), not `0.0.0.0/0`, which keeps the `trivy` gate green.
 
 My own mistakes from the Q&A:
 
