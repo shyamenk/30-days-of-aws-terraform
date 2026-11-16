@@ -2,7 +2,7 @@
 
 Video: [Terraform meta-arguments](https://www.youtube.com/watch?v=XMMsnkovNX4) (29 min) · Instructor code: [lessons/day08](https://github.com/piyushsachdeva/Terraform-Full-Course-Aws/tree/main/lessons/day08) (README, `task.md`, and a `code/` folder with `main.tf`, `variables.tf`, `local.tf`, `output.tf`, `provider.tf`, `backend.tf`) · Verified against: Terraform 1.17.1 (pinned; 1.17.2 is out), AWS provider not pinned yet (no sandbox for Day 8; 6.73.0 was the latest on 2026-11-16)
 
-Source material for this note: the video transcript, my pasted lifecycle key notes, and the instructor's README, `task.md` and `code/`. The hands-on and the Q&A are not done.
+Source material for this note: the video transcript, my pasted lifecycle key notes, and the instructor's README, `task.md` and `code/`. The hands-on is partly done (Tasks 1 to 3, plan only); the `depends_on` bucket, the removal test and the Q&A are not.
 
 ## 1. Goal
 
@@ -54,16 +54,16 @@ The instructor's `task.md` has three tasks. Work in `sandbox/day-08-meta-argumen
 
 Acceptance criteria:
 
-- [ ] Task 1: one `aws_s3_bucket` block with `count` makes two buckets from a `list(string)` variable, and the names come from `count.index`
-- [ ] The count is not hard-coded: adding a third name to the list changes the plan to three buckets with no other edit
-- [ ] Task 2: a second block with `for_each` makes two buckets from a `set(string)` variable, and the names come from `each.value`
-- [ ] I can read the plan and point out the two address styles (`[0]` against `["name"]`)
-- [ ] Task 3: one output lists all bucket names and one lists all bucket IDs, both built with a `for` expression, and `terraform output` prints them
+- [x] Task 1: one `aws_s3_bucket` block with `count` makes two buckets from a `list(string)` variable, and the names come from `count.index`
+- [x] The count is not hard-coded: adding a third name to the list changes the plan to three buckets with no other edit (checked with a temporary `-var`)
+- [x] Task 2: a second block with `for_each` makes two buckets from a `set(string)` variable, and the names come from `each.value`
+- [x] I can read the plan and point out the two address styles (`[0]` against `["name"]`)
+- [x] Task 3: one output lists all bucket names and one lists all bucket IDs, both built with a `for` expression (plan shows the names; the IDs are `known after apply`; `terraform output` needs an apply, which I have not done)
 - [ ] `depends_on`: a third bucket depends on one of the others, and the plan or apply shows it comes after
 - [ ] Removal test (plan only): remove the middle name from the list and from the set, and I can say which resources the plan changes in each case
-- [ ] `terraform fmt -check -recursive`, `terraform validate`, `tflint` and `trivy config .` pass in the directory
+- [x] `terraform fmt -check -recursive`, `terraform validate`, `tflint` and `trivy config .` pass in the directory (HIGH/CRITICAL gate)
 - [ ] No `.terraform/`, state file or real `terraform.tfvars` is staged, and `.terraform.lock.hcl` is committed
-- [ ] The directory README says what it does and whether anything was applied
+- [x] The directory README says what it does and whether anything was applied
 
 ## 5. Hints
 
@@ -84,7 +84,9 @@ Open one at a time, in order.
 | `terraform plan` | adds one bucket per name in each variable, plus the `depends_on` bucket; addresses end in `[0]`, `[1]` for count and `["name"]` for for_each |
 | `terraform output` | the name list and the ID list (IDs are known only after apply, so plan shows them as "known after apply") |
 
-Nothing has been run yet.
+Result so far (2026-11-16, plan only, run by Claude at my request): `fmt`, `validate` and `tflint` pass; `Plan: 13 to add, 0 to change, 0 to destroy.` (four buckets, one KMS key, four public access blocks, four encryption configurations). The names output shows the four names and the IDs output shows four `(known after apply)`. `trivy` passes the HIGH/CRITICAL gate.
+
+**Where I stopped (2026-11-16):** Tasks 1 to 3 are done and plan-checked. Left: the `depends_on` bucket, the removal test, the Q&A, the `SYLLABUS.md` tick and the PR.
 
 ## 7. Gotchas and mistakes
 
@@ -101,7 +103,14 @@ From the video and the instructor's files (found while comparing, not mistakes I
 - **Instructor `code/` traps.** Bucket names are fixed strings with a date (`tf-day08-...-20251016`) that another account could own, and none carry `tf30-` or the `Project` tag. The default region is `ca-central-1`, `variables.tf` carries an EC2 `ami_id` default, and the README asks for Terraform >= 1.9.0.
 - **`task.md` asks for a blog, social posts and a tag.** Skipped until the course ends (see `docs/SYNC.md`).
 
-My own mistakes: none yet.
+My own mistakes (Tasks 1 to 3, all fixed at my request on 2026-11-16):
+
+- **Task 1 used `for_each`.** My first `main.tf` used `toset(var.bucket_names)` with `for_each`, which is Task 2, so the addresses were `["name"]`, not `[0]`. Task 1 needs `count` with `count.index`.
+- **A stale name left in `locals.tf`.** An unused `name_prefix` still said `tf30-day07-`; `tflint` flagged it (`terraform_unused_declarations`).
+- **Same bucket names in both variables.** The list and the set had identical defaults. The plan passes, but an apply would fail on the second create, because bucket names are global. Plan cannot catch a name clash; check by eye.
+- **A misleading block name.** The `count` block was called `set_buckets` and read the list. Renamed to `count_buckets`.
+- **Task 3 pointed at the old block name.** `outputs.tf` still referenced `set_buckets` after the rename, so `validate` failed. `tflint` still exited 0, so run `validate` as well. The outputs were also ARN maps; the task asks for names and IDs, now two lists built with `for` expressions and `concat()`.
+- **`trivy` failed with 20 HIGH findings** on the bare buckets (public access block and customer-managed KMS key), the same as Days 3 and 7. A first fix that wrote the protections once over a merged map did not clear them: `trivy` could not follow the map back to the buckets. One protection resource per bucket block, each referring to its own block, clears the gate.
 
 ## 8. Cleanup
 

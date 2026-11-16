@@ -38,5 +38,6 @@ Nothing is posted until the course is finished. This file collects what is worth
 | 7 | Mistake | I folded three variables into one `object`, and the `allowed_region` check stayed on the old, now-unused variable. A bad region planned fine. A plan with a good value cannot show that a guard is gone; test with a value that must fail. | Day 7 note, section 7 | 3 |
 | 7 | Concept | A tuple's length and order are part of its type: four values for `tuple([number, string, number])` is a type error, and so is `["tcp", 443, 443]`. A list only cares about the element type. | Day 7 note, section 7 | 2 |
 | 8 | Concept | Remove the middle item from a `count` list and every later resource shifts address and is replaced; with `for_each` only the removed one goes. Untested: run the removal-test plan before posting. | Day 8 note, section 9 | 2 |
+| 8 | Gotcha | A plan with `13 to add` passed, but `trivy` still reported 20 HIGH findings: writing the public access block once over a merged map of buckets hid the link from the scanner. One protection per bucket block, each referring to its own block, cleared it. | Day 8 note, section 7 | 2 |
 
 Strength 3 means a stranger would learn something real from it. Strength 1 is a note to myself.
