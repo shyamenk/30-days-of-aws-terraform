@@ -18,7 +18,7 @@ Practice for Terraform's variable type constraints, built on the Day 6 layout. I
 | `ingress_values` | `tuple([number, string, number])` | start port, protocol and end port of the one ingress rule, read by index (default `[443, "tcp", 443]`) |
 | `allowed_region` | `set(string)` | allow-list of regions; a `validation` on `config` checks `config.region` is in it |
 
-All ten Day 7 assignments are in place (string, number, bool, two lists, a set, a map, a tuple, an object, and the `deployment_summary` output). The Q&A is still to do. See `notes/week-01/day-07-type-constraints.md`, section 4.
+All ten Day 7 assignments are in place (string, number, bool, two lists, a set, a map, a tuple, an object, and the `deployment_summary` output). See `notes/week-01/day-07-type-constraints.md`, section 4.
 
 ## Files
 

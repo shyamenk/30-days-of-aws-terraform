@@ -143,7 +143,7 @@ My own mistakes from the Q&A:
 - **Task 6, set index:** correct. A set has no order and no duplicates, so there is no element 0; `tolist()` makes it indexable.
 - **Task 2, `count` and `.id`:** I said `aws_instance.ec2_instance.id` "provides the instance ID after creation". True for one instance, but with `count` set the plain address fails with `Missing resource instance key` ("its attributes must be accessed on specific instances"). Use `[0].id` or `[*].id`. (Claude's wording; restate before any post.)
 - **Task 4, `cidr_blocks[3]`:** correct, `Invalid index` (index is greater than or equal to the length of the collection; the list has indexes 0 to 2).
-- **Task 7, why a `default` cannot use `var.environment`:** right ("defaults are read before any variable has a value"). Exact rule: a default must be a constant; build values from other values in `locals`.
+- **Task 7, why a `default` cannot use `var.environment`:** right ("defaults are read before any variable has a value"). Exact rule: a default must be a constant; build values from other values in `locals`. Follow-up 2026-11-16: my answer was "defaults are evaluated before the dependency graph is built"; variables are the starting inputs, so one input cannot depend on another.
 - **Task 8, wrong-order tuple:** right (each position has its own type, and order matters). Added: the length is part of the type too, which is why my four-value default failed.
 - **Task 9, object versus map:** half right. I said an object has a type declared per key (right) and that a map is "a random list of strings" (wrong: a map is key/value pairs with any keys and one value type, not a list). Choice rule: an object for a fixed, known set of keys with mixed types (one resource's settings); a map for an open-ended set of keys with one value type (tags). The object's error names the attribute because the declaration has a rule for each key. (Claude's wording; restate before any post.)
 - **Task 10, known at plan time:** right (all three values come from variables). Added: a value AWS assigns on creation, such as `aws_vpc.vpc.id` or an instance ID, would print `(known after apply)`.
@@ -152,9 +152,9 @@ My own mistakes from the Q&A:
 
 ## 8. Cleanup
 
-- [x] Nothing applied so far, so nothing to destroy. If anything is applied: `terraform destroy` (you run it), then a console check that no instance is left
-- [ ] Billing check: **an EC2 instance bills while it exists**, and with `monitoring = true` the detailed monitoring is an extra charge per instance. A public IPv4 address on the instance is also billed per hour. Plan-only costs nothing.
+- [x] Nothing was applied, so there is nothing to destroy (the instance, VPC, subnets and security group only ever existed in plans). A check at the start of Day 7 found no EC2 instance.
+- [x] Billing check not needed for plan-only work. If this is ever applied: an EC2 instance bills while it exists, detailed monitoring is an extra charge per instance, and a public IPv4 address is billed per hour. Run `terraform destroy` yourself and check the console.
 
 ## 9. LinkedIn worth
 
-Possibly: "A Terraform `set` cannot be indexed. The error tells you why: with no order and no duplicates, there is no 'element 2'." Also the `task.md` Task 4 trap: a `/8` VPC CIDR is rejected by AWS. Both are added to `docs/LINKEDIN-IDEAS.md`.
+Yes, several, all in `docs/LINKEDIN-IDEAS.md` (Day 7 rows). The strongest (strength 3): I folded three variables into one object and the region guard stayed on the old, unused variable, so a bad region planned fine. A plan with a good value cannot show a guard is gone. Others: a `set` cannot be indexed (and `tolist()` sorts it); a `default` must be a constant; a tuple's length and order are part of its type; a resource's own `tags` beat provider `default_tags`; and the instructor's `/8` VPC task is invalid on AWS.
