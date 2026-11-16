@@ -6,8 +6,8 @@ This file is the memory of where the course stands. Update it in the same PR tha
 
 ## Where I am
 
-- **Current day:** Days 0 to 7 are done and merged. Day 2's five reading items are still unticked (optional).
-- **Next up:** Day 8. Paste the transcript and notes; Claude cuts `day-08` from `main`.
+- **Current day:** Day 8 is `watched` (note written on `day-08`, hands-on and Q&A not done). Days 0 to 7 are done and merged. Day 2's five reading items are still unticked (optional).
+- **Next up:** Day 8 hands-on in `sandbox/day-08-meta-arguments/` (count, for_each, depends_on, for-expression outputs), then the Q&A. Day 9 (lifecycle) after that.
 - **Before Day 15:** repeat the CIDR problems. **Before Day 27:** do the five YAML files.
 - **Left running in AWS:** nothing. The state bucket and the Day 4 demo bucket are deleted (404 confirmed 2026-11-07); the Day 4 KMS key is `PendingDeletion` for 7 days, which is expected.
 - **Open questions / blockers:** none. `trivy` HIGH/CRITICAL gate passes on the Day 7 sandbox; one MEDIUM (VPC flow logs) is left on purpose.
@@ -55,7 +55,7 @@ Status values: `todo`, `watched`, `built`, `done` (built, note written, destroye
 | 5 | done | 2026-11-07 | #17 | [day-05](../../notes/week-01/day-05-variables.md) |
 | 6 | done | 2026-11-08 | #18 | [day-06](../../notes/week-01/day-06-project-structure.md) |
 | 7 | done | 2026-11-10 | #21 | [day-07](../../notes/week-01/day-07-type-constraints.md) |
-| 8 | todo | | | |
+| 8 | watched | | | [day-08](../../notes/week-02/day-08-meta-arguments.md) |
 | 9 | todo | | | |
 | 10 | todo | | | |
 | 11 | todo | | | |
@@ -118,3 +118,4 @@ One line per session: date, days touched, what to remember tomorrow.
 - 2026-11-10 (Day 7 done): PR #21 squash-merged (`50097ed`) after `terraform-checks` and `security-scan` went green; branch `day-07` kept. All ten assignments and the Q&A are done; nothing was ever applied, so nothing is running in AWS. Next: Day 8.
 - 2026-11-10 (end of session): Docs synced after the Day 7 merge. Fixed stale lines (CHANGELOG said "in progress", sandbox README said the Q&A was still to do, note sections 8 and 9 were out of date). Days 0 to 7 are done and merged; next is Day 8. Nothing left running in AWS.
 - 2026-11-16 (Day 7 follow-up): Closed the question I owed from Task 7. My answer: defaults are evaluated before the dependency graph is built. Exact rule: variables are the starting inputs, so a default must be a constant and cannot reference another variable; build such values in `locals`. The wording is mostly mine, tightened by Claude, so restate it before any post. Nothing applied, nothing running in AWS.
+- 2026-11-16 (Day 8 started): Branch `day-08` cut from `main`. Note written to `notes/week-02/day-08-meta-arguments.md` from the transcript, my lifecycle key notes and the instructor README, `task.md` and `code/`. Section 7 lists traps found (the video says `for_each = 2` and `length()` work, which they do not; `task.md` Task 3 needs `for` expressions the video skips). Week 2 version check: Terraform 1.17.2, TFLint 0.66.0 and AWS provider 6.73.0 are newer; pins unchanged. Hands-on and Q&A not started. Nothing applied, nothing committed, nothing running in AWS.

@@ -1,6 +1,6 @@
 # Versions
 
-Checked on **2026-11-06** against the official sources below. Re-check at the start of each week (commands at the bottom).
+Checked on **2026-11-16** (Week 2 start): Terraform 1.17.2 (released 2026-11-11), TFLint 0.66.0 (2026-11-08) and AWS provider 6.73.0 (2026-11-11) are newer than the pins, Trivy is still 0.76.2; all pins are unchanged until I bump them on purpose. Earlier full check on **2026-11-06** against the official sources below. Re-check at the start of each week (commands at the bottom).
 
 | Tool | Pinned here | Latest on 2026-11-05 | Your machine | Source |
 |---|---|---|---|---|
