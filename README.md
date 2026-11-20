@@ -17,6 +17,7 @@ Everything here is written by me. The instructor's [reference repo](https://gith
 | Check tool versions and when they were verified | [docs/VERSIONS.md](docs/VERSIONS.md) |
 | See how the playlist and the instructor repo differ | [docs/SYNC.md](docs/SYNC.md) |
 | Learn the doc-reading method | [docs/HOW-TO-READ-DOCS.md](docs/HOW-TO-READ-DOCS.md) |
+| Read tips and best practices | [docs/TIPS.md](docs/TIPS.md) |
 
 ## The course, day by day
 
@@ -74,24 +75,6 @@ docs/         syllabus, versions, sync log, reading guide
 - CI checks formatting, validation, linting and security only. It has no AWS credentials.
 - No state files, `*.tfvars`, keys or account IDs are ever committed.
 - `terraform apply` and `destroy` run only from my machine, after reading the plan.
-
-## Tips
-
-Lessons I keep from the course. Each one links to the day that taught it.
-
-- **Config vs state:** config (your `.tf` files) is what you want; state (`terraform.tfstate`, written by Terraform after each apply) is what was created last time, with its real AWS IDs. A plan is the difference between them:
-
-  ```
-  in config, not in state  -> create   (+)
-  in state, not in config  -> destroy  (-)
-  in both, different       -> update   (~) or replace (-/+)
-  in both, same            -> nothing
-  ```
-
-  Before the first apply the state is empty, so every plan only adds. ([Day 8](notes/week-02/day-08-meta-arguments.md))
-
-- **`count` list:** add or remove items only at the end. Removing from the start or middle replaces everything after it. ([Day 8](notes/week-02/day-08-meta-arguments.md))
-- **`for_each` keys:** never rename a key casually. A new key means a new bucket, and the old one is destroyed. ([Day 8](notes/week-02/day-08-meta-arguments.md))
 
 ## Setup
 
