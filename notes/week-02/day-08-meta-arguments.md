@@ -1,6 +1,6 @@
 # Day 8: Meta-arguments
 
-Video: [Terraform meta-arguments](https://www.youtube.com/watch?v=XMMsnkovNX4) (29 min) · Instructor code: [lessons/day08](https://github.com/piyushsachdeva/Terraform-Full-Course-Aws/tree/main/lessons/day08) (README, `task.md`, and a `code/` folder with `main.tf`, `variables.tf`, `local.tf`, `output.tf`, `provider.tf`, `backend.tf`) · Verified against: Terraform 1.17.1 (pinned; 1.17.2 is out), AWS provider not pinned yet (no sandbox for Day 8; 6.73.0 was the latest on 2026-11-16)
+Video: [Terraform meta-arguments](https://www.youtube.com/watch?v=XMMsnkovNX4) (29 min) · Instructor code: [lessons/day08](https://github.com/piyushsachdeva/Terraform-Full-Course-Aws/tree/main/lessons/day08) (README, `task.md`, and a `code/` folder with `main.tf`, `variables.tf`, `local.tf`, `output.tf`, `provider.tf`, `backend.tf`) · Verified against: Terraform 1.17.1 (pinned; 1.17.2 is out), AWS provider 6.73.0 (`~> 6.0` in `sandbox/day-08-meta-arguments/versions.tf`, locked in `.terraform.lock.hcl`)
 
 Source material for this note: the video transcript, my pasted lifecycle key notes, and the instructor's README, `task.md` and `code/`. The hands-on is done as plan only: Tasks 1 to 3, the `depends_on` bucket and the removal test (reasoned, not run). The five-question Q&A is done (see section 7).
 
@@ -70,7 +70,7 @@ Acceptance criteria:
 - [x] `depends_on`: a third bucket depends on one of the others, and the plan or apply shows it comes after (shown with `terraform graph`, because a plan does not show order)
 - [x] Removal test (plan only): remove the first name from the list and from the set, and I can say which resources the plan changes in each case (reasoned, not run; see below)
 - [x] `terraform fmt -check -recursive`, `terraform validate`, `tflint` and `trivy config .` pass in the directory (HIGH/CRITICAL gate)
-- [ ] No `.terraform/`, state file or real `terraform.tfvars` is staged, and `.terraform.lock.hcl` is committed
+- [x] No `.terraform/`, state file or real `terraform.tfvars` is staged, and `.terraform.lock.hcl` is committed
 - [x] The directory README says what it does and whether anything was applied
 
 ## 5. Hints
@@ -155,14 +155,18 @@ My own answers from the Q&A (2026-11-20):
 
 ## 8. Cleanup
 
-S3 buckets cost almost nothing when empty, and plan-only costs nothing. If I apply:
+Nothing was applied on Day 8, so there is nothing to destroy and nothing billed. If I apply later:
 
 - [ ] `terraform destroy` (you run it)
 - [ ] Console check that no `tf30-day08-` bucket is left, then Billing check
 
 ## 9. LinkedIn worth
 
-Candidate, not tested yet: remove the middle item from a `count` list and the buckets after it shift address and get replaced; with `for_each` only the removed one goes. Test it with a plan in the removal test before posting. Logged in `docs/LINKEDIN-IDEAS.md` at strength 2 until I have the plan output.
+- Remove the first item from a `count` list and every later resource shifts address and is replaced; with `for_each` only the removed one goes. Reasoned, not seen in a real plan (the removal test was against empty state), so it stays at strength 2 until I see the `must be replaced` lines myself.
+- `terraform graph` showed 10 nodes while the plan said `16 to add`: the graph counts blocks, the plan counts instances. I got this wrong in the Q&A.
+- I thought `depends_on` was for "getting an ID from another resource". That is a reference, which already orders things; `depends_on` is for a dependency the code cannot show.
+
+All three are logged in `docs/LINKEDIN-IDEAS.md`.
 
 ## Lifecycle preview (my key notes, for Day 9)
 

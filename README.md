@@ -60,7 +60,7 @@ Titles are copied from the playlist (checked 2026-11-05). Status and costs live 
 ## Layout
 
 ```
-notes/        one note per day, same 8 sections (see notes/_template.md)
+notes/        one note per day, same 9 sections (see notes/_template.md)
 infra/
   modules/    reusable building blocks (vpc, ec2, ...)
   envs/       dev and prod root modules that call the modules
