@@ -2,7 +2,7 @@
 
 Video: [Terraform meta-arguments](https://www.youtube.com/watch?v=XMMsnkovNX4) (29 min) · Instructor code: [lessons/day08](https://github.com/piyushsachdeva/Terraform-Full-Course-Aws/tree/main/lessons/day08) (README, `task.md`, and a `code/` folder with `main.tf`, `variables.tf`, `local.tf`, `output.tf`, `provider.tf`, `backend.tf`) · Verified against: Terraform 1.17.1 (pinned; 1.17.2 is out), AWS provider not pinned yet (no sandbox for Day 8; 6.73.0 was the latest on 2026-11-16)
 
-Source material for this note: the video transcript, my pasted lifecycle key notes, and the instructor's README, `task.md` and `code/`. The hands-on is partly done (Tasks 1 to 3, plan only); the `depends_on` bucket, the removal test and the Q&A are not.
+Source material for this note: the video transcript, my pasted lifecycle key notes, and the instructor's README, `task.md` and `code/`. The hands-on is done as plan only: Tasks 1 to 3, the `depends_on` bucket and the removal test (reasoned, not run). The Q&A is not done.
 
 ## 1. Goal
 
@@ -40,6 +40,14 @@ After today I can name the five meta-arguments, create several resources from on
 
 **Which one.** `count` fits identical copies or an on/off switch (`count = 0 or 1`). `for_each` fits copies that each have a name, and anything long-lived, because the address does not shift when the input changes. The instructor's README says to prefer `for_each` in production.
 
+> [!WARNING]
+> **`count` tracks by position, so removing from the start or middle rebuilds everything after it.** With `names = ["A", "B", "C"]`, removing "A" shifts B to `[0]` and C to `[1]`. A bucket name cannot change in place, so `[0]` and `[1]` are replaced and `[2]` is destroyed: one removal, three buckets destroyed, two recreated empty. Removing from the end is safe. Use `count` only for identical, throwaway copies or an on/off switch (`count = 0` or `1`).
+>
+> **`for_each` is safer, not always safe.** Removing a key destroys only that instance, because the other addresses do not move. But:
+> - Changing a key (renaming `"A"` to `"A2"`) is still a destroy and a create, because the key is the address.
+> - Keys must be known at plan time, so they cannot come from an attribute that is only known after apply (such as a bucket ID).
+> - Switching an existing block from `count` to `for_each` changes every address. Without [`moved` blocks](https://developer.hashicorp.com/terraform/language/modules/develop/refactoring) (not in the syllabus), the plan destroys and recreates all of them.
+
 ## 3. Docs to read
 
 - [ ] [count](https://developer.hashicorp.com/terraform/language/meta-arguments/count) (`count.index`, and the section on when to use `for_each` instead)
@@ -59,8 +67,8 @@ Acceptance criteria:
 - [x] Task 2: a second block with `for_each` makes two buckets from a `set(string)` variable, and the names come from `each.value`
 - [x] I can read the plan and point out the two address styles (`[0]` against `["name"]`)
 - [x] Task 3: one output lists all bucket names and one lists all bucket IDs, both built with a `for` expression (plan shows the names; the IDs are `known after apply`; `terraform output` needs an apply, which I have not done)
-- [ ] `depends_on`: a third bucket depends on one of the others, and the plan or apply shows it comes after
-- [ ] Removal test (plan only): remove the middle name from the list and from the set, and I can say which resources the plan changes in each case
+- [x] `depends_on`: a third bucket depends on one of the others, and the plan or apply shows it comes after (shown with `terraform graph`, because a plan does not show order)
+- [x] Removal test (plan only): remove the first name from the list and from the set, and I can say which resources the plan changes in each case (reasoned, not run; see below)
 - [x] `terraform fmt -check -recursive`, `terraform validate`, `tflint` and `trivy config .` pass in the directory (HIGH/CRITICAL gate)
 - [ ] No `.terraform/`, state file or real `terraform.tfvars` is staged, and `.terraform.lock.hcl` is committed
 - [x] The directory README says what it does and whether anything was applied
@@ -86,7 +94,29 @@ Open one at a time, in order.
 
 Result so far (2026-11-16, plan only, run by Claude at my request): `fmt`, `validate` and `tflint` pass; `Plan: 13 to add, 0 to change, 0 to destroy.` (four buckets, one KMS key, four public access blocks, four encryption configurations). The names output shows the four names and the IDs output shows four `(known after apply)`. `trivy` passes the HIGH/CRITICAL gate.
 
-**Where I stopped (2026-11-16):** Tasks 1 to 3 are done and plan-checked. Left: the `depends_on` bucket, the removal test, the Q&A, the `SYLLABUS.md` tick and the PR.
+Result for the `depends_on` bucket (2026-11-20, plan only): the gate passes and `Plan: 16 to add, 0 to change, 0 to destroy.` (five buckets, one KMS key, five public access blocks, five encryption configurations). `terraform graph` shows the explicit edge `aws_s3_bucket.depends_buckets -> aws_s3_bucket.count_buckets`. Every other edge is implicit and comes from a reference (`bucket = ...id`, `kms_master_key_id = ...arn`).
+
+How to read `terraform graph`: `A -> B` means A depends on B, so B is created first and A is destroyed first. One node stands for one resource block, so a `count` or `for_each` block shows once, not once per instance. That is why the graph has 10 nodes while the plan adds 16. The creation order is three waves:
+
+```
+Wave 1  kms_key   count_buckets   for_each_buckets        (no edges, in parallel)
+Wave 2  depends_buckets (only because of depends_on)
+        pab.count  sse.count  pab.for_each  sse.for_each
+Wave 3  pab.depends  sse.depends
+```
+
+`destroy` walks the same graph in reverse. To draw it: `terraform graph | dot -Tsvg > /tmp/day08-graph.svg` (needs Graphviz).
+
+**Removal test (2026-11-20, reasoned, not run).** Remove the first name from both variables, so the list `[A, B]` becomes `[B]` and the set `{A, B}` becomes `{B}`.
+
+| | What the plan would do, once the buckets exist |
+|---|---|
+| `count` (by position) | `[0]` was A and is now B. A bucket name cannot change in place, so `count_buckets[0]` **must be replaced** (A destroyed, B created at `[0]`), and its public access block and encryption configuration are replaced with it. `[1]` no longer exists and is **destroyed**. B is destroyed and recreated although I never touched it, and any data in it would be lost. |
+| `for_each` (by key) | Only `for_each_buckets["A"]` and its two protection resources are destroyed. `["B"]` keeps its address and is untouched. |
+
+Expected plan after an apply of all 16: `Plan: 3 to add, 0 to change, 9 to destroy.` I did not apply, so this is reasoned from the addressing rules, not seen.
+
+**Where I stopped (2026-11-20):** Tasks 1 to 3, the `depends_on` bucket and the removal test are done, plan only. Left: the Q&A, the `SYLLABUS.md` tick and the PR.
 
 ## 7. Gotchas and mistakes
 
@@ -101,6 +131,8 @@ From the video and the instructor's files (found while comparing, not mistakes I
 - **Task 3 needs `for` expressions the video does not teach.** `task.md` asks for outputs built with a `for` loop. The README lists "Output transformations with `for` expressions"; the video never shows one. Day 10 covers splat (`[*]`), which is the short form.
 - **The video copies `backend.tf` from Day 7.** We use local state (no `backend.tf`) and no state bucket exists right now.
 - **Instructor `code/` traps.** Bucket names are fixed strings with a date (`tf-day08-...-20251016`) that another account could own, and none carry `tf30-` or the `Project` tag. The default region is `ca-central-1`, `variables.tf` carries an EC2 `ami_id` default, and the README asks for Terraform >= 1.9.0.
+- **A plan does not show order.** The plan lists resources alphabetically by address, so it cannot prove that `depends_on` works. `terraform graph` shows the edge, and an apply shows it in the "Creating..." and "Creation complete" lines.
+- **A removal test against empty state shows nothing.** With no state, every plan only adds. Removing a name just gives a smaller "to add" count, and the `count` shift is invisible. You only see "must be replaced" when the buckets already exist in state.
 - **`task.md` asks for a blog, social posts and a tag.** Skipped until the course ends (see `docs/SYNC.md`).
 
 My own mistakes (Tasks 1 to 3, all fixed at my request on 2026-11-16):
