@@ -2,7 +2,7 @@
 
 Video: [Terraform meta-arguments](https://www.youtube.com/watch?v=XMMsnkovNX4) (29 min) · Instructor code: [lessons/day08](https://github.com/piyushsachdeva/Terraform-Full-Course-Aws/tree/main/lessons/day08) (README, `task.md`, and a `code/` folder with `main.tf`, `variables.tf`, `local.tf`, `output.tf`, `provider.tf`, `backend.tf`) · Verified against: Terraform 1.17.1 (pinned; 1.17.2 is out), AWS provider not pinned yet (no sandbox for Day 8; 6.73.0 was the latest on 2026-11-16)
 
-Source material for this note: the video transcript, my pasted lifecycle key notes, and the instructor's README, `task.md` and `code/`. The hands-on is done as plan only: Tasks 1 to 3, the `depends_on` bucket and the removal test (reasoned, not run). The Q&A is not done.
+Source material for this note: the video transcript, my pasted lifecycle key notes, and the instructor's README, `task.md` and `code/`. The hands-on is done as plan only: Tasks 1 to 3, the `depends_on` bucket and the removal test (reasoned, not run). The five-question Q&A is done (see section 7).
 
 ## 1. Goal
 
@@ -116,7 +116,7 @@ Wave 3  pab.depends  sse.depends
 
 Expected plan after an apply of all 16: `Plan: 3 to add, 0 to change, 9 to destroy.` I did not apply, so this is reasoned from the addressing rules, not seen.
 
-**Where I stopped (2026-11-20):** Tasks 1 to 3, the `depends_on` bucket and the removal test are done, plan only. Left: the Q&A, the `SYLLABUS.md` tick and the PR.
+**Where I stopped (2026-11-20):** Tasks 1 to 3, the `depends_on` bucket and the removal test are done, plan only, and the five-question Q&A is done (see section 7). Left: the end-of-day sync, the `SYLLABUS.md` tick, push and the PR.
 
 ## 7. Gotchas and mistakes
 
@@ -143,6 +143,15 @@ My own mistakes (Tasks 1 to 3, all fixed at my request on 2026-11-16):
 - **A misleading block name.** The `count` block was called `set_buckets` and read the list. Renamed to `count_buckets`.
 - **Task 3 pointed at the old block name.** `outputs.tf` still referenced `set_buckets` after the rename, so `validate` failed. `tflint` still exited 0, so run `validate` as well. The outputs were also ARN maps; the task asks for names and IDs, now two lists built with `for` expressions and `concat()`.
 - **`trivy` failed with 20 HIGH findings** on the bare buckets (public access block and customer-managed KMS key), the same as Days 3 and 7. A first fix that wrote the protections once over a merged map did not clear them: `trivy` could not follow the map back to the buckets. One protection resource per bucket block, each referring to its own block, clears the gate.
+
+My own answers from the Q&A (2026-11-20):
+
+- **Q1, what `count` and `for_each` accept:** right (`count` a number, `for_each` a set or map, `toset()` for a list). Added: a list is not converted silently; the plan stops with `the "for_each" argument must be a map, or set of strings`. `toset()` also drops duplicates and order.
+- **Q2, remove "B" from `["A", "B", "C"]` with `count`:** right (`[0]` no change, `[1]` replaced, `[2]` destroyed). Added the summary line: `1 to add, 0 to change, 2 to destroy`, because a replace counts once in add and once in destroy. C is rebuilt although I only removed B.
+- **Q3, when `depends_on` is needed:** wrong at first. I said it is for when one resource needs an ID from another. That is a reference, which is already an implicit dependency. `depends_on` is for when nothing in the code references the other resource but it still must exist first (my `depends_buckets` never mentions `count_buckets`). Restated in my own words: "a reference orders it by itself; no reference but must exist first, force it with `depends_on`".
+- **Q4, why the graph has 10 nodes and the plan 16:** wrong at first. I said the plan shows destroys and replaces and the graph only the current resources, but this plan had only adds. The graph has one node per resource block; the plan counts instances after `count` and `for_each` expand (four single blocks plus six blocks with two each = 16). (Claude's wording; restate before any post.)
+- **Q5, renaming a `for_each` key and keys from `id`:** right (old destroyed, new created; `id` is not known at plan time). Added: it shows as a destroy plus a create, not a replace, because the keys are different addresses (`1 to add, 1 to destroy`); a `moved` block saves it only when the real bucket name does not change; keys from `id` fail with `Invalid for_each argument`.
+- **Q&A score:** three right, two wrong (Q3 and Q4). Q3 is restated in my own words; Q4 is Claude's wording.
 
 ## 8. Cleanup
 
