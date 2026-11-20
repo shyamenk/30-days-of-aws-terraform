@@ -6,8 +6,8 @@ This file is the memory of where the course stands. Update it in the same PR tha
 
 ## Where I am
 
-- **Current day:** Day 8 is `built` (all tasks, the removal test and the Q&A done, plan only; PR pending on `day-08`). Days 0 to 7 are done and merged. Day 2's five reading items are still unticked (optional).
-- **Next up:** merge the Day 8 PR and mark Day 8 `done`, then Day 9 (lifecycle).
+- **Current day:** Days 0 to 8 are done and merged (Day 8 in PR #24, plan only). Day 2's five reading items are still unticked (optional).
+- **Next up:** Day 9 (lifecycle). Cut `day-09` from `main`.
 - **Before Day 15:** repeat the CIDR problems. **Before Day 27:** do the five YAML files.
 - **Left running in AWS:** nothing. The state bucket and the Day 4 demo bucket are deleted (404 confirmed 2026-11-07); the Day 4 KMS key is `PendingDeletion` for 7 days, which is expected.
 - **Open questions / blockers:** none. `trivy` HIGH/CRITICAL gate passes on the Day 7 sandbox; one MEDIUM (VPC flow logs) is left on purpose.
@@ -55,7 +55,7 @@ Status values: `todo`, `watched`, `built`, `done` (built, note written, destroye
 | 5 | done | 2026-11-07 | #17 | [day-05](../../notes/week-01/day-05-variables.md) |
 | 6 | done | 2026-11-08 | #18 | [day-06](../../notes/week-01/day-06-project-structure.md) |
 | 7 | done | 2026-11-10 | #21 | [day-07](../../notes/week-01/day-07-type-constraints.md) |
-| 8 | built | | | [day-08](../../notes/week-02/day-08-meta-arguments.md) |
+| 8 | done | 2026-11-20 | #24 | [day-08](../../notes/week-02/day-08-meta-arguments.md) |
 | 9 | todo | | | |
 | 10 | todo | | | |
 | 11 | todo | | | |
@@ -121,3 +121,4 @@ One line per session: date, days touched, what to remember tomorrow.
 - 2026-11-16 (Day 8 started): Branch `day-08` cut from `main`. Note written to `notes/week-02/day-08-meta-arguments.md` from the transcript, my lifecycle key notes and the instructor README, `task.md` and `code/`. Section 7 lists traps found (the video says `for_each = 2` and `length()` work, which they do not; `task.md` Task 3 needs `for` expressions the video skips). Week 2 version check: Terraform 1.17.2, TFLint 0.66.0 and AWS provider 6.73.0 are newer; pins unchanged. Hands-on and Q&A not started. Nothing applied, nothing committed, nothing running in AWS.
 - 2026-11-16 (Day 8 hands-on, tasks 1 to 3): `sandbox/day-08-meta-arguments/` has a `count` bucket block (list), a `for_each` bucket block (set) and `bucket_names` / `bucket_ids` outputs built with `for` expressions. My first Task 1 used `for_each`, left a stale `day07` local, reused the same names in both variables and pointed the outputs at a renamed block; Claude fixed all of it at my request. `trivy` first failed with 20 HIGH findings; Claude added one KMS key plus a public access block and encryption configuration per bucket block. `fmt`, `validate`, `tflint` and the `trivy` HIGH/CRITICAL gate pass; plan `13 to add`. Paused by me; the `depends_on` bucket, the removal test and the Q&A are tomorrow, so Day 8 stays `watched`. Nothing applied, nothing running in AWS.
 - 2026-11-20 (Day 8 finished, plan only): Added the `depends_on` bucket (`depends_buckets` waits for `count_buckets`) with its own public access block and KMS encryption; gate passes and plan is `16 to add`. Read the order with `terraform graph`, since a plan does not show order. The removal test was reasoned, not run (empty state only shows adds); expected `3 to add, 9 to destroy` once applied. Q&A: three right, two wrong (Q3 `depends_on` versus references, Q4 graph blocks versus plan instances). Added a `count` versus `for_each` warning to the note and moved repo tips to `docs/TIPS.md` with industry practices. Nothing applied, nothing running in AWS.
+- 2026-11-20 (Day 8 done): PR #24 squash-merged (`2a64c53`) after `terraform-checks` and `security-scan` went green; branch `day-08` kept. Nothing applied, nothing running in AWS. Next: Day 9.
