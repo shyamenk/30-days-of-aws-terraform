@@ -53,3 +53,22 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "for_each_buckets"
     }
   }
 }
+
+resource "aws_s3_bucket_public_access_block" "depends_buckets" {
+  bucket                  = aws_s3_bucket.depends_buckets.id
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "depends_buckets" {
+  bucket = aws_s3_bucket.depends_buckets.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm     = "aws:kms"
+      kms_master_key_id = aws_kms_key.buckets.arn
+    }
+  }
+}
