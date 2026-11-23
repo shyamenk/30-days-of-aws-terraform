@@ -15,20 +15,20 @@ Two lists. **From the course** are lessons I learned on a day and checked myself
   in both, same            -> nothing
   ```
 
-  Before the first apply the state is empty, so every plan only adds. ([Day 8](../notes/week-02/day-08-meta-arguments.md))
+  Before the first apply the state is empty, so every plan only adds. ([Day 8](notes/week-02/day-08-meta-arguments.md))
 
-- **Graph vs plan.** `terraform graph` draws one node per resource **block**. `terraform plan` counts **instances**, after `count` and `for_each` expand. On Day 8, 10 nodes became `16 to add`: four single blocks, plus six blocks with two instances each. Once resources exist, the plan counts only the instances that change. ([Day 8](../notes/week-02/day-08-meta-arguments.md))
+- **Graph vs plan.** `terraform graph` draws one node per resource **block**. `terraform plan` counts **instances**, after `count` and `for_each` expand. On Day 8, 10 nodes became `16 to add`: four single blocks, plus six blocks with two instances each. Once resources exist, the plan counts only the instances that change. ([Day 8](notes/week-02/day-08-meta-arguments.md))
 
-- **A plan does not show order.** It lists resources by address. To see the order, use `terraform graph` (`A -> B` means A depends on B, so B is created first) or watch the "Creating..." lines during an apply. ([Day 8](../notes/week-02/day-08-meta-arguments.md))
+- **A plan does not show order.** It lists resources by address. To see the order, use `terraform graph` (`A -> B` means A depends on B, so B is created first) or watch the "Creating..." lines during an apply. ([Day 8](notes/week-02/day-08-meta-arguments.md))
 
 ### Ordering
 
-- **Reference first, `depends_on` last.** If one resource references another, Terraform orders them by itself (implicit). If there is no reference but one resource still must exist first, force the order with `depends_on` (explicit). Prefer a reference when one is possible. ([Day 8](../notes/week-02/day-08-meta-arguments.md))
+- **Reference first, `depends_on` last.** If one resource references another, Terraform orders them by itself (implicit). If there is no reference but one resource still must exist first, force the order with `depends_on` (explicit). Prefer a reference when one is possible. ([Day 8](notes/week-02/day-08-meta-arguments.md))
 
 ### count and for_each
 
-- **`count` list:** add or remove items only at the end. Removing from the start or middle replaces everything after it. ([Day 8](../notes/week-02/day-08-meta-arguments.md))
-- **`for_each` keys:** never rename a key casually. A new key means a new bucket, and the old one is destroyed. ([Day 8](../notes/week-02/day-08-meta-arguments.md))
+- **`count` list:** add or remove items only at the end. Removing from the start or middle replaces everything after it. ([Day 8](notes/week-02/day-08-meta-arguments.md))
+- **`for_each` keys:** never rename a key casually. A new key means a new bucket, and the old one is destroyed. ([Day 8](notes/week-02/day-08-meta-arguments.md))
 
 ## Industry practices
 

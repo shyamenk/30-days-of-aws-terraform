@@ -17,4 +17,4 @@ Rules for everyone working here:
 - No secrets in code. Use a profile, SSO, or a secrets manager.
 - Least-privilege IAM, encryption on by default, no public access unless the task says so.
 
-Empty until about Day 5 to 8.
+Empty until Day 14. Days 2 to 13 teach one feature at a time and live in [sandbox/](../sandbox/README.md); the project days from Day 14 on build here. Day 20 (custom modules) is where the module rules above get the most use.

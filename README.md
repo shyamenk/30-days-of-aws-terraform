@@ -6,18 +6,21 @@ Everything here is written by me. The instructor's [reference repo](https://gith
 
 ## Where to find things
 
+**Start here:** [TIPS.md](TIPS.md) for lessons and best practices, and [CHEATSHEET.md](CHEATSHEET.md) for every command and concept so far in one line each.
+
 | I want to... | Go to |
 |---|---|
-| See the day-by-day plan and tick progress | [docs/SYLLABUS.md](docs/SYLLABUS.md) |
-| Read a day's notes, challenge and gotchas | `notes/week-NN/day-NN-topic.md` |
-| See the Terraform code | `infra/` (modules and environments) |
-| See early throwaway experiments | `sandbox/` |
-| See where I am in the course | [docs/progress/PROGRESS.md](docs/progress/PROGRESS.md) |
+| Read tips and best practices | [TIPS.md](TIPS.md) |
+| Look up a command or concept quickly | [CHEATSHEET.md](CHEATSHEET.md) |
+| Read a day's notes, challenge and gotchas | `notes/week-NN/day-NN-topic.md` (weeks follow the syllabus) |
+| See the concept-day code (Days 2 to 13) | [sandbox/](sandbox/README.md), one folder per day with what was applied |
+| See the project code (Day 14 on) | [infra/](infra/README.md), modules and environments |
+| See where I am in the course | [docs/progress/PROGRESS.md](docs/progress/PROGRESS.md) (older sessions in [LOG.md](docs/progress/LOG.md)) |
+| See the day-by-day plan and costs | [docs/SYLLABUS.md](docs/SYLLABUS.md) |
 | See what is worth posting later | [docs/LINKEDIN-IDEAS.md](docs/LINKEDIN-IDEAS.md) |
 | Check tool versions and when they were verified | [docs/VERSIONS.md](docs/VERSIONS.md) |
 | See how the playlist and the instructor repo differ | [docs/SYNC.md](docs/SYNC.md) |
 | Learn the doc-reading method | [docs/HOW-TO-READ-DOCS.md](docs/HOW-TO-READ-DOCS.md) |
-| Read tips and best practices | [docs/TIPS.md](docs/TIPS.md) |
 
 ## The course, day by day
 
@@ -60,12 +63,18 @@ Titles are copied from the playlist (checked 2026-11-05). Status and costs live 
 ## Layout
 
 ```
-notes/        one note per day, same 9 sections (see notes/_template.md)
-infra/
-  modules/    reusable building blocks (vpc, ec2, ...)
-  envs/       dev and prod root modules that call the modules
-sandbox/      first attempts before the code has a structure
-docs/         syllabus, versions, sync log, reading guide
+TIPS.md         lessons from the course and industry practices
+CHEATSHEET.md   commands and concepts, one line each, with the day
+notes/
+  week-NN/      one note per day, same 9 sections (see notes/_template.md)
+  _raw/         pasted transcripts, git-ignored
+sandbox/        concept days 2 to 13, one root module per day
+infra/          project days 14 on
+  modules/      reusable building blocks (vpc, ec2, ...)
+  envs/         dev and prod root modules that call the modules
+docs/
+  progress/     PROGRESS.md (where I am) and LOG.md (older sessions)
+  SYLLABUS.md, VERSIONS.md, SYNC.md, LINKEDIN-IDEAS.md, HOW-TO-READ-DOCS.md
 ```
 
 ## How the repo is run
