@@ -24,6 +24,8 @@ Add new lines in the same PR that finishes a day.
 | `terraform graph` | Prints the dependency graph, one node per block. `A -> B` means B is created first. | 3, 8 |
 | `terraform plan -destroy` | Shows what `destroy` would remove, without changing anything. Fails if a resource has `prevent_destroy`. | 9 |
 | `terraform state show <address> \| grep name` | Reads the real name AWS chose, for example after `name_prefix`. | 9 |
+| `terraform console` | Evaluates expressions against the code in the current folder; creates nothing. `exit` to leave. | 10 |
+| `terraform plan -var-file=<file>` | Plans with variable values from a file, for example a test list kept outside the repo. | 10 |
 
 ## Concepts
 
@@ -60,3 +62,8 @@ Add new lines in the same PR that finishes a day.
 | `precondition` and `postcondition` | Checks before and after Terraform acts on a resource; `self` is the resource's own result. | 7, 9 |
 | `-/+` versus `+/-` in a plan | `-/+` is destroy then create (the default); `+/-` is create then destroy (`create_before_destroy`). | 9 |
 | `name` versus `name_prefix` | `name` is fixed and predictable; `name_prefix` lets AWS add a random suffix, so the full name is only known after apply. | 9 |
+| Conditional expression | `condition ? true_value : false_value`; both results end up one type. | 10 |
+| Conditional resource | `count = var.flag ? 1 : 0`; read it with `one(resource.name[*].attr)`. | 10 |
+| Dynamic block | `dynamic "label" { for_each = ..., iterator = x, content { ... x.value.field ... } }`; one nested block per item. | 10 |
+| Splat `[*]` | `list[*].attr` collects one attribute from every item. Lists, sets and tuples only, so not `for_each` resources. | 10 |
+| `local.` versus `locals` | Define in a `locals { }` block, read as `local.name`. | 5, 10 |

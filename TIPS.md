@@ -39,6 +39,14 @@ Two lists. **From the course** are lessons I learned on a day and checked myself
 - **Create-first also protects you from a bad apply.** An invalid character in a description failed the create, and the old group kept running. With the default destroy-first order, nothing would have been left. ([Day 9](notes/week-02/day-09-lifecycle-rules.md))
 - **A clean plan can still fail on apply.** Terraform does not know AWS rules such as unique names or allowed characters; only the apply finds them. ([Day 7](notes/week-02/day-07-type-constraints.md), [Day 9](notes/week-02/day-09-lifecycle-rules.md))
 
+### Expressions
+
+- **Make the risky case the explicit one.** `var.environment == "prod" ? prod_value : safe_value` sends a typo such as `Dev` to the safe side. Testing `== "dev"` instead sent `Dev` and `staging` to prod. ([Day 10](notes/week-02/day-10-conditionals-splat-dynamic.md))
+- **A conditional's two results share one type.** `true ? 12 : "hello"` returns `"12"`, a string, whichever side comes first. Use `tostring()` to say it out loud. ([Day 10](notes/week-02/day-10-conditionals-splat-dynamic.md))
+- **`count = var.flag ? 1 : 0` switches a resource on and off.** `count` needs a number and a `bool` never converts to one. Read the resource with `one(resource.name[*].attr)`, which gives the value or `null`; `[0]` errors when it is off. ([Day 10](notes/week-02/day-10-conditionals-splat-dynamic.md))
+- **Splat walks lists, not maps.** `[*]` works on a `count` resource and fails on a `for_each` resource, because that is a map. Use `{ for k, v in resource.name : k => v.id }`. `validate` missed this; `plan` caught it. ([Day 10](notes/week-02/day-10-conditionals-splat-dynamic.md))
+- **The console only sees the folder it starts in.** Started in the repo root, every `var.` was "undeclared". It also shows unapplied resource values as `(known after apply)`, so it cannot prove resource expressions; `plan` can. ([Day 10](notes/week-02/day-10-conditionals-splat-dynamic.md))
+
 ## Industry practices
 
 ### Reading plans
@@ -60,6 +68,14 @@ Two lists. **From the course** are lessons I learned on a day and checked myself
 - **Validate inputs early, results late.** Use a variable `validation` when the rule only needs the input, a `precondition` when it needs other resources or data sources, and a `postcondition` on `self` to check what was really created. ([Custom conditions](https://developer.hashicorp.com/terraform/language/expressions/custom-conditions))
 - **`-target` is for emergencies.** It narrows a plan to named resources, which is how you work around a blocked plan, but the docs advise against routine use because the rest of the configuration is not checked. ([plan, resource targeting](https://developer.hashicorp.com/terraform/cli/commands/plan#resource-targeting))
 - **Comment every lifecycle rule.** Each one changes how Terraform treats a resource, so say why it is there; the next reader cannot tell from the plan.
+
+### Expressions
+
+- **Write nested blocks out literally where you can.** Use `dynamic` only when the number of blocks really varies; the docs warn that overuse makes configuration hard to read. ([Dynamic blocks](https://developer.hashicorp.com/terraform/language/expressions/dynamic-blocks))
+- **Name the iterator.** `iterator = rule` reads better than the block label, and it is needed to tell nested dynamic blocks apart. ([Dynamic blocks](https://developer.hashicorp.com/terraform/language/expressions/dynamic-blocks))
+- **Prefer separate security group rule resources.** The AWS provider advises against inline `ingress`/`egress` and recommends one `aws_vpc_security_group_ingress_rule` per rule; never mix the two styles on one group. ([aws_security_group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group))
+- **Cut subnets from the VPC range, not by hand.** `cidrsubnet(vpc_cidr, newbits, netnum)` keeps every subnet inside the VPC and free of overlaps. ([cidrsubnet](https://developer.hashicorp.com/terraform/language/functions/cidrsubnet))
+- **Keep logic out of long conditionals.** One `? :` is readable; a chain of them belongs in a `locals` map lookup. ([Conditional expressions](https://developer.hashicorp.com/terraform/language/expressions/conditionals))
 
 ### State
 

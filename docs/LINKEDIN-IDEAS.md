@@ -46,6 +46,10 @@ Nothing is posted until the course is finished. This file collects what is worth
 | 9 | Concept | Three lifecycle rules, three production needs: `create_before_destroy` for availability (EC2), `prevent_destroy` for protection (RDS), `ignore_changes = [tags["Owner"]]` for shared ownership (S3). The twist: `prevent_destroy` dies with the block, so pair it with RDS `deletion_protection`. | Day 9 note, section 2 (my key notes) | 2 |
 | 9 | Lesson | `create_before_destroy` saved a running security group from my own typo: a `~` in the description failed AWS validation on the create, so Terraform never reached the destroy. With the default destroy-first order there would have been no group at all. A clean plan cannot see AWS's character rules. | Day 9 note, section 6 | 3 |
 | 9 | Mistake | Four tries to fix a name clash: I kept `name = local.prefix` and only changed the value. A local called `prefix` is just a string; only the `name_prefix` argument makes AWS add a random suffix. The plan showed it every time: `+ name = "..."` versus `+ name_prefix = "..."`. | Day 9 note, section 7 | 2 |
+| 10 | Gotcha | A splat `[*]` works on a `count` resource (a list) but errors on a `for_each` resource, which is a map of instances. Use a `for` expression or `values()` first. Seen 2026-11-23: `validate` passed, `plan` failed with "This object does not have an attribute named id", and `terraform console` only said `(known after apply)`. | Day 10 note, sections 2 and 6 | 3 |
+| 10 | Gotcha | The block is `locals { }` but the reference is `local.name`. `locals.name` makes Terraform look for a resource type called `locals`, so the error talks about an undeclared managed resource. Seen in the course video, not yet in my own code. | Day 10 note, section 2 | 2 |
+| 10 | Lesson | The course's dynamic-block demo builds inline security group `ingress` rules, which the AWS provider docs now say to avoid in favour of one `aws_vpc_security_group_ingress_rule` per rule, and never to mix. | Day 10 note, section 7 | 2 |
+| 10 | Mistake | My environment switch tested `== "dev"`, so `Dev` (a typo) and `staging` both got the prod network range. Flip it: only an exact `prod` gets the prod value, everything else lands somewhere safe. | Day 10 note, section 7 | 2 |
 Strength 3 means a stranger would learn something real from it. Strength 1 is a note to myself.
 
 ## Restate before posting
@@ -73,3 +77,4 @@ These Q&A answers use Claude's wording, which I accepted without restating it. R
 | 7 | Why a variable `default` must be a constant (mostly mine, tightened by Claude) | [Day 7](../notes/week-02/day-07-type-constraints.md), section 7 |
 | 8 | Graph nodes count blocks; the plan counts instances | [Day 8](../notes/week-02/day-08-meta-arguments.md), section 7 |
 | 9 | What `name_prefix` costs: the full name is unknown until apply and changes on every replace | [Day 9](../notes/week-02/day-09-lifecycle-rules.md), section 7 |
+| 10 | Mixed conditional result types convert to one common type, not "left side wins" | [Day 10](../notes/week-02/day-10-conditionals-splat-dynamic.md), section 7 |
