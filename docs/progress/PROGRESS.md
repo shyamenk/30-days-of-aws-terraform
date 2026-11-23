@@ -7,7 +7,7 @@ This file is the memory of where the course stands. Update it in the same PR tha
 ## Where I am
 
 - **Current day:** Days 0 to 9 are done (Day 9 closed after Task 3 of 7 by my choice; `ignore_changes`, `replace_triggered_by`, the conditions and the Q&A were skipped). Day 2's five reading items are still unticked (optional).
-- **Next up:** Day 10 (conditionals, splat, dynamic blocks). Cut `day-10` from `main`.
+- **Next up:** Day 10 hands-on in `sandbox/day-10-expressions/` (branch `day-10` is cut; the note is written from the transcript and the docs), then the Q&A.
 - **Where code goes:** `sandbox/` through Day 13 (concept days); `infra/modules` and `infra/envs` start on Day 14, the first project day.
 - **Before Day 15:** repeat the CIDR problems. **Before Day 27:** do the five YAML files.
 - **Left running in AWS:** nothing. Day 9 resources destroyed and checked on 2026-11-23; the Day 9 KMS key is `PendingDeletion` (about 2026-11-30), which is expected.
@@ -58,7 +58,7 @@ Status values: `todo`, `watched`, `built`, `done` (built, note written, destroye
 | 7 | done | 2026-11-10 | #21 | [day-07](../../notes/week-02/day-07-type-constraints.md) |
 | 8 | done | 2026-11-20 | #24 | [day-08](../../notes/week-02/day-08-meta-arguments.md) |
 | 9 | done | 2026-11-23 | #26 | [day-09](../../notes/week-02/day-09-lifecycle-rules.md) |
-| 10 | todo | | | |
+| 10 | watched | | | [day-10](../../notes/week-02/day-10-conditionals-splat-dynamic.md) |
 | 11 | todo | | | |
 | 12 | todo | | | |
 | 13 | todo | | | |
@@ -94,3 +94,4 @@ One line per session: date, days touched, what to remember tomorrow. This list k
 - 2026-11-23 (Day 9 note, docs and key notes): Checked the note against the lifecycle docs page: added `destroy` and `action_trigger` (on the page, not in the video), narrowed the "literal values" rule to the three graph settings, and added the docs details on `ignore_changes` map keys, conditions and state. Merged my key notes (revision table, five concepts, production scenario) with a review: two claims needed a qualifier, and the scenario gained an RDS `deletion_protection` note. Nothing applied, nothing running in AWS.
 - 2026-11-23 (Day 9 hands-on, closed): Tasks 1 to 3 applied and destroyed. Task 1: `prevent_destroy` rejected `plan -destroy` (whole plan); removing the line allowed the destroy with no apply. Task 2: a fixed security group `name` with `create_before_destroy` failed with `InvalidGroup.Duplicate`. Task 3: `name_prefix` replaced cleanly after a `~` in the description failed AWS validation (the old group survived). My mistakes: copied all of Day 8 first; four tries keeping `name` while changing only its value; a `~` in a description. Claude renamed strings and removed unused variables at my request. Recall: two right, one wrong then restated, one half right. Day closed after Task 3 by my choice; Tasks 4 to 7 and the Q&A skipped. TIPS and CHEATSHEET updated. Nothing running in AWS except the KMS key in `PendingDeletion`.
 - 2026-11-23 (Day 9 done): PR #26 squash-merged (`28513f7`) after `terraform-checks` and `security-scan` went green; branch `day-09` kept. Nothing running in AWS except the Day 9 KMS key in `PendingDeletion`. Next: Day 10.
+- 2026-11-23 (Day 10 note): Branch `day-10` cut from `main`. Note written to `notes/week-02/day-10-conditionals-splat-dynamic.md` from the transcript, the instructor readme, `task.md` and `code/`, and the conditionals, splat, dynamic blocks and `aws_security_group` docs. Section 7 lists traps (`protocol = "HTTP"`, `locals.` versus `local.`, inline rules the provider now advises against, Amazon Linux 2 past end of support, a live EC2 example). The challenge uses free resources only. Hands-on and Q&A not started. Nothing applied, nothing running in AWS.
