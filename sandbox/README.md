@@ -14,6 +14,7 @@ From Day 14 (the first project day) the work moves into `infra/` as modules and 
 | `day-07-types/` | 7 | Every type constraint, a precondition and a validation, an EC2 instance, a VPC, subnets and a security group | Plan only (the instance bills if applied) |
 | `day-08-meta-arguments/` | 8 | `count`, `for_each` and `depends_on` buckets with a KMS key and per-bucket protections | Plan only (the KMS key bills if applied) |
 | `day-09-lifecycle/` | 9 | `prevent_destroy` on a bucket, then a VPC and a security group for `create_before_destroy` with a fixed `name` and with `name_prefix` | Applied and destroyed, one task at a time (Tasks 1 to 3) |
+| `day-10-expressions/` | 10 | A conditional VPC range, a security group switched by `count` with a dynamic `ingress` block, and `count` and `for_each` subnets with splat and `for` outputs | Plan only |
 
 Rules:
 

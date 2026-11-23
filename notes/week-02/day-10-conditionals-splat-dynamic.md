@@ -2,7 +2,7 @@
 
 Video: [AWS Terraform Conditional Expressions, Splat Expressions and Dynamic Block](https://www.youtube.com/watch?v=R4ShnFDJwI8) (39 min) · Instructor code: [lessons/day10](https://github.com/piyushsachdeva/Terraform-Full-Course-Aws/tree/main/lessons/day10) (`readme.md`, `task.md`, and a `code/` folder with `main.tf`, `variables.tf`, `outputs.tf`, `provider.tf`) · Verified against: Terraform 1.17.1 (pinned), AWS provider 6.73.0 (the Day 9 lock), and the conditionals, splat, dynamic blocks and `aws_security_group` docs read on 2026-11-23
 
-Source material for this note: the video transcript, the instructor's readme, `task.md` and `code/`, and the four doc pages above (checked on 2026-11-23). No key notes pasted yet. Hands-on and Q&A not started.
+Source material for this note: the video transcript, the instructor's readme, `task.md` and `code/`, and the four doc pages above (checked on 2026-11-23). No key notes (my choice). Hands-on: all five tasks done on 2026-11-23, plan and console only, nothing applied. Q&A skipped by my choice when closing the day.
 
 ## 1. Goal
 
@@ -71,14 +71,14 @@ Work in `sandbox/day-10-expressions/`, copying the Day 9 file layout. Local stat
 
 Acceptance criteria:
 
-- [ ] **Task 1, conditional value:** a VPC whose `Environment`-dependent setting (for example its CIDR or a tag) comes from `var.environment == "prod" ? ... : ...`. `terraform plan -var environment=prod` and the default plan show the two different values
-- [ ] **Task 2, conditional resource:** a security group created only when a `bool` variable is true (`count = ... ? 1 : 0`). The plan adds it when true and does not when false. An output reads it with `[0]` and does not fail when it is switched off
-- [ ] **Task 3, dynamic block:** one security group whose `ingress` rules come from a `list(object)` variable through a `dynamic` block with a named `iterator`. Adding a third rule to the variable changes the plan with no other edit. Rules use a private CIDR, not `0.0.0.0/0`
-- [ ] **Task 4, splat versus for_each:** two subnets made with `count` and two made with `for_each`. One output collects the `count` subnet IDs with `[*]`. I try the same splat on the `for_each` subnets, see the error, and fix it without `[*]` on the map
-- [ ] **Task 5, console:** in `terraform console`, I evaluate a conditional with mixed result types, a splat on a single object and on `null`, and say what each returns
-- [ ] `terraform fmt -check -recursive`, `terraform validate`, `tflint` and `trivy config .` pass in the directory (HIGH/CRITICAL gate)
-- [ ] Anything applied is destroyed, and the CLI checks show no `tf30-day10-` resources
-- [ ] The directory README says what it does and what was applied
+- [x] **Task 1, conditional value:** a VPC whose `Environment`-dependent setting (for example its CIDR or a tag) comes from `var.environment == "prod" ? ... : ...`. `terraform plan -var environment=prod` and the default plan show the two different values
+- [x] **Task 2, conditional resource:** a security group created only when a `bool` variable is true (`count = ... ? 1 : 0`). The plan adds it when true and does not when false. An output reads it with `[0]` and does not fail when it is switched off
+- [x] **Task 3, dynamic block:** one security group whose `ingress` rules come from a `list(object)` variable through a `dynamic` block with a named `iterator`. Adding a third rule to the variable changes the plan with no other edit. Rules use a private CIDR, not `0.0.0.0/0`
+- [x] **Task 4, splat versus for_each:** two subnets made with `count` and two made with `for_each`. One output collects the `count` subnet IDs with `[*]`. I try the same splat on the `for_each` subnets, see the error, and fix it without `[*]` on the map
+- [x] **Task 5, console:** in `terraform console`, I evaluate a conditional with mixed result types, a splat on a single object and on `null`, and say what each returns
+- [x] `terraform fmt -check -recursive`, `terraform validate`, `tflint` and `trivy config .` pass in the directory (HIGH/CRITICAL gate)
+- [x] Anything applied is destroyed, and the CLI checks show no `tf30-day10-` resources
+- [x] The directory README says what it does and what was applied
 
 ## 5. Hints
 
@@ -92,11 +92,11 @@ Open one at a time, in order.
 
 | Command | Expected |
 |---|---|
-| `terraform plan` and `terraform plan -var environment=prod` (Task 1) | The two plans show different values for the conditional setting |
-| `terraform plan -var create_sg=false` (Task 2; my variable name may differ) | The security group is gone from the plan, and the output is `null` or empty, with no error |
-| `terraform plan` (Task 3) | One `ingress` block per item in the variable, inside one `aws_security_group` |
-| Splat on the `for_each` subnets (Task 4) | An error; the docs say `for_each` resources "appear in expressions as a map of objects" |
-| `terraform console` (Task 5) | `true ? 12 : "hello"` gives `"12"` (a string); `{a = 1}[*]` gives a one-item tuple; `null[*]` gives `[]` |
+| `terraform plan` and `terraform plan -var environment=prod` (Task 1) | The two plans show different values for the conditional setting (2026-11-23, plan only: default `dev` gave `10.1.0.0/16`, `prod` gave `10.0.0.0/16`; `Dev` and `staging` also fell to `10.1.0.0/16`) |
+| `terraform plan -var create_sg=false` (Task 2) | The security group is gone from the plan, and the output is `null` or empty, with no error (2026-11-23, plan only: default `2 to add` with `sg_id = (known after apply)`; `create_sg=false` gave `1 to add` and no output line, because a `null` output is left out) |
+| `terraform plan` (Task 3) | One `ingress` block per item in the variable, inside one `aws_security_group` (2026-11-23, plan only: two rules, 80 and 443, each with its description and `10.1.0.0/16`, `2 to add`; a temporary three-rule vars file added port 22 with no code change and the plan stayed `2 to add`, because inline rules are part of the group resource; `create_sg=false` still gave `1 to add`) |
+| Splat on the `for_each` subnets (Task 4) | An error; the docs say `for_each` resources "appear in expressions as a map of objects" (2026-11-23: `validate` passed, `plan` failed with `Error: Unsupported attribute ... aws_subnet.for_each_subnets[*].id ... This object does not have an attribute named "id"`. The splat wrapped the whole map into a one-item list and asked it for `id`. After the fix, `6 to add`) |
+| `terraform console` (Task 5) | `true ? 12 : "hello"` gives `"12"` (a string); `{a = 1}[*]` gives a one-item tuple; `null[*]` gives `[]` (2026-11-23, matched: `"12"`, and `false ? "big" : 10` gave `"10"`; `{ a = 1, b = 2 }[*]` gave one item holding the whole object, the Task 4 error in miniature; `null[*]` gave `[]`. Run inside the folder, `var.for_each_subnets` gave `tomap({ "a" = 3, "b" = 4 })` and the `for` expression `["a=3", "b=4"]`. The broken splat `aws_subnet.for_each_subnets[*].id` showed `(known after apply)` in the console, not an error; only `plan` caught it) |
 
 Expected outputs are from the docs, not from a run of this code yet. Correct them here after the hands-on.
 
@@ -117,14 +117,25 @@ Expected outputs are from the docs, not from a run of this code yet. Correct the
 - **Example 1 is not commented out.** The instructor code says "uncomment to test", but the conditional `aws_instance` is live, so a plain `apply` of `code/` creates an EC2 instance.
 - **Provider pin `~> 5.0`.** Same as earlier days; our `~> 6.0` wins.
 
-My own mistakes: none yet (hands-on not started).
+My own mistakes:
+
+- **Task 1 (2026-11-23):** first draft changed the `environment` default to `prod`, so the default and `-var environment=prod` plans were identical and could not prove the conditional; it also would have tagged everything `Environment = prod`. The condition tested `== "dev"`, so a typo (`Dev`) or `staging` got the prod CIDR, and a commented-out line was left in. Fixed by me after hints: default back to `dev`, the condition now tests `== "prod"` so only an exact `prod` reaches the prod range.
+- **Task 1 recall, mixed result types:** half right. I said true gives `"big"` and false gives `"10"` (right), but said the left-hand side takes precedence (wrong). Terraform picks a type both results convert to: `10` becomes `"10"`, `"big"` cannot become a number, so the result is a string whichever side comes first. With no common type (string versus list), `validate` fails. The docs suggest `tostring()` to be explicit. (Claude's wording; restate before any post.)
+- **Task 2 (2026-11-23):** three drafts. First: `count` read `var.environment` (`? 2 : 1`), so `create_sg` was unused and `create_sg=false` still planned a group. Second: `count = var.create_sg ? 2 : 1`, so on meant two groups with the same fixed name (an `InvalidGroup.Duplicate` waiting for apply, which a plan cannot show) and off still meant one; `vpc_id` had been dropped, which would put the group in the shared default VPC; no `description` and no output. Claude fixed it at my request (waiver of hints-only): `? 1 : 0`, `vpc_id` back, a description and `Name` tag, and an output `one(aws_security_group.sg[*].id)`.
+- **Task 2 recall, why `count = var.create_sg` fails:** right. "count needs a number, bool isn't a number." Added: Terraform converts strings to numbers and strings to bools, but never a bool to a number, so the conditional is what turns `true`/`false` into `1`/`0`.
+- **Variable descriptions (2026-11-23):** proofread by Claude at my request (waiver, strings only): each now says what the value does, and `environment` documents the `prod` rule.
+- **Task 3 (2026-11-23):** two drafts. First: an empty `vpc_id =` inside `content` (syntax error), `ingress.from_port` without `.value`, `ingress.project` for the protocol, no `cidr_blocks`, `description` or `iterator`, and the Task 2 `count` line removed. Second: `.value` and `protocol` fixed, but `cidr_blocks` defaults were strings for a `list(string)` type (`list of string required, but have string`), `cidr_blocks` read `.protocol`, and the group `description` was dropped. Claude fixed it at my request (waiver): `count` back, `iterator = rule`, five fields from `rule.value`, `description` in the object type, and both rules on `10.1.0.0/16`. Known limit: in a `prod` plan the rules still allow the non-prod range, because a variable default cannot read `aws_vpc.main.cidr_block`; setting `cidr_blocks` from the VPC inside `content` would fix it.
+- **Task 3 recall, the name without `iterator`:** right ("ingress"). The default is the dynamic block's label, so fields read `ingress.value.<field>`.
+- **Task 4 (2026-11-23):** written by Claude at my request (waiver), in two steps so the error stayed visible: two `count` subnets and two `for_each` subnets (a `map(number)` of `a = 3`, `b = 4`), with `/24`s cut by `cidrsubnet(aws_vpc.main.cidr_block, 8, n)` (a Day 11 function, previewed) so they always fit the VPC in `dev` and `prod`. The deliberate `aws_subnet.for_each_subnets[*].id` passed `validate` and failed only at `plan`. Fixed with `{ for key, subnet in aws_subnet.for_each_subnets : key => subnet.id }`, which keeps the names; `values(...)[*].id` also works but gives a plain list.
+- **Task 4 recall, why the splat fails on `for_each`:** right, in my own words after a plain-English explanation: "it's a map, splat only walks lists".
+- **Task 5 (2026-11-23):** results 1 to 4 run by me and matched; I added my own `{ a = 1, b = 2 }[*]` test. Lines 5 and 6 first failed with `Reference to undeclared input variable`, because I started the console in the repo root, where there are no `.tf` files; the console only loads the folder it starts in. My second try typed the expected results instead of the expressions. Claude ran lines 5 and 6 in the right folder at my request.
 
 ## 8. Cleanup
 
-- [ ] `terraform destroy` (you run it), if anything was applied
-- [ ] CLI checks: no `tf30-day10-` VPCs, subnets or security groups
-- [ ] Billing check
+- [x] `terraform destroy`: not needed, nothing was applied
+- [x] Nothing to check in AWS (plan and console only)
+- [x] Billing check: not needed, nothing billable was created
 
 ## 9. LinkedIn worth
 
-Candidates, logged in `docs/LINKEDIN-IDEAS.md`: a splat does not work on a `for_each` resource; `locals.` versus `local.`; inline security group rules are no longer the recommended way. Confirm each with my own output before posting.
+Logged in `docs/LINKEDIN-IDEAS.md`. Seen in my own output: a splat on a `for_each` resource passing `validate` and failing `plan` (Task 4); `== "dev"` sending typos to prod (Task 1). From the video or docs only, so confirm before posting: `locals.` versus `local.`; inline security group rules no longer recommended.
