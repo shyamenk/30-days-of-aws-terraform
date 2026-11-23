@@ -10,7 +10,7 @@ After today I can say what each `lifecycle` setting changes about create, update
 
 ## 2. Concepts
 
-**What `lifecycle` is.** A meta-argument block inside any resource. The normal arguments say what the resource looks like; `lifecycle` says how Terraform is allowed to change it. Its values must be literals, because Terraform reads them before it evaluates expressions.
+**What `lifecycle` is.** A meta-argument block inside a resource. The normal arguments say what the resource looks like; `lifecycle` says how Terraform is allowed to change it. The settings that shape the dependency graph (`create_before_destroy`, `prevent_destroy`, `ignore_changes`) take literal values only, because Terraform processes them before it evaluates expressions. `replace_triggered_by` takes resource references, and the conditions in `precondition` and `postcondition` are full expressions.
 
 ```
  Normal replace (default)        create_before_destroy = true
@@ -20,26 +20,31 @@ After today I can say what each `lifecycle` setting changes about create, update
     (create fails: nothing left)    (create fails: old one still running)
 ```
 
-**The six settings.**
+**The six settings the video covers.**
 
 | Setting | What it changes | Typical use | The trap |
 |---|---|---|---|
-| `create_before_destroy` | On a replace, the new object is created before the old one is destroyed | Instances behind a load balancer, launch templates | Two objects exist at once, so a fixed unique name (bucket, security group name, table name) collides. It also spreads to every resource this one depends on |
-| `prevent_destroy` | Any plan that destroys this resource fails, including a replace | State buckets, databases | Deleting the whole resource block bypasses it, because the rule lives in the block you deleted |
-| `ignore_changes` | Listed attributes are used at create, then ignored on update, so drift in them is not reverted | ASG `desired_capacity`, tags added by other tools | Ignored drift is invisible in every later plan. `all` means Terraform never proposes an update at all |
-| `replace_triggered_by` | Replaces this resource when another resource changes | Rebuild an instance when its config source changes | A whole resource reference fires on any update or replace of it. An attribute such as `.id` fires only when that value changes, and a security group's ID does not change when you edit its rules |
-| `precondition` | A check that must be true before Terraform acts on the resource | Allowed region, required tags on an input | It can read other resources and data sources; a variable `validation` (Day 7) can only read variables |
+| `create_before_destroy` | On a replace, the new object is created before the old one is destroyed | Instances behind a load balancer, launch templates | Two objects exist at once, so a fixed unique name (bucket, security group name, table name) collides; Terraform cannot turn on a provider's random-suffix option for you. It also spreads to every resource this one depends on, and stops destroy-time provisioners (Day 19) from running |
+| `prevent_destroy` | Any plan that destroys this resource fails, including a replace and `terraform destroy` | State buckets, databases | Deleting the whole resource block bypasses it, because the rule lives in the block you deleted. The docs say to use it sparingly |
+| `ignore_changes` | Listed attributes are used at create, then ignored on update, so drift in them is not reverted | ASG `desired_capacity`, tags added by other tools | Ignored drift is invisible in every later plan. `all` means Terraform can still create and destroy the object but never proposes an update. One map key or list item works too: `tags["Name"]`, `list[0]`. Only the resource type's own attributes count, not meta-arguments |
+| `replace_triggered_by` | Replaces this resource when another resource changes | Rebuild an instance when its config source changes | A reference to a whole resource or one instance fires on any planned update or replace of it. A reference to one attribute, such as `.id`, fires only when that value changes. A security group's ID changes when the group is replaced, but not when you edit its rules in place |
+| `precondition` | A check that must be true before Terraform acts on the resource | Allowed region, required tags on an input | It can read any object in the same scope (other resources, data sources, variables) unless that makes a cycle; a variable `validation` (Day 7) can only read variables |
 | `postcondition` | A check on the resource's own result, through `self` | The bucket really has a `Compliance` tag | It runs after the object exists. A failure blocks the resources that depend on it, but does not undo the one it checks |
 
-**`replace_triggered_by` only takes resources.** A variable or local has no planned action of its own, so it cannot trigger a replace directly. The docs' answer is to pass the value through a `terraform_data` resource and reference that.
+**Two more settings on the docs page that the video skips.**
 
-**Condition blocks.** Both have `condition` (must be true) and `error_message`. `self` means "this resource's own attributes" and only makes sense in a postcondition. A check written against a variable, as in the video's demo, is really a precondition in a postcondition block.
+- `destroy = false`: removes a resource from state without destroying the real object. The docs link it to "Remove a resource from state". I have not checked which blocks accept it.
+- `action_trigger`: runs provider "actions" on events such as `before_create`, `after_update` or `after_destroy`, with an optional `condition` and an `on_failure` choice (`halt` is the default, then `continue` or `taint`). The page gives no example and no version note.
 
-**What is stored in state.** Only `create_before_destroy` is recorded in state. The other rules are read from the code every run, which is why removing `prevent_destroy` from the code is enough to allow a destroy; no apply is needed first.
+**`replace_triggered_by` only takes managed resources.** It accepts resources, instances or instance attributes. Inside a `count` or `for_each` block, `count.index` or `each.key` picks the matching instance of the other resource. A variable or local has no planned action of its own, so it cannot trigger a replace directly; pass the value through a `terraform_data` resource and reference that. The docs' own example references `aws_ecs_service.svc.id`, which works because it is meant to fire when the service is replaced and gets a new ID.
+
+**Condition blocks.** Both have `condition` (must be true) and `error_message`, both required. They work in `resource`, `data` and `ephemeral` blocks. A precondition runs before Terraform evaluates the resource's own arguments, but after `count` and `for_each`, so `count.index` and `each.key` are available. `self` means "this resource's own attributes" and only makes sense in a postcondition. A check written against a variable, as in the video's demo, is really a precondition in a postcondition block. The docs warn not to put conditions on both a `resource` and a `data` block that describe the same object.
+
+**What is stored in state.** Of the rules, only `create_before_destroy` is recorded, including when it was turned on by spreading from a dependent resource. Condition results are recorded too, but not the conditions themselves. The other rules are read from the code every run, which is why removing `prevent_destroy` from the code is enough to allow a destroy; no apply is needed first.
 
 ## 3. Docs to read
 
-- [ ] [lifecycle meta-argument](https://developer.hashicorp.com/terraform/language/meta-arguments/lifecycle) (all six settings, the three reference cases under `replace_triggered_by`, and what happens when a block with `prevent_destroy` is removed)
+- [ ] [lifecycle meta-argument](https://developer.hashicorp.com/terraform/language/meta-arguments/lifecycle) (the "State" and "Usage" sections first, then all eight settings, the three reference cases under `replace_triggered_by`, and the four example use cases at the bottom). Claude read it for this note on 2026-11-23; read it yourself before the hands-on
 - [ ] [Custom conditions](https://developer.hashicorp.com/terraform/language/expressions/custom-conditions) (precondition versus postcondition versus variable validation, and what `self` can read)
 - [ ] [terraform_data](https://developer.hashicorp.com/terraform/language/resources/terraform-data) (the stand-in resource for triggering a replace from a plain value)
 - [ ] [aws_security_group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) (which arguments force a replacement, and `name_prefix`)
@@ -99,6 +104,7 @@ Expected error texts are from memory of the docs and earlier runs, not from a ru
 - **The video's postcondition reads `var.tags`, not `self.tags`.** That checks the input, so it works like a precondition. The video also says the bucket is only created if the check passes. A real postcondition runs after the object exists, and a failure stops the resources that depend on it, not the creation of that bucket. The README's version uses `self.tags`, which is right.
 - **"ignore changes will not do any changes on the resource" (video).** Only the listed attributes are ignored, and only on update. They are still used at create.
 - **`data.aws_region.current.name` is deprecated** in AWS provider 6. The instructor's code uses it in four places. Use `region`.
+- **The docs page contradicts itself once.** Its encrypted-root-volume example says the check belongs in a postcondition "in the resource", but the example puts it on a `data "aws_ebs_volume"` block. Both places are valid; the prose is just out of step with the code.
 - **Auto Scaling Group availability zones.** The video says `availability_zones` is mandatory. My reading of the docs is that you give either `availability_zones` or `vpc_zone_identifier` (subnets). Unverified; check the resource page before relying on it.
 - **The `tolist()` region puzzle.** The video gets `eu-west-1` from `tolist(var.allowed_region)[0]` and leaves the reason as homework. It is the Day 7 lesson: `tolist()` on a set of strings returns it sorted, and `eu-west-1` sorts first.
 - **A hard-coded password default.** `variables.tf` sets `db_password` to `"ChangeMe123!"`. A secret default ends up in Git and state; mark it `sensitive` with no default, or use a secrets manager.
