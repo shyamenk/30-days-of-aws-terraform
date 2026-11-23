@@ -58,7 +58,7 @@ Status values: `todo`, `watched`, `built`, `done` (built, note written, destroye
 | 7 | done | 2026-11-10 | #21 | [day-07](../../notes/week-02/day-07-type-constraints.md) |
 | 8 | done | 2026-11-20 | #24 | [day-08](../../notes/week-02/day-08-meta-arguments.md) |
 | 9 | done | 2026-11-23 | #26 | [day-09](../../notes/week-02/day-09-lifecycle-rules.md) |
-| 10 | done | 2026-11-23 | | [day-10](../../notes/week-02/day-10-conditionals-splat-dynamic.md) |
+| 10 | done | 2026-11-23 | #28 | [day-10](../../notes/week-02/day-10-conditionals-splat-dynamic.md) |
 | 11 | todo | | | |
 | 12 | todo | | | |
 | 13 | todo | | | |
@@ -96,3 +96,4 @@ One line per session: date, days touched, what to remember tomorrow. This list k
 - 2026-11-23 (Day 9 done): PR #26 squash-merged (`28513f7`) after `terraform-checks` and `security-scan` went green; branch `day-09` kept. Nothing running in AWS except the Day 9 KMS key in `PendingDeletion`. Next: Day 10.
 - 2026-11-23 (Day 10 note): Branch `day-10` cut from `main`. Note written to `notes/week-02/day-10-conditionals-splat-dynamic.md` from the transcript, the instructor readme, `task.md` and `code/`, and the conditionals, splat, dynamic blocks and `aws_security_group` docs. Section 7 lists traps (`protocol = "HTTP"`, `locals.` versus `local.`, inline rules the provider now advises against, Amazon Linux 2 past end of support, a live EC2 example). The challenge uses free resources only. Hands-on and Q&A not started. Nothing applied, nothing running in AWS.
 - 2026-11-23 (Day 10 hands-on, closed): all five tasks, plan and console only. Task 1: only an exact `prod` gets `10.0.0.0/16` (my first draft tested `== "dev"`, so typos got prod). Task 2: `count = var.create_sg ? 1 : 0` with a `one([*])` output. Task 3: a dynamic `ingress` block with `iterator = rule`; a third rule appeared with no code change. Task 4: a splat on `for_each` subnets passed `validate` and failed `plan`; fixed with a `for` expression. Task 5: console checks; my first run was in the repo root. Claude wrote or fixed Tasks 2 to 4, the descriptions and the last console lines at my request. Recall: three right, one half right. Q&A skipped. TIPS and CHEATSHEET updated. Nothing applied, nothing running in AWS.
+- 2026-11-23 (Day 10 done): PR #28 squash-merged (`45b9c7d`) after `terraform-checks` and `security-scan` went green; branch `day-10` kept. Nothing running in AWS. Next: Day 11.
