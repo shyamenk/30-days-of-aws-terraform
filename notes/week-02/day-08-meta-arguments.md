@@ -167,7 +167,3 @@ Nothing was applied on Day 8, so there is nothing to destroy and nothing billed.
 - I thought `depends_on` was for "getting an ID from another resource". That is a reference, which already orders things; `depends_on` is for a dependency the code cannot show.
 
 All three are logged in `docs/LINKEDIN-IDEAS.md`.
-
-## Lifecycle preview (my key notes, for Day 9)
-
-The video only names `lifecycle`; Day 9 covers it. My notes list the four settings: `create_before_destroy`, `prevent_destroy`, `ignore_changes`, `replace_triggered_by`.

@@ -10,15 +10,17 @@ Read `docs/progress/PROGRESS.md` first. "Next day" means the first day in that t
 
 Nothing may be left stale. Before the session closes, check and update each of these, then say which ones changed and which needed no change:
 
-1. `docs/progress/PROGRESS.md`: day status, "where I am", session log, anything left running in AWS.
+1. `docs/progress/PROGRESS.md`: day status, "where I am", session log, anything left running in AWS. When a new week starts, move the finished week's session log to `docs/progress/LOG.md`.
 2. `docs/SYLLABUS.md`: tick the day; fix its cost estimate and doc links if the video showed they were wrong.
 3. `notes/week-NN/day-NN-*.md`: all 9 sections filled, Gotchas included, versions line current.
 4. `docs/LINKEDIN-IDEAS.md`: add worthy items from the day.
 5. `docs/VERSIONS.md` and `.mise.toml` / `ci.yml`: re-check versions if it is the first session of a week.
 6. `docs/SYNC.md`: record any new difference between the playlist, the instructor repo and our work.
 7. `README.md` and `CHANGELOG.md`: update if commands, layout or tables changed.
-8. `infra/` and `sandbox/`: module READMEs match the code; no unused or commented-out code; `terraform fmt`, `validate`, `tflint` pass.
-9. Nothing sensitive is staged (state, `*.tfvars`, keys, account IDs, raw transcripts).
+8. `TIPS.md` and `CHEATSHEET.md` (repo root): add the day's lessons and its new commands and concepts.
+9. `sandbox/README.md`: add the day's folder to the table, with whether it was applied.
+10. `infra/` and `sandbox/`: module READMEs match the code; no unused or commented-out code; `terraform fmt`, `validate`, `tflint` pass.
+11. Nothing sensitive is staged (state, `*.tfvars`, keys, account IDs, raw transcripts).
 
 ## Claude's role
 
