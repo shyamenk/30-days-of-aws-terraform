@@ -40,6 +40,9 @@ Nothing is posted until the course is finished. This file collects what is worth
 | 8 | Gotcha | A plan cannot prove `depends_on` works: it lists resources by address, not in order. `terraform graph` shows the edge (`A -> B`, B first). | Day 8 note, section 6 | 1 |
 | 8 | Gotcha | A plan with `13 to add` passed, but `trivy` still reported 20 HIGH findings: writing the public access block once over a merged map of buckets hid the link from the scanner. One protection per bucket block, each referring to its own block, cleared it. | Day 8 note, section 7 | 2 |
 
+| 9 | Gotcha | `replace_triggered_by = [aws_security_group.app_sg.id]` does not replace the instance when you edit a rule: the edit is in place and the ID never changes. Reference the whole resource to fire on any change. The course video and README both get this wrong. Not yet seen in my own plan. | Day 9 note, section 7 | 3 |
+| 9 | Gotcha | `prevent_destroy` does not protect a resource whose block you delete: the rule goes with the block, so the next apply destroys it. Not yet seen in my own plan. | Day 9 note, section 7 | 3 |
+| 9 | Gotcha | `create_before_destroy` on anything with a fixed unique name (a bucket, a security group name, a table) fails on the replace, because two copies must exist at once. Use `name_prefix` where the resource has it. Not yet seen in my own apply. | Day 9 note, section 7 | 2 |
 Strength 3 means a stranger would learn something real from it. Strength 1 is a note to myself.
 
 ## Restate before posting

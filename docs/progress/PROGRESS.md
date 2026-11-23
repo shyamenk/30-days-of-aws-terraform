@@ -7,7 +7,7 @@ This file is the memory of where the course stands. Update it in the same PR tha
 ## Where I am
 
 - **Current day:** Days 0 to 8 are done and merged (Day 8 in PR #24, plan only). Day 2's five reading items are still unticked (optional).
-- **Next up:** Day 9 (lifecycle). Branch `day-09` is cut and holds a repo tidy-up plus a Day 9 note skeleton; paste the transcript and key notes to fill it.
+- **Next up:** Day 9 (lifecycle) hands-on in `sandbox/day-09-lifecycle/`, then the Q&A. The note is written from the transcript; my own key notes are not pasted yet.
 - **Where code goes:** `sandbox/` through Day 13 (concept days); `infra/modules` and `infra/envs` start on Day 14, the first project day.
 - **Before Day 15:** repeat the CIDR problems. **Before Day 27:** do the five YAML files.
 - **Left running in AWS:** nothing. The state bucket and the Day 4 demo bucket are deleted (404 confirmed 2026-11-07); the Day 4 KMS key is `PendingDeletion` for 7 days, which is expected.
@@ -57,7 +57,7 @@ Status values: `todo`, `watched`, `built`, `done` (built, note written, destroye
 | 6 | done | 2026-11-08 | #18 | [day-06](../../notes/week-01/day-06-project-structure.md) |
 | 7 | done | 2026-11-10 | #21 | [day-07](../../notes/week-02/day-07-type-constraints.md) |
 | 8 | done | 2026-11-20 | #24 | [day-08](../../notes/week-02/day-08-meta-arguments.md) |
-| 9 | todo | | | |
+| 9 | watched | | | [day-09](../../notes/week-02/day-09-lifecycle-rules.md) |
 | 10 | todo | | | |
 | 11 | todo | | | |
 | 12 | todo | | | |
@@ -90,3 +90,4 @@ One line per session: date, days touched, what to remember tomorrow. This list k
 - 2026-11-20 (Day 8 finished, plan only): Added the `depends_on` bucket (`depends_buckets` waits for `count_buckets`) with its own public access block and KMS encryption; gate passes and plan is `16 to add`. Read the order with `terraform graph`, since a plan does not show order. The removal test was reasoned, not run (empty state only shows adds); expected `3 to add, 9 to destroy` once applied. Q&A: three right, two wrong (Q3 `depends_on` versus references, Q4 graph blocks versus plan instances). Added a `count` versus `for_each` warning to the note and moved repo tips to `docs/TIPS.md` with industry practices. Nothing applied, nothing running in AWS.
 - 2026-11-20 (Day 8 done): PR #24 squash-merged (`2a64c53`) after `terraform-checks` and `security-scan` went green; branch `day-08` kept. Nothing applied, nothing running in AWS. Next: Day 9.
 - 2026-11-23 (repo tidy-up, on `day-09`): Moved `docs/TIPS.md` to the repo root and added `CHEATSHEET.md` there. Moved the Day 7 note to `notes/week-02/` to match the syllabus weeks. Archived the Week 1 session log to `docs/progress/LOG.md`. Added a folder table to `sandbox/README.md`, set Day 14 as the start of `infra/`, grouped `CHANGELOG.md` by week, added a "restate before posting" list to `LINKEDIN-IDEAS.md`, and moved the Day 8 lifecycle preview into a Day 9 note skeleton. Nothing applied, nothing running in AWS.
+- 2026-11-23 (Day 9 note): Note written to `notes/week-02/day-09-lifecycle-rules.md` from the transcript, the instructor README, `task.md` and `code/`, and the lifecycle docs. Section 7 lists traps checked against the docs (`replace_triggered_by` with `.id`, `create_before_destroy` with fixed names, removing `prevent_destroy`, a postcondition on `var.tags`, the deprecated `aws_region` `name`). The challenge uses free resources instead of EC2 and an ASG, and is meant to be applied and destroyed. Hands-on and Q&A not started. Nothing applied, nothing running in AWS.
