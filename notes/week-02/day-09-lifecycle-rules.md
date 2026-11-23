@@ -2,7 +2,7 @@
 
 Video: [AWS Terraform Lifecycle Rules Explained](https://www.youtube.com/watch?v=60tOSwpvldY) (35 min) · Instructor code: [lessons/day09](https://github.com/piyushsachdeva/Terraform-Full-Course-Aws/tree/main/lessons/day09) (README, `task.md`, and a `code/` folder with `main.tf`, `variables.tf`, `locals.tf`, `outputs.tf`, `provider.tf`, `backend.tf`) · Verified against: Terraform 1.17.1 (pinned), AWS provider 6.73.0 (the Day 8 lock), [lifecycle docs](https://developer.hashicorp.com/terraform/language/meta-arguments/lifecycle) read on 2026-11-23
 
-Source material for this note: the video transcript, the instructor's README, `task.md` and `code/`, and the Terraform lifecycle docs. My lifecycle key notes from Day 8 listed the four settings before the video. Hands-on and Q&A not started.
+Source material for this note: the video transcript, the instructor's README, `task.md` and `code/`, the Terraform lifecycle docs, and my key notes (a revision table, five concepts and a production scenario, in section 2). Hands-on and Q&A not started.
 
 ## 1. Goal
 
@@ -41,6 +41,73 @@ After today I can say what each `lifecycle` setting changes about create, update
 **Condition blocks.** Both have `condition` (must be true) and `error_message`, both required. They work in `resource`, `data` and `ephemeral` blocks. A precondition runs before Terraform evaluates the resource's own arguments, but after `count` and `for_each`, so `count.index` and `each.key` are available. `self` means "this resource's own attributes" and only makes sense in a postcondition. A check written against a variable, as in the video's demo, is really a precondition in a postcondition block. The docs warn not to put conditions on both a `resource` and a `data` block that describe the same object.
 
 **What is stored in state.** Of the rules, only `create_before_destroy` is recorded, including when it was turned on by spreading from a dependent resource. Condition results are recorded too, but not the conditions themselves. The other rules are read from the code every run, which is why removing `prevent_destroy` from the code is enough to allow a destroy; no apply is needed first.
+
+### My key notes (2026-11-23)
+
+Lifecycle rules control how Terraform creates, updates, replaces and deletes infrastructure.
+
+| Rule | Simple meaning |
+|---|---|
+| `create_before_destroy` | Create new, then delete old |
+| `prevent_destroy` | Block accidental destruction |
+| `ignore_changes` | Ignore selected attribute changes |
+| `replace_triggered_by` | Replace when another resource changes |
+| `precondition` | Validate before the operation |
+| `postcondition` | Validate after the operation |
+| `action_trigger` | Run provider actions on lifecycle events |
+| `destroy` | Remove from state without deleting the infrastructure |
+
+Concepts to remember:
+
+1. Lifecycle rules are defined inside resource blocks. (Checked against the docs: the two conditions also work in `data` and `ephemeral` blocks.)
+2. Not every lifecycle rule is supported by every configuration block.
+3. Lifecycle configuration is processed early, so lifecycle settings generally need literal values, not dynamic expressions. (Checked: true for `create_before_destroy`, `prevent_destroy` and `ignore_changes`. `replace_triggered_by` takes references and conditions are full expressions.)
+4. `prevent_destroy` is not permanent protection. Removing the resource's configuration also removes the protection.
+5. Always read `terraform plan` before applying a lifecycle change.
+
+**Practical scenario: a production SaaS app on AWS.** EC2 instances run the app, RDS PostgreSQL holds the data, S3 stores customer documents, plus ECS services and Auto Scaling. Three requirements, three rules:
+
+```hcl
+# 1. EC2: minimize downtime during replacement (availability)
+resource "aws_instance" "app" {
+  ami           = "ami-123456"
+  instance_type = "t3.medium"
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+# 2. RDS: protect the production database (protection)
+resource "aws_db_instance" "production" {
+  identifier        = "production-db"
+  engine            = "postgres"
+  instance_class    = "db.t3.medium"
+  allocated_storage = 50
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+# 3. S3: ignore a tag managed by an external system (shared ownership)
+resource "aws_s3_bucket" "documents" {
+  bucket = "production-customer-documents"
+
+  lifecycle {
+    ignore_changes = [
+      tags["Owner"]
+    ]
+  }
+}
+```
+
+Review of the scenario against this day's lessons:
+
+- **EC2 and `create_before_destroy`:** safe here because an instance has no unique name. Adding the same rule to the RDS instance would fail, because `identifier` must be unique and two databases would exist at once.
+- **RDS and `prevent_destroy`:** this guards against a plan only. Because of point 4, a second layer that lives in AWS is common practice: the database's `deletion_protection` setting, which stays on even if the Terraform block is deleted.
+- **S3 and `tags["Owner"]`:** this uses the map-key form from the docs, so only the `Owner` tag is ignored and the other tags are still enforced.
+- **The other two services fit the remaining rules:** `ignore_changes = [desired_capacity]` on the Auto Scaling Group (as in the video), and `replace_triggered_by` on anything that must be rebuilt when an ECS service is replaced (the docs' own example).
 
 ## 3. Docs to read
 
