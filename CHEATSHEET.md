@@ -22,6 +22,8 @@ Add new lines in the same PR that finishes a day.
 | `export TF_VAR_name=value` | Sets a variable from the environment. | 5 |
 | `terraform output` | Prints outputs from state. Empty until something is applied. | 5 |
 | `terraform graph` | Prints the dependency graph, one node per block. `A -> B` means B is created first. | 3, 8 |
+| `terraform plan -destroy` | Shows what `destroy` would remove, without changing anything. Fails if a resource has `prevent_destroy`. | 9 |
+| `terraform state show <address> \| grep name` | Reads the real name AWS chose, for example after `name_prefix`. | 9 |
 
 ## Concepts
 
@@ -51,3 +53,10 @@ Add new lines in the same PR that finishes a day.
 | `count` | Makes numbered copies (`[0]`, `[1]`). Removing an item from the middle shifts and replaces everything after it. | 8 |
 | `for_each` | Makes copies keyed by a set or map. Removing one key removes only that copy; keys must be known at plan time. | 8 |
 | Graph versus plan | The graph has one node per block; the plan counts instances after `count` and `for_each` expand. | 8 |
+| `create_before_destroy` | On a replace, create the new object first, then destroy the old one. Needs a name that can exist twice, so use `name_prefix`. | 9 |
+| `prevent_destroy` | Rejects any plan that destroys the resource, including a replace. Read from code each run, so removing the line or the block removes the protection. | 9 |
+| `ignore_changes` | Listed attributes are set at create and ignored on update, so drift in them is not reverted. | 9 |
+| `replace_triggered_by` | Replaces this resource when another managed resource changes. A whole resource reference fires on any change; an attribute only when its value changes. | 9 |
+| `precondition` and `postcondition` | Checks before and after Terraform acts on a resource; `self` is the resource's own result. | 7, 9 |
+| `-/+` versus `+/-` in a plan | `-/+` is destroy then create (the default); `+/-` is create then destroy (`create_before_destroy`). | 9 |
+| `name` versus `name_prefix` | `name` is fixed and predictable; `name_prefix` lets AWS add a random suffix, so the full name is only known after apply. | 9 |

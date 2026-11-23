@@ -2,7 +2,7 @@
 
 Video: [AWS Terraform Lifecycle Rules Explained](https://www.youtube.com/watch?v=60tOSwpvldY) (35 min) · Instructor code: [lessons/day09](https://github.com/piyushsachdeva/Terraform-Full-Course-Aws/tree/main/lessons/day09) (README, `task.md`, and a `code/` folder with `main.tf`, `variables.tf`, `locals.tf`, `outputs.tf`, `provider.tf`, `backend.tf`) · Verified against: Terraform 1.17.1 (pinned), AWS provider 6.73.0 (the Day 8 lock), [lifecycle docs](https://developer.hashicorp.com/terraform/language/meta-arguments/lifecycle) read on 2026-11-23
 
-Source material for this note: the video transcript, the instructor's README, `task.md` and `code/`, the Terraform lifecycle docs, and my key notes (a revision table, five concepts and a production scenario, in section 2). Hands-on and Q&A not started.
+Source material for this note: the video transcript, the instructor's README, `task.md` and `code/`, the Terraform lifecycle docs, and my key notes (a revision table, five concepts and a production scenario, in section 2). Hands-on: Tasks 1 to 3 applied and destroyed on 2026-11-23; I closed the day there, so Tasks 4 to 7 and the Q&A were skipped by my choice.
 
 ## 1. Goal
 
@@ -127,16 +127,16 @@ Most of these behaviours only show on an apply, so this day is meant to be appli
 
 Acceptance criteria:
 
-- [ ] **prevent_destroy:** a bucket with `prevent_destroy = true`. `terraform plan -destroy` fails with an error that names the rule. I can say what happens if I delete the whole block instead, and why
-- [ ] **create_before_destroy collision:** a security group with a fixed `name` and `create_before_destroy = true`. Change an argument that forces a replacement. Before running it, I write down what I expect; then the apply shows the duplicate-name error
-- [ ] **create_before_destroy fixed:** the same group with `name_prefix` instead of `name`, so the replace succeeds, and the apply output shows "Creating" before "Destroying"
-- [ ] **ignore_changes:** a resource ignores changes to `tags`. I change a tag in the console, and `terraform plan` shows no changes. With the rule removed, the plan shows the update
-- [ ] **replace_triggered_by, two ways:** a `terraform_data` resource that references a security group with `.id` and a second one that references the whole group. Editing one ingress rule in place replaces only the second one. I can explain why from the plan text
-- [ ] **precondition:** a resource checks that the current region (from the `aws_region` data source, using `region`, not the deprecated `name`) is in an allowed set. A plan in a region outside the set fails with my error message
-- [ ] **postcondition:** a bucket checks `self.tags` for a `Compliance` key. I can say whether a failure would leave the bucket created
-- [ ] `terraform fmt -check -recursive`, `terraform validate`, `tflint` and `trivy config .` pass in the directory (HIGH/CRITICAL gate)
-- [ ] After `destroy` (with `prevent_destroy` removed first), the console shows no `tf30-day09-` resources
-- [ ] The directory README says what it does and what was applied
+- [x] **prevent_destroy:** a bucket with `prevent_destroy = true`. `terraform plan -destroy` fails with an error that names the rule. I can say what happens if I delete the whole block instead, and why (done 2026-11-23)
+- [x] **create_before_destroy collision:** a security group with a fixed `name` and `create_before_destroy = true`. Change an argument that forces a replacement. Before running it, I write down what I expect; then the apply shows the duplicate-name error (done 2026-11-23)
+- [x] **create_before_destroy fixed:** the same group with `name_prefix` instead of `name`, so the replace succeeds, and the apply output shows "Creating" before "Destroying" (done 2026-11-23; the replace succeeded, but the apply output was not pasted, so the create-first order itself is unverified)
+- [ ] (skipped: day closed after Task 3) **ignore_changes:** a resource ignores changes to `tags`. I change a tag in the console, and `terraform plan` shows no changes. With the rule removed, the plan shows the update
+- [ ] (skipped: day closed after Task 3) **replace_triggered_by, two ways:** a `terraform_data` resource that references a security group with `.id` and a second one that references the whole group. Editing one ingress rule in place replaces only the second one. I can explain why from the plan text
+- [ ] (skipped: day closed after Task 3) **precondition:** a resource checks that the current region (from the `aws_region` data source, using `region`, not the deprecated `name`) is in an allowed set. A plan in a region outside the set fails with my error message
+- [ ] (skipped: day closed after Task 3) **postcondition:** a bucket checks `self.tags` for a `Compliance` key. I can say whether a failure would leave the bucket created
+- [x] `terraform fmt -check -recursive`, `terraform validate`, `tflint` and `trivy config .` pass in the directory (HIGH/CRITICAL gate)
+- [x] After `destroy` (with `prevent_destroy` removed first), the CLI checks show no `tf30-day09-` resources
+- [x] The directory README says what it does and what was applied
 
 ## 5. Hints
 
@@ -150,7 +150,7 @@ Open one at a time, in order.
 
 | Command | Expected |
 |---|---|
-| `terraform plan -destroy` (prevent_destroy on) | Error: `Instance cannot be destroyed`, naming the resource and the `lifecycle.prevent_destroy` rule |
+| `terraform plan -destroy` (prevent_destroy on, after an apply; against empty state there is nothing to destroy, so it cannot fail) | Error: `Instance cannot be destroyed`, naming the resource and the `lifecycle.prevent_destroy` rule |
 | `terraform apply` after forcing a security group replace with a fixed `name` and `create_before_destroy` | Fails with a duplicate group name error (`InvalidGroup.Duplicate`); the old group is still there |
 | The same with `name_prefix` | `1 to add, 0 to change, 1 to destroy`; "Creation complete" for the new group comes before "Destruction complete" for the old one |
 | `terraform plan` after a console tag change, with `ignore_changes = [tags]` | `No changes. Your infrastructure matches the configuration.` |
@@ -159,6 +159,14 @@ Open one at a time, in order.
 | Console, after destroy | No `tf30-day09-` buckets or security groups |
 
 Expected error texts are from memory of the docs and earlier runs, not from a run of this code yet. Correct them here after the hands-on.
+
+Task 1 result (2026-11-23): I ran `apply` (`4 added`; outputs `bucket_id` and `bucket_name` are the same string, because an S3 bucket's ID is its name). `terraform plan -destroy` computed `0 to add, 0 to change, 4 to destroy` and then failed: `Error: Instance cannot be destroyed` on `main.tf` line 1, "Resource aws_s3_bucket.protected has lifecycle.prevent_destroy set, but the plan calls for this resource to be destroyed". The whole plan is rejected, so the three unprotected resources are not destroyed either. The error offers two ways out: disable the rule or narrow the plan with `-target`.
+
+Task 1 cleanup (2026-11-23, my choice, before Task 2): removed `prevent_destroy` from `main.tf` (Claude made the edit at my request); the next `plan -destroy` passed at once with `4 to destroy`, which proves no apply is needed after removing the rule. I ran `terraform destroy`: `Destroy complete! Resources: 4 destroyed.` `head-bucket` returned `404 Not Found`. The KMS key still shows in the tagging API, which lists keys during their 7-day deletion window; `describe-key` confirmed `PendingDeletion`. Task 1 files (`main.tf`, `security.tf`, `outputs.tf`) then deleted at my request; this note is the Task 1 record.
+
+Task 2 result (2026-11-23): a VPC (`10.0.0.0/16`) and a security group with the fixed `name = "tf30-day09-web"` and `create_before_destroy = true`; I applied them (`2 added`). Changing only the description planned `# aws_security_group.web must be replaced`, shown as `+/-` (create first), with `description ... # forces replacement` and `1 to add, 0 to change, 1 to destroy`. The apply printed `Creating...` and failed at once: `api error InvalidGroup.Duplicate: The security group 'tf30-day09-web' already exists for VPC`. No `Destroying...` line: the old group was untouched, because Terraform only destroys after the create succeeds. The plan already listed `+ name_prefix = (known after apply)`. Cleanup (my choice, before Task 3): I ran `terraform destroy`; `state list` was empty and both `describe-vpcs` and `describe-security-groups` returned `[]`.
+
+Task 3 result so far (2026-11-23): with `name_prefix = local.prefix` (`tf30-day09-web-`), I applied the VPC and group; `state show` gave `name = "tf30-day09-web-449ea3e7..."`. My first description change added a `~`. The plan was a clean `+/-` replace, but the apply failed on the create: `InvalidParameterValue: Invalid security group description` (allowed characters are `a-zA-Z0-9. _-:/()#,@[]+=&;{}!$*`). No duplicate-name error this time (the new group had a different suffix). Because the create failed first, the old group was never destroyed: `create_before_destroy` kept a working group in place. A plan cannot see AWS validation rules, as with the Day 7 subnets. With a valid description (`...test.....`) the replace succeeded: `state list` held only the VPC and the group (no deposed object), the group had a new ID and the name `tf30-day09-web-5d9121d3...` (a new suffix), and the next `plan` said `No changes`. Cleanup: I ran `terraform destroy` (`2 to destroy`); local state empty, `describe-vpcs` and `describe-security-groups` both `[]`.
 
 ## 7. Gotchas and mistakes
 
@@ -177,14 +185,23 @@ Expected error texts are from memory of the docs and earlier runs, not from a ru
 - **A hard-coded password default.** `variables.tf` sets `db_password` to `"ChangeMe123!"`. A secret default ends up in Git and state; mark it `sensitive` with no default, or use a secrets manager.
 - **Cost and cleanup in the video.** The demo creates an EC2 instance, a launch template and an ASG that scaled to five instances, in an account that also runs other instances. It also destroys with `-auto-approve`. We avoid both.
 
-My own mistakes: none yet (hands-on not started).
+My own mistakes:
+
+- **Task 1, first draft (2026-11-23):** I copied the whole Day 8 folder, so the plan was `16 to add` (five buckets from `count`, `for_each` and `depends_on`) instead of one protected bucket. `prevent_destroy` sat on the `count` block, so it guarded both buckets.
+- **Task 1, second draft:** trimmed to one bucket, but the old label `depends_buckets`, a keyboard-mash name (`tf30-day09-hsdhsdf6`), plural output names and misspelled descriptions remained, and two unused Day 8 variables failed `tflint` (`terraform_unused_declarations`). Claude renamed the labels, bucket name, outputs and descriptions at my request (waiver of hints-only, names and strings only), then removed the two unused variables at my request (second waiver). Gate passes, plan `4 to add`.
+- **Task 2 drafts (2026-11-23):** first draft used `name = "allow_tls"` copied from the docs example (the `Name` tag held `tf30-day09-web`, but AWS checks the `name` argument, not the tag), a description promising rules the group did not have, and an empty `output.tf`. Fixed by me after hints.
+- **Task 2 prediction:** half right. I said the new group is created and then the old one destroyed (right order), but missed that the create fails on the duplicate name while the old group still exists.
+- **Task 2 recall, why the default succeeds:** wrong at first (I said `false` makes no changes). `false` still replaces; it only changes the order. Restated in my own words: "default deletes old first so name is free, then creates".
+- **Task 3 drafts (2026-11-23):** four tries. I kept the `name` argument and changed only its value: `"${local.prefix}-test"`, then the hyphen moved into the local, then `local.prefix` alone. Each plan still showed `+ name = "tf30-day09-..."`, a fixed name that would collide again. Lesson: a local called `prefix` is just a value; what makes AWS add a random suffix is the argument `name_prefix`. Fixed by me on the fourth try after the hints narrowed to the word before `=`.
+- **Task 3 recall, what `name_prefix` costs:** half right. I said it avoids name conflicts, which is the gain. The cost: the full name is unknown until apply and changes on every replace, so scripts, policies and console searches cannot use a fixed name; read it from `.name` or an output. (Claude's wording; restate before any post.)
+- **Task 1 answers (2026-11-23), both right:** removing `prevent_destroy` needs no apply before `destroy`, because the rule is not in state (only `create_before_destroy` is). Deleting the whole block destroys the bucket, because the rule goes with the block. Added by Claude: the public access block and encryption config still reference the bucket, so `validate` fails until they are removed too; a guard that lives in AWS (RDS `deletion_protection`, a bucket policy denying `s3:DeleteBucket`) survives a deleted block.
 
 ## 8. Cleanup
 
-- [ ] Remove `prevent_destroy` from the code, then `terraform destroy` (you run it)
-- [ ] Console check: no `tf30-day09-` buckets or security groups; the KMS key is `PendingDeletion`
-- [ ] Billing check
+- [x] Remove `prevent_destroy` from the code, then `terraform destroy` (you run it)
+- [x] CLI check (state list, `head-bucket`, `describe-vpcs`, `describe-security-groups`, `describe-key`): no `tf30-day09-` buckets or security groups; the KMS key is `PendingDeletion`
+- [ ] Billing check (not done; the only billable item was one KMS key for about an hour, now `PendingDeletion`)
 
 ## 9. LinkedIn worth
 
-Yes, three candidates, logged in `docs/LINKEDIN-IDEAS.md`: `replace_triggered_by` with `.id` versus the whole resource; `prevent_destroy` does not survive deleting the block; `create_before_destroy` plus a fixed name is a guaranteed failure. Confirm each with my own apply output before posting.
+Yes, logged in `docs/LINKEDIN-IDEAS.md`. Seen in my own output: `create_before_destroy` plus a fixed name failing with `InvalidGroup.Duplicate` (Task 2); create-first keeping the old group alive when the new one failed AWS validation (Task 3); a local called `prefix` that was still a fixed `name` (Task 3). Reasoned or from the docs only, so confirm before posting: `replace_triggered_by` with `.id`; `prevent_destroy` not surviving a deleted block.

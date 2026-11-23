@@ -42,8 +42,10 @@ Nothing is posted until the course is finished. This file collects what is worth
 
 | 9 | Gotcha | `replace_triggered_by = [aws_security_group.app_sg.id]` does not replace the instance when you edit a rule: the edit is in place and the ID never changes. Reference the whole resource to fire on any change. The course video and README both get this wrong. Not yet seen in my own plan. | Day 9 note, section 7 | 3 |
 | 9 | Gotcha | `prevent_destroy` does not protect a resource whose block you delete: the rule goes with the block, so the next apply destroys it. Not yet seen in my own plan. | Day 9 note, section 7 | 3 |
-| 9 | Gotcha | `create_before_destroy` on anything with a fixed unique name (a bucket, a security group name, a table) fails on the replace, because two copies must exist at once. Use `name_prefix` where the resource has it. Not yet seen in my own apply. | Day 9 note, section 7 | 2 |
+| 9 | Gotcha | `create_before_destroy` on anything with a fixed unique name (a bucket, a security group name, a table) fails on the replace, because two copies must exist at once. Use `name_prefix` where the resource has it. Seen on 2026-11-23: `InvalidGroup.Duplicate` on a description change, old group untouched. | Day 9 note, sections 6 and 7 | 3 |
 | 9 | Concept | Three lifecycle rules, three production needs: `create_before_destroy` for availability (EC2), `prevent_destroy` for protection (RDS), `ignore_changes = [tags["Owner"]]` for shared ownership (S3). The twist: `prevent_destroy` dies with the block, so pair it with RDS `deletion_protection`. | Day 9 note, section 2 (my key notes) | 2 |
+| 9 | Lesson | `create_before_destroy` saved a running security group from my own typo: a `~` in the description failed AWS validation on the create, so Terraform never reached the destroy. With the default destroy-first order there would have been no group at all. A clean plan cannot see AWS's character rules. | Day 9 note, section 6 | 3 |
+| 9 | Mistake | Four tries to fix a name clash: I kept `name = local.prefix` and only changed the value. A local called `prefix` is just a string; only the `name_prefix` argument makes AWS add a random suffix. The plan showed it every time: `+ name = "..."` versus `+ name_prefix = "..."`. | Day 9 note, section 7 | 2 |
 Strength 3 means a stranger would learn something real from it. Strength 1 is a note to myself.
 
 ## Restate before posting
@@ -70,3 +72,4 @@ These Q&A answers use Claude's wording, which I accepted without restating it. R
 | 7 | Object versus map | [Day 7](../notes/week-02/day-07-type-constraints.md), section 7 |
 | 7 | Why a variable `default` must be a constant (mostly mine, tightened by Claude) | [Day 7](../notes/week-02/day-07-type-constraints.md), section 7 |
 | 8 | Graph nodes count blocks; the plan counts instances | [Day 8](../notes/week-02/day-08-meta-arguments.md), section 7 |
+| 9 | What `name_prefix` costs: the full name is unknown until apply and changes on every replace | [Day 9](../notes/week-02/day-09-lifecycle-rules.md), section 7 |

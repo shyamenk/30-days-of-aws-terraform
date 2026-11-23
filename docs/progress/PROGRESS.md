@@ -6,11 +6,11 @@ This file is the memory of where the course stands. Update it in the same PR tha
 
 ## Where I am
 
-- **Current day:** Days 0 to 8 are done and merged (Day 8 in PR #24, plan only). Day 2's five reading items are still unticked (optional).
-- **Next up:** Day 9 (lifecycle) hands-on in `sandbox/day-09-lifecycle/`, then the Q&A. The note is written from the transcript, the lifecycle docs and my key notes.
+- **Current day:** Days 0 to 9 are done (Day 9 closed after Task 3 of 7 by my choice; `ignore_changes`, `replace_triggered_by`, the conditions and the Q&A were skipped). Day 2's five reading items are still unticked (optional).
+- **Next up:** Day 10 (conditionals, splat, dynamic blocks). Cut `day-10` from `main`.
 - **Where code goes:** `sandbox/` through Day 13 (concept days); `infra/modules` and `infra/envs` start on Day 14, the first project day.
 - **Before Day 15:** repeat the CIDR problems. **Before Day 27:** do the five YAML files.
-- **Left running in AWS:** nothing. The state bucket and the Day 4 demo bucket are deleted (404 confirmed 2026-11-07); the Day 4 KMS key is `PendingDeletion` for 7 days, which is expected.
+- **Left running in AWS:** nothing. Day 9 resources destroyed and checked on 2026-11-23; the Day 9 KMS key is `PendingDeletion` (about 2026-11-30), which is expected.
 - **Open questions / blockers:** none. `trivy` HIGH/CRITICAL gate passes on the Day 7 sandbox; one MEDIUM (VPC flow logs) is left on purpose.
 
 ## Open items checklist
@@ -57,7 +57,7 @@ Status values: `todo`, `watched`, `built`, `done` (built, note written, destroye
 | 6 | done | 2026-11-08 | #18 | [day-06](../../notes/week-01/day-06-project-structure.md) |
 | 7 | done | 2026-11-10 | #21 | [day-07](../../notes/week-02/day-07-type-constraints.md) |
 | 8 | done | 2026-11-20 | #24 | [day-08](../../notes/week-02/day-08-meta-arguments.md) |
-| 9 | watched | | | [day-09](../../notes/week-02/day-09-lifecycle-rules.md) |
+| 9 | done | 2026-11-23 | | [day-09](../../notes/week-02/day-09-lifecycle-rules.md) |
 | 10 | todo | | | |
 | 11 | todo | | | |
 | 12 | todo | | | |
@@ -92,3 +92,4 @@ One line per session: date, days touched, what to remember tomorrow. This list k
 - 2026-11-23 (repo tidy-up, on `day-09`): Moved `docs/TIPS.md` to the repo root and added `CHEATSHEET.md` there. Moved the Day 7 note to `notes/week-02/` to match the syllabus weeks. Archived the Week 1 session log to `docs/progress/LOG.md`. Added a folder table to `sandbox/README.md`, set Day 14 as the start of `infra/`, grouped `CHANGELOG.md` by week, added a "restate before posting" list to `LINKEDIN-IDEAS.md`, and moved the Day 8 lifecycle preview into a Day 9 note skeleton. Nothing applied, nothing running in AWS.
 - 2026-11-23 (Day 9 note): Note written to `notes/week-02/day-09-lifecycle-rules.md` from the transcript, the instructor README, `task.md` and `code/`, and the lifecycle docs. Section 7 lists traps checked against the docs (`replace_triggered_by` with `.id`, `create_before_destroy` with fixed names, removing `prevent_destroy`, a postcondition on `var.tags`, the deprecated `aws_region` `name`). The challenge uses free resources instead of EC2 and an ASG, and is meant to be applied and destroyed. Hands-on and Q&A not started. Nothing applied, nothing running in AWS.
 - 2026-11-23 (Day 9 note, docs and key notes): Checked the note against the lifecycle docs page: added `destroy` and `action_trigger` (on the page, not in the video), narrowed the "literal values" rule to the three graph settings, and added the docs details on `ignore_changes` map keys, conditions and state. Merged my key notes (revision table, five concepts, production scenario) with a review: two claims needed a qualifier, and the scenario gained an RDS `deletion_protection` note. Nothing applied, nothing running in AWS.
+- 2026-11-23 (Day 9 hands-on, closed): Tasks 1 to 3 applied and destroyed. Task 1: `prevent_destroy` rejected `plan -destroy` (whole plan); removing the line allowed the destroy with no apply. Task 2: a fixed security group `name` with `create_before_destroy` failed with `InvalidGroup.Duplicate`. Task 3: `name_prefix` replaced cleanly after a `~` in the description failed AWS validation (the old group survived). My mistakes: copied all of Day 8 first; four tries keeping `name` while changing only its value; a `~` in a description. Claude renamed strings and removed unused variables at my request. Recall: two right, one wrong then restated, one half right. Day closed after Task 3 by my choice; Tasks 4 to 7 and the Q&A skipped. TIPS and CHEATSHEET updated. Nothing running in AWS except the KMS key in `PendingDeletion`.
