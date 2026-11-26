@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Changed
+- Day 11 now holds both functions videos (parts 1 and 2), and Days 13 to 30 are renumbered 12 to 29, so the course ends on Day 29 (owner's choice). The syllabus, README, progress table, `SYNC.md` mapping, `CLAUDE.md` branch range and day references in the notes and READMEs follow the new numbers. The Day 11 note is renamed `day-11-functions.md` and gains a part 2 section.
 - Repo tidy-up before Day 9: `TIPS.md` moved to the repo root; the Day 7 note moved to `notes/week-02/` to match the syllabus weeks; the Week 1 session log archived to `docs/progress/LOG.md`; `sandbox/README.md` gained a folder table; `infra/` now starts on Day 14; the README layout and links updated.
 
 ### Added
@@ -27,7 +28,7 @@
 - Day 5 note: input variables, locals and outputs, the variable precedence ladder, the type list from my key notes, and a plan-only hands-on in `sandbox/day-05-variables/` (variables, locals, outputs, a hardened bucket and VPC, `terraform.tfvars.example`, and a four-run precedence test).
 - Day 6 note and `sandbox/day-06-structure/`: Terraform file layout and what each conventional file holds, the Q&A mistakes, and the Day 5 code split into `versions.tf`, `provider.tf`, `variables.tf`, `locals.tf`, `main.tf`, `outputs.tf` with a README (plan-only, local state).
 
-### Added: Week 2 (Days 7 to 13)
+### Added: Week 2 (Days 7 to 12)
 - Day 7 note and `sandbox/day-07-types/`: the type constraints, instructor-material traps, and plan-only practice for all ten assignments (string, number, bool, list, set, map, tuple, object, and a `deployment_summary` output) with a precondition on the instance type, a validation on the region, a hardened instance, a VPC, two subnets and a security group with one ingress rule.
 - Day 8 note and `sandbox/day-08-meta-arguments/`: `count`, `for_each` and `depends_on`, the instructor-material traps, and plan-only practice for Tasks 1 to 3 (two bucket blocks, a KMS key, per-bucket protections and `for`-expression outputs), a `depends_on` bucket read with `terraform graph`, a reasoned removal test, a `count` versus `for_each` warning and the five-question Q&A.
 - Day 9 note and `sandbox/day-09-lifecycle/`: all eight lifecycle settings checked against the docs, my key notes with a production scenario, instructor-material traps, and three applied-and-destroyed tasks (`prevent_destroy`, a `create_before_destroy` name clash, and the `name_prefix` fix). Day 9 lessons and lifecycle practices added to `TIPS.md`, and lifecycle rows to `CHEATSHEET.md`.

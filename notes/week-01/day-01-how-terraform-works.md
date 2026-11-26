@@ -60,7 +60,7 @@ There is also a waiting cost: developers and testers cannot start until the infr
 
 Terraform does not touch AWS itself. A **provider** (a plugin, covered on Day 2) translates the plan into AWS API calls. The console, the AWS CLI and Terraform all end up calling the same AWS API. Terraform's difference is that it remembers what it built and compares that with the files.
 
-**Two ways to run it.** By hand from a terminal, or automatically from a pipeline such as GitHub Actions whenever the files change in Git. Day 27 builds the second one.
+**Two ways to run it.** By hand from a terminal, or automatically from a pipeline such as GitHub Actions whenever the files change in Git. Day 26 builds the second one.
 
 **What the instructor did not cover** and I should keep in mind: `terraform fmt` was not in his command list (I added it from my own notes), and he did not explain state, which is how Terraform remembers what exists. State arrives in a later day and explains why `destroy` removes what it built, not "everything in the files".
 
@@ -75,7 +75,7 @@ Terraform does not touch AWS itself. A **provider** (a plugin, covered on Day 2)
 - **`plan` and `apply`:** `plan` is a dry run that lists what would be created, changed or deleted. `apply` makes those changes. Run `plan` first to check the list against my intent before any real resource, or any money, is touched. In a team the plan output can be reviewed in a pull request.
 - **`init`:** prepares the working folder. It downloads provider plugins into `.terraform`, sets up the backend, and writes `.terraform.lock.hcl`, which pins provider versions. It creates no AWS resources. Run it again after a provider, backend or module change, and after a fresh clone.
 - **Who creates the resources:** Terraform plans the changes and hands each action to the provider plugin. The plugin makes the AWS API calls. The console and AWS CLI call the same API.
-- **Why Git:** history of who changed what and when, rollback to an older version, review of a change before it is applied, and a trigger for automated pipelines (Day 27).
+- **Why Git:** history of who changed what and when, rollback to an older version, review of a change before it is applied, and a trigger for automated pipelines (Day 26).
 - **HCL and JSON:** both describe structured data as nested keys and values, and Terraform can read a JSON form of its files (`.tf.json`). HCL is built for people to write: it has comments, references between resources, and functions. Plain JSON has none of these.
 
 ## 3. Docs to read

@@ -49,9 +49,9 @@ Two lists. **From the course** are lessons I learned on a day and checked myself
 
 ### Functions
 
-- **Read the arguments, not the name.** `trim` only touches the ends, `substr`'s third argument is a length, and `formatdate` verbs are case-sensitive (`mm` is minutes). I got all three wrong by guessing. ([Day 11](notes/week-02/day-11-functions-part-1.md))
-- **Trim before you convert.** `split(",", "80, 443")` keeps the space, and `tonumber(" 443")` fails. ([Day 11](notes/week-02/day-11-functions-part-1.md))
-- **In `merge`, the last map wins.** Put defaults first and overrides last. ([Day 11](notes/week-02/day-11-functions-part-1.md))
+- **Read the arguments, not the name.** `trim` only touches the ends, `substr`'s third argument is a length, and `formatdate` verbs are case-sensitive (`mm` is minutes). I got all three wrong by guessing. ([Day 11](notes/week-02/day-11-functions.md))
+- **Trim before you convert.** `split(",", "80, 443")` keeps the space, and `tonumber(" 443")` fails. ([Day 11](notes/week-02/day-11-functions.md))
+- **In `merge`, the last map wins.** Put defaults first and overrides last. ([Day 11](notes/week-02/day-11-functions.md))
 
 ## Industry practices
 

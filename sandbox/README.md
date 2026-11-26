@@ -1,8 +1,8 @@
 # Sandbox
 
-First attempts for the concept days (Days 2 to 13), one folder per day. Each folder is its own root module with local state, so you can run `terraform init` and `terraform plan` in it on its own. Messy is fine here, but every folder still passes the repo gate (`fmt`, `validate`, `tflint`, `trivy`).
+First attempts for the concept days (Days 2 to 12), one folder per day. Each folder is its own root module with local state, so you can run `terraform init` and `terraform plan` in it on its own. Messy is fine here, but every folder still passes the repo gate (`fmt`, `validate`, `tflint`, `trivy`).
 
-From Day 14 (the first project day) the work moves into `infra/` as modules and environments. See [infra/README.md](../infra/README.md).
+From Day 13 (the first project day) the work moves into `infra/` as modules and environments. See [infra/README.md](../infra/README.md).
 
 | Folder | Day | What it holds | Applied? |
 |---|---|---|---|
