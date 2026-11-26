@@ -74,3 +74,8 @@ Add new lines in the same PR that finishes a day.
 | `lookup(map, key, default)` | Reads a key and falls back to the default when it is missing. | 11 |
 | `[for ...]` versus `{for ...}` | Square brackets make a tuple; curly braces with `k => v` make an object. | 11 |
 | `timestamp()` | Changes every run, so a resource argument that uses it shows a diff on every plan. | 11 |
+| `validation` block | Inside a `variable`: `condition` (true = valid) and `error_message`; several can be stacked. | 11 |
+| `can(regex(p, s))` | `regex` errors on no match; `can` turns that into `false`, so it works as a condition. | 11 |
+| `sensitive = true` | Hides a value in plan and output; an output using it must be sensitive too. Still plain text in state. | 11 |
+| Spread `...` | `max(list...)` passes a list as separate arguments. | 11 |
+| `file`, `fileexists`, `jsondecode` | Read a file, check it exists, parse JSON. Build paths with `path.module`. | 11 |

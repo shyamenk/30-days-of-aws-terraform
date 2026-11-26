@@ -27,15 +27,15 @@ After today I can state what the 30 days cover, I have a safe AWS account and wo
 | AWS account and basic AWS knowledge | Terraform only automates what you could click in the console. If you can't build it by hand, you can't describe it |
 | Networking basics (OSI model, SSH, HTTP/HTTPS, TCP/UDP) | Security groups, subnets and load balancers are all network rules |
 | VPC, subnets, gateways, route tables, CIDR math | Days 3, 15, 22, 24 and 28 build networks |
-| Deployment strategies (blue-green, canary, rolling) | Day 17 is a blue-green deployment |
+| Deployment strategies (blue-green, canary, rolling) | Day 16 is a blue-green deployment |
 | Git and GitHub | All Terraform lives in version control |
 | Linux, macOS or WSL, and shell basics | The commands in the course are shell commands |
 | YAML and JSON | Terraform's language (HCL) is JSON-like, and Day 7 types map onto it |
 | An editor such as VS Code | Day-to-day writing |
 
-**What changed since the video.** It is a year old. The instructor's repo states no versions, and the Day 30 folder pins Terraform 1.10.3. We run 1.17.1. Expect renamed arguments and deprecated resource settings. When the video and the docs disagree, the docs for our pinned version win, and the difference goes in Gotchas.
+**What changed since the video.** It is a year old. The instructor's repo states no versions, and the instructor's `day30` folder (our Day 29) pins Terraform 1.10.3. We run 1.17.1. Expect renamed arguments and deprecated resource settings. When the video and the docs disagree, the docs for our pinned version win, and the difference goes in Gotchas.
 
-**The announced curriculum differs from what was released.** Compare the Day 0 description with the playlist (details in [SYNC.md](../../docs/SYNC.md)): Day 22 was announced as an RDS database but released as a 2-tier architecture, Day 27 as a CI/CD pipeline but released as GitHub Actions, and the Terraform Cloud drift detection moved from Day 30 to an unreleased Day 31. Follow the released videos.
+**The announced curriculum differs from what was released.** Compare the Day 0 description with the playlist (details in [SYNC.md](../../docs/SYNC.md)): Day 21 was announced as an RDS database but released as a 2-tier architecture, Day 26 as a CI/CD pipeline but released as GitHub Actions, and the Terraform Cloud drift detection moved from Day 30 to an unreleased Day 31. Follow the released videos.
 
 ### What I can now explain (checked in a Q&A, 2026-11-05)
 
@@ -101,7 +101,7 @@ Fill in as you go.
 
 - **Resolved: `aws --version` error.** While the repo was being set up, a shell session printed `compdef:153: _comps: assignment to invalid subscript range` instead of the version. That came from the automated shell that was running the command, not from your terminal. In your own terminal the command prints `aws-cli/2.37.9 Python/3.14.8 Linux/7.2.15-1-omarchy`, so the CLI is installed and working. Lesson: when a tool misbehaves, run it in a clean shell before suspecting the tool.
 
-- **This account is shared with real resources.** `aws s3 ls` shows two existing buckets that look like other projects. Terraform only changes what is in its own state, so `destroy` will not touch them. The danger is name collisions, `import` on Day 25, and broad permissions. Owner decision: the existing resources are backed up and losing them is acceptable, so the account stays as it is. Naming convention for this repo: prefix every learning resource with `tf30-`, tag it `Project = 30-days-of-aws-terraform`, and never import or destroy anything that this repo did not create.
+- **This account is shared with real resources.** `aws s3 ls` shows two existing buckets that look like other projects. Terraform only changes what is in its own state, so `destroy` will not touch them. The danger is name collisions, `import` on Day 24, and broad permissions. Owner decision: the existing resources are backed up and losing them is acceptable, so the account stays as it is. Naming convention for this repo: prefix every learning resource with `tf30-`, tag it `Project = 30-days-of-aws-terraform`, and never import or destroy anything that this repo did not create.
 - **Mistakes in my own Q&A (so I remember them).**
   - I thought the internet gateway lives in a public subnet. It attaches to the VPC.
   - I thought a private subnet cannot reach the internet at all. It can, outbound, through a NAT gateway.
@@ -110,8 +110,8 @@ Fill in as you go.
   - I treated rolling updates as a cost problem. The real risk is two versions running together.
   - I wrote a YAML list on one line. Each item needs its own line with a dash, and the indent carries the meaning.
 - **Weak prerequisites and the fix.**
-  - CIDR math: five hand problems (addresses in a `/20` and a `/26`, the last address of `10.0.4.0/22`, and a subnet plan for `10.0.0.0/16` across two zones and three tiers). Done 2026-11-06 (all five correct, after fixing the `/22` range and the containment check). Repeat before Day 15.
-  - YAML: five small files written by hand and checked with a parser (a list, a nested map, a list of maps, a multi-line string, a comment). Done before Day 27, after reading `.github/workflows/ci.yml` in this repo and saying what each indent level means.
+  - CIDR math: five hand problems (addresses in a `/20` and a `/26`, the last address of `10.0.4.0/22`, and a subnet plan for `10.0.0.0/16` across two zones and three tiers). Done 2026-11-06 (all five correct, after fixing the `/22` range and the containment check). Repeat before Day 14.
+  - YAML: five small files written by hand and checked with a parser (a list, a nested map, a list of maps, a multi-line string, a comment). Done before Day 26, after reading `.github/workflows/ci.yml` in this repo and saying what each indent level means.
 - **Long-lived admin keys.** The default profile is an IAM user that works like an admin. That is fine for now, but keep the keys out of files and the repo. A scoped-down user or IAM Identity Center is the later improvement.
 
 ## 8. Cleanup
