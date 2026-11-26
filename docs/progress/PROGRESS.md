@@ -60,7 +60,7 @@ Status values: `todo`, `watched`, `built`, `done` (built, note written, destroye
 | 8 | done | 2026-11-20 | #24 | [day-08](../../notes/week-02/day-08-meta-arguments.md) |
 | 9 | done | 2026-11-23 | #26 | [day-09](../../notes/week-02/day-09-lifecycle-rules.md) |
 | 10 | done | 2026-11-23 | #28 | [day-10](../../notes/week-02/day-10-conditionals-splat-dynamic.md) |
-| 11 | done | 2026-11-26 | | [day-11](../../notes/week-02/day-11-functions-part-1.md) |
+| 11 | done | 2026-11-26 | #30 | [day-11](../../notes/week-02/day-11-functions-part-1.md) |
 | 12 | todo | | | |
 | 13 | todo | | | |
 | 14 | todo | | | |
@@ -100,3 +100,4 @@ One line per session: date, days touched, what to remember tomorrow. This list k
 - 2026-11-23 (Day 10 done): PR #28 squash-merged (`45b9c7d`) after `terraform-checks` and `security-scan` went green; branch `day-10` kept. Nothing running in AWS. Next: Day 11.
 - 2026-11-26 (Review 1): Spaced revision of Days 0 to 10 in `notes/reviews/review-01-days-00-10.md`. Round A (Days 0 to 4): 2 right, 4 half right. Round B (Days 5 to 10): 1 right, 4 half right, 1 wrong (`count = 0` with a splat and `[0]`). Pattern: I recall what happens but skip why. Round C (capstone in `sandbox/review-01/`) paused before C1 to start Day 11. Nothing applied.
 - 2026-11-26 (Day 11, closed): Branch `day-11` cut from `main`. Note written to `notes/week-02/day-11-functions-part-1.md` from my own video notes, the instructor `task.md` and `variables.tf`, and console runs on 1.17.1 (all six video traps confirmed; new one found: `split` keeps spaces, so `tonumber(" 443")` fails). Task 1 console predictions: 2 right, 1 half right, 3 wrong (`trim`, `substr`, `formatdate`: guessed from the name). Tasks 2 to 5 and the Q&A skipped by my choice; Claude gave the answers and added common scenarios and tips to the note. Nothing applied, nothing running in AWS.
+- 2026-11-26 (Day 11 done): PR #30 squash-merged (`92ce4d0`) after `terraform-checks` and `security-scan` went green; branch `day-11` kept. Nothing running in AWS. Next: Day 12.
