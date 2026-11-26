@@ -67,6 +67,7 @@ TIPS.md         lessons from the course and industry practices
 CHEATSHEET.md   commands and concepts, one line each, with the day
 notes/
   week-NN/      one note per day, same 9 sections (see notes/_template.md)
+  reviews/      spaced revision rounds over finished days, with grades
   _raw/         pasted transcripts, git-ignored
 sandbox/        concept days 2 to 13, one root module per day
 infra/          project days 14 on

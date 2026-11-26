@@ -26,6 +26,8 @@ Add new lines in the same PR that finishes a day.
 | `terraform state show <address> \| grep name` | Reads the real name AWS chose, for example after `name_prefix`. | 9 |
 | `terraform console` | Evaluates expressions against the code in the current folder; creates nothing. `exit` to leave. | 10 |
 | `terraform plan -var-file=<file>` | Plans with variable values from a file, for example a test list kept outside the repo. | 10 |
+| `echo 'expr' \| terraform console` | Evaluates one expression without the interactive prompt. | 11 |
+| `terraform apply -refresh-only` | Updates state from AWS after showing the change; replaces the deprecated `terraform refresh`. | 11 |
 
 ## Concepts
 
@@ -67,3 +69,8 @@ Add new lines in the same PR that finishes a day.
 | Dynamic block | `dynamic "label" { for_each = ..., iterator = x, content { ... x.value.field ... } }`; one nested block per item. | 10 |
 | Splat `[*]` | `list[*].attr` collects one attribute from every item. Lists, sets and tuples only, so not `for_each` resources. | 10 |
 | `local.` versus `locals` | Define in a `locals { }` block, read as `local.name`. | 5, 10 |
+| String functions | `lower`, `upper`, `replace`, `trimspace`, `trim` (ends only), `substr(s, offset, length)`, `split`, `join`, `format`. | 11 |
+| `merge` versus `concat` | `merge` joins maps and the last one wins on a duplicate key; `concat` joins lists. | 11 |
+| `lookup(map, key, default)` | Reads a key and falls back to the default when it is missing. | 11 |
+| `[for ...]` versus `{for ...}` | Square brackets make a tuple; curly braces with `k => v` make an object. | 11 |
+| `timestamp()` | Changes every run, so a resource argument that uses it shows a diff on every plan. | 11 |
