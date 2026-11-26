@@ -2,7 +2,7 @@
 
 Videos: [11/30 - AWS Terraform Functions - Part 1](https://www.youtube.com/watch?v=-dKsmU4Z1hM) (55 min) and [12/30 - Part 2](https://www.youtube.com/watch?v=ZYCCu9rZkU8) (43 min); both are this day (owner's choice, 2026-11-26) · Instructor code: [lessons/day11-12](https://github.com/piyushsachdeva/Terraform-Full-Course-Aws/tree/main/lessons/day11-12) (`README.md`, `task.md`, `main.tf`, `variables.tf`, `outputs.tf`, `provider.tf`) · Verified against: Terraform 1.17.1 (pinned), AWS provider 6.73.0 (the Day 10 lock), and the `timestamp` and `cidrsubnet` docs read on 2026-11-26
 
-Source material for this note: my own notes from both videos (written 2026-11-24 and 2026-11-26, outside this repo), the instructor's `task.md` and `variables.tf`, and console runs on 2026-11-26. Hands-on: part 1 Task 1 only (console), 2026-11-26; Tasks 2 to 5 and the part 1 Q&A skipped by my choice, Claude gave the answers. Part 2 (Tasks 6 to 10) added the same day when both videos became one day; not started.
+Source material for this note: my own notes from both videos (written 2026-11-24 and 2026-11-26, outside this repo), the instructor's `task.md` and `variables.tf`, and console runs on 2026-11-26. Hands-on: part 1 Task 1 only (console), 2026-11-26; Tasks 2 to 5 and the part 1 Q&A skipped by my choice, Claude gave the answers. Part 2 (Tasks 6 to 10) added the same day when both videos became one day; skipped by my choice before Task 6, and the day closed.
 
 ## 1. Goal
 
@@ -167,13 +167,13 @@ Work in `sandbox/day-11-functions/` (part 1 left no files), copying the Day 10 f
 
 Acceptance criteria:
 
-- [ ] **Task 6, validation:** `instance_type` has two stacked validations (length 2 to 20, and starts with `t2.` or `t3.` via `can(regex())`); `environment` allows only `dev`, `staging` or `prod` via `contains`. Each rule is proven by a `plan -var` that must fail with my message, and the default plan passes
-- [ ] **Task 7, sensitive:** a `db_password` variable with `sensitive = true` and no default, used in an output. I see the "Output refers to sensitive values" error, fix it, and explain in one sentence where the value would still be readable
-- [ ] **Task 8, lists and numbers:** typed `list(string)` regions with a duplicate are merged with defaults and de-duplicated; typed `list(number)` costs with a negative credit give absolute values, max, min, total and average in outputs
-- [ ] **Task 9, config file:** a committed `config.json` read with `fileexists`, `file`, `jsondecode` and `path.module`, with a `null` fallback; an output shows one nested number that stays a number. Renaming the file makes the output `null`, not an error
-- [ ] **Task 10, date:** an output with `formatdate("YYYY-MM-DD", plantimestamp())`; I explain why it shows a value at plan time while `timestamp()` does not
-- [ ] `terraform fmt -check -recursive`, `terraform validate`, `tflint` and `trivy config .` pass in the directory
-- [ ] Nothing applied; the directory README says so
+- [ ] **Task 6, validation** (skipped by my choice, 2026-11-26): `instance_type` has two stacked validations (length 2 to 20, and starts with `t2.` or `t3.` via `can(regex())`); `environment` allows only `dev`, `staging` or `prod` via `contains`. Each rule is proven by a `plan -var` that must fail with my message, and the default plan passes
+- [ ] **Task 7, sensitive** (skipped by my choice, 2026-11-26): a `db_password` variable with `sensitive = true` and no default, used in an output. I see the "Output refers to sensitive values" error, fix it, and explain in one sentence where the value would still be readable
+- [ ] **Task 8, lists and numbers** (skipped by my choice, 2026-11-26): typed `list(string)` regions with a duplicate are merged with defaults and de-duplicated; typed `list(number)` costs with a negative credit give absolute values, max, min, total and average in outputs
+- [ ] **Task 9, config file** (skipped by my choice, 2026-11-26): a committed `config.json` read with `fileexists`, `file`, `jsondecode` and `path.module`, with a `null` fallback; an output shows one nested number that stays a number. Renaming the file makes the output `null`, not an error
+- [ ] **Task 10, date** (skipped by my choice, 2026-11-26): an output with `formatdate("YYYY-MM-DD", plantimestamp())`; I explain why it shows a value at plan time while `timestamp()` does not
+- [x] No `.tf` files written for part 2 either, so there is no folder to gate
+- [x] Nothing applied
 
 ## 5. Hints
 
@@ -214,7 +214,7 @@ Task 1 results are from real console runs. Tasks 2 to 5 were skipped, so their r
 | `plan` after renaming `config.json` (Task 9) | The config output is `null`, no error |
 | `plan` (Task 10) | A real date for `plantimestamp()`; `timestamp()` would show `(known after apply)` |
 
-Expected outputs are from console checks and the docs, not from a run of this code yet. Correct them here after the hands-on.
+Part 2 was skipped, so these rows are expectations from Claude's console checks and the docs.
 
 ## 7. Gotchas and mistakes
 

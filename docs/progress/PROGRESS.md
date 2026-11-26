@@ -6,9 +6,9 @@ This file is the memory of where the course stands. Update it in the same PR tha
 
 ## Where I am
 
-- **Current day:** Days 0 to 10 are done, Day 11 part 1 is done and part 2 is open (Day 9 closed after Task 3 of 7; Day 10 all five tasks, plan only; Day 11 part 1 Task 1 only, console; all three skipped the Q&A by my choice). Day 2's five reading items are still unticked (optional).
+- **Current day:** Days 0 to 11 are done (Day 9 closed after Task 3 of 7; Day 10 all five tasks, plan only; Day 11 Task 1 of 10 only, console; all three skipped the Q&A by my choice). Day 2's five reading items are still unticked (optional).
 - **Review 1 (Days 0 to 10):** Rounds A and B done (3 right, 8 half right, 1 wrong); Round C, the capstone, is paused before C1. See [review-01](../../notes/reviews/review-01-days-00-10.md).
-- **Next up:** Day 11 part 2 hands-on (validation, `sensitive`, `toset`, `...`, files), on `day-11`. Then Day 12 (data sources).
+- **Next up:** Day 12 (data sources). Cut `day-12` from `main` after the Day 11 follow-up merges.
 - **Renumbered 2026-11-26:** both functions videos are Day 11, so from Day 12 on our day is one less than the video's "NN/30" and the instructor's `dayNN` folder. The course ends on Day 29.
 - **Where code goes:** `sandbox/` through Day 12 (concept days); `infra/modules` and `infra/envs` start on Day 13, the first project day.
 - **Before Day 14:** repeat the CIDR problems. **Before Day 26:** do the five YAML files.
@@ -61,7 +61,7 @@ Status values: `todo`, `watched`, `built`, `done` (built, note written, destroye
 | 8 | done | 2026-11-20 | #24 | [day-08](../../notes/week-02/day-08-meta-arguments.md) |
 | 9 | done | 2026-11-23 | #26 | [day-09](../../notes/week-02/day-09-lifecycle-rules.md) |
 | 10 | done | 2026-11-23 | #28 | [day-10](../../notes/week-02/day-10-conditionals-splat-dynamic.md) |
-| 11 | watched | | #30 (part 1) | [day-11](../../notes/week-02/day-11-functions.md) |
+| 11 | done | 2026-11-26 | #30 (part 1) | [day-11](../../notes/week-02/day-11-functions.md) |
 | 12 | todo | | | |
 | 13 | todo | | | |
 | 14 | todo | | | |
@@ -102,3 +102,4 @@ One line per session: date, days touched, what to remember tomorrow. This list k
 - 2026-11-26 (Day 11, closed): Branch `day-11` cut from `main`. Note written to `notes/week-02/day-11-functions.md` from my own video notes, the instructor `task.md` and `variables.tf`, and console runs on 1.17.1 (all six video traps confirmed; new one found: `split` keeps spaces, so `tonumber(" 443")` fails). Task 1 console predictions: 2 right, 1 half right, 3 wrong (`trim`, `substr`, `formatdate`: guessed from the name). Tasks 2 to 5 and the Q&A skipped by my choice; Claude gave the answers and added common scenarios and tips to the note. Nothing applied, nothing running in AWS.
 - 2026-11-26 (Day 11 done): PR #30 squash-merged (`92ce4d0`) after `terraform-checks` and `security-scan` went green; branch `day-11` kept. Nothing running in AWS. Next: Day 12.
 - 2026-11-26 (renumbering, on `day-11`): By my choice both functions videos are one day, Day 11, so Day 11 is reopened for part 2 (Tasks 6 to 10) and Days 13 to 30 became 12 to 29. Updated the syllabus, README, this table, the `SYNC.md` mapping, the `CLAUDE.md` branch range and forward day references in notes and READMEs. Session-log and changelog history keep the old numbers. The note is now `notes/week-02/day-11-functions.md`. Nothing applied.
+- 2026-11-26 (Day 11 closed): Part 2 (Tasks 6 to 10) skipped by my choice before Task 6; its note, traps (`sensitive` is plain text in state, `""` and `{}` fallbacks, `MON`, `...` for `max`) and tips are in place. Nothing applied, nothing running in AWS. Next: Day 12 (data sources).

@@ -52,6 +52,9 @@ Two lists. **From the course** are lessons I learned on a day and checked myself
 - **Read the arguments, not the name.** `trim` only touches the ends, `substr`'s third argument is a length, and `formatdate` verbs are case-sensitive (`mm` is minutes). I got all three wrong by guessing. ([Day 11](notes/week-02/day-11-functions.md))
 - **Trim before you convert.** `split(",", "80, 443")` keeps the space, and `tonumber(" 443")` fails. ([Day 11](notes/week-02/day-11-functions.md))
 - **In `merge`, the last map wins.** Put defaults first and overrides last. ([Day 11](notes/week-02/day-11-functions.md))
+- **`sensitive` hides, it does not encrypt.** The value is plain text in `terraform.tfstate`; the video's "base64" claim is wrong. ([Day 11](notes/week-02/day-11-functions.md))
+- **`max` and `min` need `...` for a list; `sum` does not.** `max(local.costs...)` expands the list into arguments. ([Day 11](notes/week-02/day-11-functions.md))
+- **A conditional fallback must match the type.** For decoded JSON, `""` fails, `{}` turns numbers into strings, `null` is right. ([Day 11](notes/week-02/day-11-functions.md))
 
 ## Industry practices
 
@@ -88,6 +91,7 @@ Two lists. **From the course** are lessons I learned on a day and checked myself
 - **Put function chains in `locals`.** One named local is readable, testable in `terraform console` and reused; the same chain inline in three resources drifts apart. ([Functions](https://developer.hashicorp.com/terraform/language/functions))
 - **Reject bad input instead of silently fixing it.** A `validation` block with a clear message beats a `replace()` chain that hides a wrong value. ([Custom conditions](https://developer.hashicorp.com/terraform/language/expressions/custom-conditions))
 - **Never put `timestamp()` in a resource argument.** The docs say it "will cause a diff to be detected on every Terraform run". Use `plantimestamp()` in an output or the Time provider. ([timestamp](https://developer.hashicorp.com/terraform/language/functions/timestamp))
+- **Keep secrets out of state with `ephemeral`.** `sensitive = true` only hides values from output; ephemeral variables are never written to state or plan files. Never give a secret a default. ([Manage sensitive data](https://developer.hashicorp.com/terraform/language/manage-sensitive-data))
 - **Use a map index when every key must exist, `lookup` when it may not.** `var.sizes[var.env]` fails loudly on a missing environment; `lookup(var.sizes, var.env, "t3.micro")` falls back quietly. ([lookup](https://developer.hashicorp.com/terraform/language/functions/lookup))
 
 ### State
