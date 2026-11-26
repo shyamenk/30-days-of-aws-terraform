@@ -47,6 +47,12 @@ Two lists. **From the course** are lessons I learned on a day and checked myself
 - **Splat walks lists, not maps.** `[*]` works on a `count` resource and fails on a `for_each` resource, because that is a map. Use `{ for k, v in resource.name : k => v.id }`. `validate` missed this; `plan` caught it. ([Day 10](notes/week-02/day-10-conditionals-splat-dynamic.md))
 - **The console only sees the folder it starts in.** Started in the repo root, every `var.` was "undeclared". It also shows unapplied resource values as `(known after apply)`, so it cannot prove resource expressions; `plan` can. ([Day 10](notes/week-02/day-10-conditionals-splat-dynamic.md))
 
+### Functions
+
+- **Read the arguments, not the name.** `trim` only touches the ends, `substr`'s third argument is a length, and `formatdate` verbs are case-sensitive (`mm` is minutes). I got all three wrong by guessing. ([Day 11](notes/week-02/day-11-functions-part-1.md))
+- **Trim before you convert.** `split(",", "80, 443")` keeps the space, and `tonumber(" 443")` fails. ([Day 11](notes/week-02/day-11-functions-part-1.md))
+- **In `merge`, the last map wins.** Put defaults first and overrides last. ([Day 11](notes/week-02/day-11-functions-part-1.md))
+
 ## Industry practices
 
 ### Reading plans
@@ -76,6 +82,13 @@ Two lists. **From the course** are lessons I learned on a day and checked myself
 - **Prefer separate security group rule resources.** The AWS provider advises against inline `ingress`/`egress` and recommends one `aws_vpc_security_group_ingress_rule` per rule; never mix the two styles on one group. ([aws_security_group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group))
 - **Cut subnets from the VPC range, not by hand.** `cidrsubnet(vpc_cidr, newbits, netnum)` keeps every subnet inside the VPC and free of overlaps. ([cidrsubnet](https://developer.hashicorp.com/terraform/language/functions/cidrsubnet))
 - **Keep logic out of long conditionals.** One `? :` is readable; a chain of them belongs in a `locals` map lookup. ([Conditional expressions](https://developer.hashicorp.com/terraform/language/expressions/conditionals))
+
+### Functions
+
+- **Put function chains in `locals`.** One named local is readable, testable in `terraform console` and reused; the same chain inline in three resources drifts apart. ([Functions](https://developer.hashicorp.com/terraform/language/functions))
+- **Reject bad input instead of silently fixing it.** A `validation` block with a clear message beats a `replace()` chain that hides a wrong value. ([Custom conditions](https://developer.hashicorp.com/terraform/language/expressions/custom-conditions))
+- **Never put `timestamp()` in a resource argument.** The docs say it "will cause a diff to be detected on every Terraform run". Use `plantimestamp()` in an output or the Time provider. ([timestamp](https://developer.hashicorp.com/terraform/language/functions/timestamp))
+- **Use a map index when every key must exist, `lookup` when it may not.** `var.sizes[var.env]` fails loudly on a missing environment; `lookup(var.sizes, var.env, "t3.micro")` falls back quietly. ([lookup](https://developer.hashicorp.com/terraform/language/functions/lookup))
 
 ### State
 

@@ -2,15 +2,16 @@
 
 This file is the memory of where the course stands. Update it in the same PR that finishes a day. When you say "next day", the next day is the first row below that is not `done`, in day order.
 
-**Last updated:** 2026-11-23 · **Started:** 2026-11-05 · **Target finish:** about 5 weeks after the start · **Credits expire:** 2026-12-31
+**Last updated:** 2026-11-26 · **Started:** 2026-11-05 · **Target finish:** about 5 weeks after the start · **Credits expire:** 2026-12-31
 
 ## Where I am
 
-- **Current day:** Days 0 to 10 are done (Day 9 closed after Task 3 of 7; Day 10 all five tasks, plan only; both skipped the Q&A by my choice). Day 2's five reading items are still unticked (optional).
-- **Next up:** Day 11 (functions, part 1). Cut `day-11` from `main`.
+- **Current day:** Days 0 to 11 are done (Day 9 closed after Task 3 of 7; Day 10 all five tasks, plan only; Day 11 Task 1 only, console; all three skipped the Q&A by my choice). Day 2's five reading items are still unticked (optional).
+- **Review 1 (Days 0 to 10):** Rounds A and B done (3 right, 8 half right, 1 wrong); Round C, the capstone, is paused before C1. See [review-01](../../notes/reviews/review-01-days-00-10.md).
+- **Next up:** Day 12 (functions, part 2). Cut `day-12` from `main` after the Day 11 PR merges.
 - **Where code goes:** `sandbox/` through Day 13 (concept days); `infra/modules` and `infra/envs` start on Day 14, the first project day.
 - **Before Day 15:** repeat the CIDR problems. **Before Day 27:** do the five YAML files.
-- **Left running in AWS:** nothing. Day 10 was plan only. The Day 9 KMS key is `PendingDeletion` (about 2026-11-30), which is expected.
+- **Left running in AWS:** nothing. Days 10 and 11 were plan or console only. The Day 9 KMS key is `PendingDeletion` (about 2026-11-30), which is expected.
 - **Open questions / blockers:** none. `trivy` HIGH/CRITICAL gate passes on the Day 7 sandbox; one MEDIUM (VPC flow logs) is left on purpose.
 
 ## Open items checklist
@@ -59,7 +60,7 @@ Status values: `todo`, `watched`, `built`, `done` (built, note written, destroye
 | 8 | done | 2026-11-20 | #24 | [day-08](../../notes/week-02/day-08-meta-arguments.md) |
 | 9 | done | 2026-11-23 | #26 | [day-09](../../notes/week-02/day-09-lifecycle-rules.md) |
 | 10 | done | 2026-11-23 | #28 | [day-10](../../notes/week-02/day-10-conditionals-splat-dynamic.md) |
-| 11 | todo | | | |
+| 11 | done | 2026-11-26 | | [day-11](../../notes/week-02/day-11-functions-part-1.md) |
 | 12 | todo | | | |
 | 13 | todo | | | |
 | 14 | todo | | | |
@@ -97,3 +98,5 @@ One line per session: date, days touched, what to remember tomorrow. This list k
 - 2026-11-23 (Day 10 note): Branch `day-10` cut from `main`. Note written to `notes/week-02/day-10-conditionals-splat-dynamic.md` from the transcript, the instructor readme, `task.md` and `code/`, and the conditionals, splat, dynamic blocks and `aws_security_group` docs. Section 7 lists traps (`protocol = "HTTP"`, `locals.` versus `local.`, inline rules the provider now advises against, Amazon Linux 2 past end of support, a live EC2 example). The challenge uses free resources only. Hands-on and Q&A not started. Nothing applied, nothing running in AWS.
 - 2026-11-23 (Day 10 hands-on, closed): all five tasks, plan and console only. Task 1: only an exact `prod` gets `10.0.0.0/16` (my first draft tested `== "dev"`, so typos got prod). Task 2: `count = var.create_sg ? 1 : 0` with a `one([*])` output. Task 3: a dynamic `ingress` block with `iterator = rule`; a third rule appeared with no code change. Task 4: a splat on `for_each` subnets passed `validate` and failed `plan`; fixed with a `for` expression. Task 5: console checks; my first run was in the repo root. Claude wrote or fixed Tasks 2 to 4, the descriptions and the last console lines at my request. Recall: three right, one half right. Q&A skipped. TIPS and CHEATSHEET updated. Nothing applied, nothing running in AWS.
 - 2026-11-23 (Day 10 done): PR #28 squash-merged (`45b9c7d`) after `terraform-checks` and `security-scan` went green; branch `day-10` kept. Nothing running in AWS. Next: Day 11.
+- 2026-11-26 (Review 1): Spaced revision of Days 0 to 10 in `notes/reviews/review-01-days-00-10.md`. Round A (Days 0 to 4): 2 right, 4 half right. Round B (Days 5 to 10): 1 right, 4 half right, 1 wrong (`count = 0` with a splat and `[0]`). Pattern: I recall what happens but skip why. Round C (capstone in `sandbox/review-01/`) paused before C1 to start Day 11. Nothing applied.
+- 2026-11-26 (Day 11, closed): Branch `day-11` cut from `main`. Note written to `notes/week-02/day-11-functions-part-1.md` from my own video notes, the instructor `task.md` and `variables.tf`, and console runs on 1.17.1 (all six video traps confirmed; new one found: `split` keeps spaces, so `tonumber(" 443")` fails). Task 1 console predictions: 2 right, 1 half right, 3 wrong (`trim`, `substr`, `formatdate`: guessed from the name). Tasks 2 to 5 and the Q&A skipped by my choice; Claude gave the answers and added common scenarios and tips to the note. Nothing applied, nothing running in AWS.
